@@ -389,22 +389,78 @@ function initTabs() {
 
 // Helper to get realistic fill-in example for missing parameters (clean human example, no XML tags)
 function getSampleFillExample(paramName) {
-    const nameLow = paramName.toLowerCase();
+    if (!paramName) return 'Пример значения';
+    const n = paramName.toLowerCase();
 
     for (let [k, exampleVal] of Object.entries(SAMPLE_FILL_EXAMPLES)) {
-        if (nameLow.includes(k)) {
-            return exampleVal;
-        }
+        if (n.includes(k)) return exampleVal;
     }
-    if (nameLow.includes('площадь')) return '58.4 м²';
-    if (nameLow.includes('цена') || nameLow.includes('стоимость')) return '14 500 000 руб.';
-    if (nameLow.includes('дата') || nameLow.includes('срок')) return '4 кв. 2026';
-    if (nameLow.includes('этаж')) return '7';
-    if (nameLow.includes('комнат')) return '2';
-    if (nameLow.includes('телефон')) return '+7 (495) 123-45-67';
-    if (nameLow.includes('ссылка') || nameLow.includes('url') || nameLow.includes('сайт')) return 'https://example.com';
 
-    return 'Пример значения для заполнения';
+    if (n.includes('name') || n.includes('название') || n.includes('бренд') || n.includes('менеджер') || n.includes('застройщик')) {
+        if (n.includes('жк') || n.includes('complex') || n.includes('building')) return 'ЖК Южный полюс';
+        if (n.includes('бц') || n.includes('тц')) return 'БЦ Премьер Плаза';
+        if (n.includes('manager') || n.includes('менеджер')) return 'Иван Петров';
+        if (n.includes('developer') || n.includes('застройщик')) return 'ООО Южный Девелопмент';
+        return 'ЖК Южный полюс';
+    }
+
+    if (n.includes('id') || n.includes('номер') || n.includes('код') || n.includes('кадастр') || n.includes('inn') || n.includes('инн')) {
+        if (n.includes('cadastral') || n.includes('кадастр')) return '77:01:0001001:1234';
+        if (n.includes('inn') || n.includes('инн')) return '7712345678';
+        return '12345';
+    }
+
+    if (n.includes('lat') || n.includes('широта')) return '55.751244';
+    if (n.includes('lng') || n.includes('long') || n.includes('долгота')) return '37.618423';
+    if (n.includes('address') || n.includes('адрес') || n.includes('расположение') || n.includes('локаци')) return 'г. Москва, ул. Арбат, д. 10';
+    if (n.includes('image') || n.includes('photo') || n.includes('фото') || n.includes('обложка') || n.includes('планировка') || n.includes('plan') || n.includes('avatar')) {
+        return 'https://example.com/photo.jpg';
+    }
+    if (n.includes('description') || n.includes('описание') || n.includes('text') || n.includes('утп') || n.includes('profit')) {
+        return 'Просторный объект в современном комплексе с развитой инфраструктурой.';
+    }
+    if (n.includes('fz') || n.includes('214') || n.includes('способ продажи') || n.includes('договор')) return 'ДДУ (ФЗ-214)';
+    if (n.includes('phone') || n.includes('телефон')) return '+7 (495) 123-45-67';
+    if (n.includes('timezone')) return '+3 (МСК)';
+    if (n.includes('day') || n.includes('график') || n.includes('часы') || n.includes('режим') || n.includes('доступ')) return 'пн-пт с 09:00 до 21:00';
+
+    if (n.includes('price') || n.includes('цена') || n.includes('стоимость') || n.includes('платеж') || n.includes('плат') || n.includes('ставка') || n.includes('bet') || n.includes('fee') || n.includes('cost')) {
+        return '14 500 000 руб.';
+    }
+    if (n.includes('living') || n.includes('жилая')) return '34.0 м²';
+    if (n.includes('area') || n.includes('площадь') || n.includes('square') || n.includes('пространство')) return '58.4 м²';
+    if (n.includes('height') || n.includes('высота') || n.includes('ceiling')) return '2.95 м';
+
+    if (n.includes('floors') || n.includes('этажей')) return '24';
+    if (n.includes('floor') || n.includes('этаж')) return '7';
+    if (n.includes('room') || n.includes('комнат')) return '2';
+
+    if (n.includes('type') || n.includes('тип') || n.includes('status') || n.includes('статус') || n.includes('назначение') || n.includes('категория') || n.includes('category')) {
+        if (n.includes('house') || n.includes('дом') || n.includes('стен') || n.includes('material')) return 'Монолит-кирпич';
+        if (n.includes('decoration') || n.includes('renovation') || n.includes('отделка') || n.includes('ремонт')) return 'Чистовая';
+        if (n.includes('status') || n.includes('статус') || n.includes('housing')) return 'Квартира';
+        return 'Продажа';
+    }
+
+    if (n.includes('built') || n.includes('year') || n.includes('год') || n.includes('deadline') || n.includes('срок') || n.includes('date') || n.includes('дата')) return '4 кв. 2026';
+    if (n.includes('quarter') || n.includes('квартал')) return '4 кв.';
+    if (n.includes('state') || n.includes('стадия') || n.includes('состояние')) return 'Строится';
+
+    if (n.includes('lift') || n.includes('лифт')) return '2 пассажирских, 1 грузовой';
+    if (n.includes('parking') || n.includes('парковка') || n.includes('стоянка') || n.includes('машиномест')) return 'Подземная парковка';
+    if (n.includes('security') || n.includes('охрана') || n.includes('кпп') || n.includes('доступ') || n.includes('пропуск')) return 'Закрытая территория, КПП';
+    if (n.includes('window') || n.includes('окна') || n.includes('вид')) return 'Во двор и на улицу';
+    if (n.includes('balcony') || n.includes('балкон') || n.includes('loggia')) return '1 лоджия';
+    if (n.includes('bathroom') || n.includes('санузел') || n.includes('туалет') || n.includes('wc')) return 'Раздельный';
+
+    if (n.includes('url') || n.includes('site') || n.includes('ссылка') || n.includes('сайт') || n.includes('link')) return 'https://example.com';
+    if (n.includes('metro') || n.includes('метро') || n.includes('транспорт')) return 'Арбатская (5 мин. пешком)';
+    if (n.includes('power') || n.includes('мощность') || n.includes('электричеств') || n.includes('квт')) return '150 кВт';
+    if (n.includes('entrance') || n.includes('вход')) return 'Отдельный с улицы';
+    if (n.includes('gas') || n.includes('газ') || n.includes('отопление')) return 'Центральное';
+    if (n.includes('water') || n.includes('водопровод') || n.includes('канализаци')) return 'Центральная';
+
+    return 'Да (включено)';
 }
 
 // Evaluate Commercial Formula
