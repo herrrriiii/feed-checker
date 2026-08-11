@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
     <div class="app-shell">
@@ -192,8 +192,11 @@
                             <span>Скрыть нетребуемые</span>
                         </label>
                         <div class="export-group">
-                            <button class="btn btn-secondary btn-sm" id="btn-export-json">Экспорт JSON</button>
+                            <button class="btn btn-primary btn-sm" id="btn-export-summary">
+                                📋 Отчет недостающих тегов
+                            </button>
                             <button class="btn btn-secondary btn-sm" id="btn-export-csv">Экспорт CSV</button>
+                            <button class="btn btn-secondary btn-sm" id="btn-export-json">Экспорт JSON</button>
                         </div>
                     </div>
                 </div>
@@ -306,6 +309,42 @@
         </main>
     </div>
 
+    <!-- Export Summary Modal (Shows missing parameters with fill examples) -->
+    <div class="modal-overlay hidden" id="modal-export-summary">
+        <div class="modal-dialog modal-lg" style="max-width: 850px;">
+            <div class="modal-header">
+                <h3>📋 Отчет по недостающим параметрам (Итоговый вывод)</h3>
+                <button class="btn-icon-close" id="btn-close-summary-modal">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                <p class="modal-subtitle" style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-secondary);">
+                    В этот отчет включены все отсутствующие в фиде параметры (обязательные и рекомендуемые) с примерами их заполнения.
+                </p>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Название параметра</th>
+                                <th style="width: 150px;">Категория</th>
+                                <th>Пример для заполнения</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-summary-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: space-between;">
+                <button class="btn btn-secondary btn-sm" id="btn-copy-summary-text">
+                    📋 Скопировать весь текст
+                </button>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-secondary btn-sm" id="btn-modal-csv">Скачать CSV (Excel)</button>
+                    <button class="btn btn-primary btn-sm" id="btn-modal-json">Скачать JSON</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Paste XML Modal -->
     <div class="modal-overlay hidden" id="modal-paste">
         <div class="modal-dialog">
@@ -326,7 +365,7 @@
     <!-- Toast Notification -->
     <div class="toast hidden" id="toast">Скопировано в буфер обмена</div>
 
-    <script src="data.js?v=2"></script>
-    <script src="app.js?v=2"></script>
+    <script src="data.js?v=4"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>

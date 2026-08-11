@@ -1,4 +1,4 @@
-// Standalone Real Estate Feed Validator Engine v3.1 (Supports DomClick)
+// Standalone Real Estate Feed Validator Engine v3.2
 
 const SAMPLE_FEEDS = {
     nd_domclick: `<?xml version="1.0" encoding="UTF-8"?>
@@ -45,7 +45,6 @@ const SAMPLE_FEEDS = {
         <Images><Image url="https://example.com/img1.jpg"/></Images>
         <Status>Квартира</Status>
         <LivingSpace>34.0</LivingSpace>
-        <KitchenSpace>12.5</KitchenSpace>
     </Ad>
 </Ads>`,
 
@@ -65,7 +64,6 @@ const SAMPLE_FEEDS = {
         <BargainTerms><Price>18900000</Price><SaleType>fz214</SaleType></BargainTerms>
         <Phones><PhoneSchema><Number>+79990000000</Number></PhoneSchema></Phones>
         <LivingArea>38.0</LivingArea>
-        <KitchenArea>14.2</KitchenArea>
     </object>
 </feed>`,
 
@@ -139,6 +137,15 @@ const btnClosePasteModal = document.getElementById('btn-close-paste-modal');
 const btnCancelPaste = document.getElementById('btn-cancel-paste');
 const btnSubmitPaste = document.getElementById('btn-submit-paste');
 const xmlPasteTextarea = document.getElementById('xml-paste-textarea');
+
+// Export Summary Modal
+const modalExportSummary = document.getElementById('modal-export-summary');
+const btnExportSummary = document.getElementById('btn-export-summary');
+const btnCloseSummaryModal = document.getElementById('btn-close-summary-modal');
+const tableSummaryBody = document.getElementById('table-summary-body');
+const btnCopySummaryText = document.getElementById('btn-copy-summary-text');
+const btnModalCsv = document.getElementById('btn-modal-csv');
+const btnModalJson = document.getElementById('btn-modal-json');
 
 // Metrics
 const metricObjects = document.getElementById('metric-objects');
@@ -333,6 +340,14 @@ function initModal() {
             analyzeAndRender();
         }
     });
+
+    // Export Summary Modal listeners
+    btnExportSummary.addEventListener('click', openExportSummaryModal);
+    btnCloseSummaryModal.addEventListener('click', () => modalExportSummary.classList.add('hidden'));
+    
+    btnCopySummaryText.addEventListener('click', copySummaryToClipboard);
+    btnModalCsv.addEventListener('click', triggerCsvExport);
+    btnModalJson.addEventListener('click', triggerJsonExport);
 }
 
 // Tabs
@@ -347,6 +362,19 @@ function initTabs() {
             document.getElementById(tabId).classList.add('active');
         });
     });
+}
+
+// Helper to get realistic fill-in example for missing parameters
+function getSampleFillExample(paramName, aliasTag) {
+    const nameLow = paramName.toLowerCase();
+    const tagSnippet = aliasTag ? `<${aliasTag}>...</${aliasTag}>` : '';
+
+    for (let [k, exampleVal] of Object.entries(SAMPLE_FILL_EXAMPLES)) {
+        if (nameLow.includes(k)) {
+            return `${exampleVal} ${tagSnippet ? `(${tagSnippet})` : ''}`;
+        }
+    }
+    return `Значение параметра ${tagSnippet ? `(${tagSnippet})` : ''}`;
 }
 
 // Evaluate Commercial Formula
@@ -471,7 +499,6 @@ function generateAliasesForParam(paramName) {
         'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category'],
         'комнат': ['Rooms', 'rooms', 'FlatRoomsCount'],
         'жилая': ['LivingArea', 'LivingSpace', 'living-space.value'],
-        'кухня': ['KitchenArea', 'KitchenSpace', 'kitchen-space.value'],
         'двор': ['Courtyard', 'guarded-building', 'YardAndEntranceFeatures'],
         'детский сад': ['Kindergarten', 'kindergarten'],
         'школа': ['School', 'school'],
@@ -495,7 +522,14 @@ function generateAliasesForParam(paramName) {
 function analyzeAndRender() {
     try {
         const { xmlPathsMap, totalObjects } = parseXMLFeed(rawXmlText);
-        const marketSpec = RAW_EXCEL_DATA[currentMarket][currentPlatform] || [];
+
+        // Get spec parameters from RAW_EXCEL_DATA
+        let marketSpec = RAW_EXCEL_DATA[currentMarket][currentPlatform] || [];
+
+        // Extra safety check: Filter out Kitchen Space for New Developments
+        if (currentMarket === 'new_developments') {
+            marketSpec = marketSpec.filter(item => !item.name.toLowerCase().includes('площадь кухни'));
+        }
 
         const cleanedPaths = Array.from(xmlPathsMap.keys());
         const lowerPaths = cleanedPaths.map(p => p.toLowerCase());
@@ -538,6 +572,8 @@ function analyzeAndRender() {
             const mandatoryKeywords = ['адрес', 'цена', 'площадь', 'категория', 'этаж', 'телефон', 'название', 'id', 'тип', 'застройщик'];
             const isMandatoryHeuristic = mandatoryKeywords.some(k => paramName.toLowerCase().includes(k));
 
+            const sampleFillExample = getSampleFillExample(paramName, aliases[0]);
+
             if (!isApplicable) {
                 nonApplicableCount++;
                 processedParams.push({
@@ -547,6 +583,7 @@ function analyzeAndRender() {
                     present: match.present,
                     matchedTag: match.matchedTag,
                     sampleValue: match.sampleValue,
+                    sampleFillExample,
                     isMandatory: isMandatoryHeuristic
                 });
             } else if (match.present) {
@@ -558,6 +595,7 @@ function analyzeAndRender() {
                     present: true,
                     matchedTag: match.matchedTag,
                     sampleValue: match.sampleValue,
+                    sampleFillExample,
                     isMandatory: isMandatoryHeuristic
                 });
             } else if (isMandatoryHeuristic) {
@@ -569,6 +607,7 @@ function analyzeAndRender() {
                     present: false,
                     matchedTag: '',
                     sampleValue: '',
+                    sampleFillExample,
                     isMandatory: true
                 });
             } else {
@@ -580,6 +619,7 @@ function analyzeAndRender() {
                     present: false,
                     matchedTag: '',
                     sampleValue: '',
+                    sampleFillExample,
                     isMandatory: false
                 });
             }
@@ -736,6 +776,92 @@ function renderAllXmlTable(xmlPathsMap, processedParams) {
     tableAllXmlBody.innerHTML = rows.join('');
 }
 
+// Open Export Summary Modal (Shows ONLY missing parameters + Fill Examples + Category)
+function openExportSummaryModal() {
+    if (!parsedAnalysisResult) return;
+
+    // Filter ONLY missing parameters (what is NOT present in the feed)
+    const missingParams = parsedAnalysisResult.processedParams.filter(
+        p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
+    );
+
+    if (missingParams.length === 0) {
+        tableSummaryBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--color-success); font-weight: 500;">🎉 Замечательный фид! Все параметры из спецификации присутствуют в файле.</td></tr>`;
+    } else {
+        tableSummaryBody.innerHTML = missingParams.map(item => `
+            <tr>
+                <td><strong style="color: var(--text-primary);">${escapeHtml(item.name)}</strong></td>
+                <td>
+                    <span class="status-dot ${item.isMandatory ? 'status-dot-danger' : 'status-dot-warning'}">
+                        ${item.isMandatory ? 'Обязательный' : 'Необязательный'}
+                    </span>
+                </td>
+                <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
+            </tr>
+        `).join('');
+    }
+
+    modalExportSummary.classList.remove('hidden');
+}
+
+function copySummaryToClipboard() {
+    if (!parsedAnalysisResult) return;
+
+    const missingParams = parsedAnalysisResult.processedParams.filter(
+        p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
+    );
+
+    let text = `ОТЧЕТ ПО НЕДОСТАЮЩИМ ПАРАМЕТРАМ В ФИДЕ (${currentFileName})\n`;
+    text += `Направление: ${currentMarket === 'new_developments' ? 'Новостройки' : 'Коммерческая'}\n`;
+    text += `Площадка: ${currentPlatform.toUpperCase()}\n`;
+    text += `--------------------------------------------------\n\n`;
+
+    missingParams.forEach((item, i) => {
+        const cat = item.isMandatory ? 'Обязательный' : 'Необязательный';
+        text += `${i + 1}. ${item.name}\n`;
+        text += `   Категория: ${cat}\n`;
+        text += `   Пример для заполнения: ${item.sampleFillExample}\n\n`;
+    });
+
+    navigator.clipboard.writeText(text).then(() => {
+        toast.textContent = `Отчет скопирован в буфер обмена (${missingParams.length} элементов)`;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2500);
+    });
+}
+
+function triggerCsvExport() {
+    if (!parsedAnalysisResult) return;
+
+    // Filter ONLY missing parameters (what is NOT present in the feed)
+    const missingParams = parsedAnalysisResult.processedParams.filter(
+        p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
+    );
+
+    let csvContent = "Название параметра;Категория;Пример для заполнения\n";
+    missingParams.forEach(p => {
+        const categoryStr = p.isMandatory ? "Обязательный" : "Необязательный";
+        csvContent += `"${p.name}";"${categoryStr}";"${p.sampleFillExample}"\n`;
+    });
+
+    downloadFile("\uFEFF" + csvContent, `report_missing_${currentFileName.split('.')[0]}_${currentPlatform}.csv`, 'text/csv;charset=utf-8;');
+}
+
+function triggerJsonExport() {
+    if (!parsedAnalysisResult) return;
+
+    // Filter ONLY missing parameters (what is NOT present in the feed)
+    const missingParams = parsedAnalysisResult.processedParams.filter(
+        p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
+    ).map(p => ({
+        "Название параметра": p.name,
+        "Категория": p.isMandatory ? "Обязательный" : "Необязательный",
+        "Пример для заполнения": p.sampleFillExample
+    }));
+
+    downloadFile(JSON.stringify(missingParams, null, 4), `report_missing_${currentFileName.split('.')[0]}_${currentPlatform}.json`, 'application/json');
+}
+
 // Search & Checkbox
 function initSearchAndFilter() {
     searchInput.addEventListener('input', applyFilters);
@@ -772,36 +898,10 @@ function copyToClipboard(text) {
     });
 }
 
-// Export Features
+// Export Setup
 function initExport() {
-    btnExportJson.addEventListener('click', () => {
-        if (!parsedAnalysisResult) return;
-        const reportData = {
-            filename: currentFileName,
-            market: parsedAnalysisResult.market,
-            platform: parsedAnalysisResult.platform,
-            commercialType: parsedAnalysisResult.commercialType,
-            totalObjects: parsedAnalysisResult.totalObjects,
-            uniqueTagsCount: parsedAnalysisResult.uniqueTagsCount,
-            missingMandatoryCount: parsedAnalysisResult.missingMandatoryCount,
-            canAddCount: parsedAnalysisResult.canAddCount,
-            nonApplicableCount: parsedAnalysisResult.nonApplicableCount,
-            processedParams: parsedAnalysisResult.processedParams
-        };
-
-        downloadFile(JSON.stringify(reportData, null, 4), `report_${currentFileName.split('.')[0]}_${parsedAnalysisResult.market}.json`, 'application/json');
-    });
-
-    btnExportCsv.addEventListener('click', () => {
-        if (!parsedAnalysisResult) return;
-        let csvContent = "Параметр;Категория;Статус;Найденный XML-тег;Алиасы\n";
-
-        parsedAnalysisResult.processedParams.forEach(p => {
-            csvContent += `"${p.name}";"${p.category}";"${p.status}";"${p.matchedTag}";"${p.aliases.join(', ')}"\n`;
-        });
-
-        downloadFile("\uFEFF" + csvContent, `report_${currentFileName.split('.')[0]}_${parsedAnalysisResult.market}.csv`, 'text/csv;charset=utf-8;');
-    });
+    btnExportJson.addEventListener('click', triggerJsonExport);
+    btnExportCsv.addEventListener('click', triggerCsvExport);
 }
 
 function downloadFile(content, fileName, mimeType) {
