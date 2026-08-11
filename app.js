@@ -30,21 +30,20 @@ const SAMPLE_FEEDS = {
         <Id>LOT-ND-101</Id>
         <Category>Квартиры</Category>
         <OperationType>Продам</OperationType>
-        <PropertyRights>Застройщик</PropertyRights>
-        <Address>г. Москва, ул. Арбат, д. 10</Address>
-        <Price>14500000</Price>
-        <Square>58.4</Square>
-        <Decoration>Чистовая</Decoration>
-        <Floor>7</Floor>
-        <Floors>24</Floors>
-        <Rooms>2</Rooms>
         <MarketType>Новостройка</MarketType>
         <NewDevelopmentId>12345</NewDevelopmentId>
+        <PropertyRights>Застройщик</PropertyRights>
+        <Price>14500000</Price>
+        <Square>58.4</Square>
+        <Rooms>2</Rooms>
+        <Floor>7</Floor>
+        <Floors>24</Floors>
         <HouseType>Монолитный</HouseType>
-        <Description>Прекрасная двухкомнатная квартира с отделкой в ЖК бизнес-класса.</Description>
-        <Images><Image url="https://example.com/img1.jpg"/></Images>
+        <Decoration>Чистовая</Decoration>
         <Status>Квартира</Status>
+        <Description>Прекрасная двухкомнатная квартира с отделкой в ЖК бизнес-класса.</Description>
         <LivingSpace>34.0</LivingSpace>
+        <Images><Image url="https://example.com/img1.jpg"/></Images>
     </Ad>
 </Ads>`,
 
@@ -577,7 +576,7 @@ function analyzeAndRender() {
             const match = matchXmlAlias(aliases);
 
             const mandatoryKeywords = ['адрес', 'цена', 'площадь', 'категория', 'этаж', 'телефон', 'название', 'id', 'тип', 'застройщик'];
-            const isMandatoryHeuristic = mandatoryKeywords.some(k => paramName.toLowerCase().includes(k));
+            const isMandatoryHeuristic = item.mandatory !== undefined ? item.mandatory : mandatoryKeywords.some(k => paramName.toLowerCase().includes(k));
 
             const sampleFillExample = getSampleFillExample(paramName);
 

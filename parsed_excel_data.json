@@ -214,124 +214,238 @@
     ],
     "avito": [
       {
-        "id": 1,
-        "category": "Общие",
-        "name": "Балкон или лоджия",
-        "sample": ""
+        "name": "Id",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 3,
-        "category": "Общие",
-        "name": "Жилая площадь",
-        "sample": ""
+        "name": "Category",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 4,
-        "category": "Общие",
-        "name": "Номер квартиры",
-        "sample": ""
+        "name": "OperationType",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 5,
-        "category": "Общие",
-        "name": "Вид из окон",
-        "sample": ""
+        "name": "MarketType",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 6,
-        "category": "Общие",
-        "name": "Пассажирский лифт",
-        "sample": ""
+        "name": "NewDevelopmentId",
+        "category": "Параметры ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 7,
-        "category": "Общие",
-        "name": "Грузовой лифт",
-        "sample": ""
+        "name": "PropertyRights",
+        "category": "Параметры продажи",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 8,
-        "category": "Общие",
-        "name": "Тип комнат",
-        "sample": ""
+        "name": "Price",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 9,
-        "category": "Общие",
-        "name": "Санузел",
-        "sample": ""
+        "name": "Square",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 10,
-        "category": "Общие",
-        "name": "Высота потолков",
-        "sample": ""
+        "name": "Rooms",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 11,
-        "category": "Общие",
-        "name": "Дополнительные особенности",
-        "sample": ""
+        "name": "Floor",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 12,
-        "category": "Общие",
-        "name": "Двор",
-        "sample": ""
+        "name": "Floors",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 13,
-        "category": "Общие",
-        "name": "Парковка",
-        "sample": ""
+        "name": "HouseType",
+        "category": "Параметры дома",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 14,
-        "category": "Общие",
-        "name": "Название строящегося корпуса",
-        "sample": ""
+        "name": "Decoration",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 15,
-        "category": "Общие",
-        "name": "Дополнительные опции продажи",
-        "sample": ""
+        "name": "Status",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 16,
-        "category": "Общие",
-        "name": "Способ продажи",
-        "sample": ""
+        "name": "Description",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 17,
-        "category": "Общие",
-        "name": "Имя дольщика",
-        "sample": ""
+        "name": "LivingSpace",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 18,
-        "category": "Общие",
-        "name": "Фамилия дольщика",
-        "sample": ""
+        "name": "ApartmentNumber",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 19,
-        "category": "Общие",
-        "name": "Отчество дольщика",
-        "sample": ""
+        "name": "BalconyOrLoggiaMulti",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 20,
-        "category": "Общие",
-        "name": "ИНН дольщика-юрлица",
-        "sample": ""
+        "name": "ViewFromWindows",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 21,
-        "category": "Общие",
-        "name": "Ссылка на архив с ДДУ",
-        "sample": ""
+        "name": "PassengerElevator",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "FreightElevator",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Courtyard",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Parking",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "RoomType",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BathroomMulti",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "SaleOptions",
+        "category": "Параметры продажи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CeilingHeight",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "NDAdditionally",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "SaleMethod",
+        "category": "Параметры продажи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BasePriceND",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "DduLink",
+        "category": "Параметры продажи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ManagerName",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ContactPhone",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Images",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "VideoURL",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "DateBegin",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "DateEnd",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ListingFee",
+        "category": "Параметры продвижения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "AdStatus",
+        "category": "Параметры продвижения",
+        "mandatory": false,
+        "formula": "=\"Да\""
       }
     ],
     "cian": [
