@@ -736,7 +736,7 @@ function renderOptionalTable(items) {
             <td><span class="status-dot status-dot-warning">Можно добавить</span></td>
             <td><span class="cat-label">${escapeHtml(item.category)}</span></td>
             <td><span class="code-tag">${escapeHtml(item.name)}</span></td>
-            <td>Рекомендуется для повышения качества объявления</td>
+            <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
             <td style="text-align: right;">
                 <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('<${item.aliases[0]}></${item.aliases[0]}>')">
                     Скопировать
