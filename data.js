@@ -17,6 +17,33 @@ const COMMERCIAL_TYPES = [
 const SAMPLE_FILL_EXAMPLES = {
     'название жк': 'ЖК Южный полюс',
     'id новостройки': '12345',
+    'complex.id': '12345',
+    'complex.name': 'ЖК Южный полюс',
+    'complex.latitude': '55.751244',
+    'complex.longitude': '37.618423',
+    'complex.address': 'г. Москва, ул. Арбат, д. 10',
+    'images.image': 'https://example.com/complex.jpg',
+    'description_main.text': 'Самый комфортный жилой комплекс с благоустроенным двором.',
+    'building.id': '98765',
+    'building.fz_214': 'true',
+    'building.name': 'Корпус 1',
+    'building.latitude': '55.751244',
+    'building.longitude': '37.618423',
+    'building.address': 'г. Москва, ул. Арбат, д. 10',
+    'flat.flat_id': '913',
+    'flat.apartment': '33',
+    'flat.floor': '8',
+    'flat.room': '2',
+    'flat.plans.plan': 'https://example.com/plan.jpg',
+    'flat.price': '14 500 000 руб.',
+    'flat.area': '58.4 м²',
+    'flat.living_area': '34.0 м²',
+    'flat.housing_type': '0 (Квартира)',
+    'sales_info.sales_phone': '+7 (495) 123-45-67',
+    'sales_info.timezone': '+3',
+    'sales_info.work_days.work_day': 'пн-пт с 09:00 до 21:00',
+    'developer.id': '101',
+    'developer.name': 'ООО Южный Девелопмент',
     'yandex-building-id': '12345',
     'yandex-house-id': '54321',
     'built-year': '2026',
@@ -94,7 +121,7 @@ const SAMPLE_FILL_EXAMPLES = {
     'телефон': '+7 (495) 123-45-67',
     'менеджер': 'Иван Петров',
     'застройщик': 'ЗАО Девелопмент Групп',
-    'сайт застройщика': 'https://yandex-realty-example.ru',
+    'сайт застройщика': 'https://example.ru',
     'логотип': 'https://example.com/logo.png',
     'утп': 'Высокие потолки, панорамные окна'
 };
@@ -907,280 +934,358 @@ const RAW_EXCEL_DATA = {
     ],
     "domclick": [
       {
-        "id": 1,
-        "category": "Общие",
-        "name": "Заголовок описания ЖК",
-        "sample": ""
+        "name": "complex.id",
+        "category": "Параметры ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 2,
-        "category": "Общие",
-        "name": "Парковка",
-        "sample": ""
+        "name": "complex.name",
+        "category": "Параметры ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 3,
-        "category": "Общие",
-        "name": "Охрана территории",
-        "sample": ""
+        "name": "complex.latitude",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 4,
-        "category": "Общие",
-        "name": "Огороженная территория",
-        "sample": ""
+        "name": "complex.longitude",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 5,
-        "category": "Общие",
-        "name": "Спортивная площадка",
-        "sample": ""
+        "name": "complex.address",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 6,
-        "category": "Общие",
-        "name": "Детская площадка",
-        "sample": ""
+        "name": "images.image",
+        "category": "Медиа ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 7,
-        "category": "Общие",
-        "name": "Школа",
-        "sample": ""
+        "name": "description_main.text",
+        "category": "Описание ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 8,
-        "category": "Общие",
-        "name": "Детский сад",
-        "sample": ""
+        "name": "building.id",
+        "category": "Параметры корпуса",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 9,
-        "category": "Общие",
-        "name": "Всего этажей",
-        "sample": ""
+        "name": "building.fz_214",
+        "category": "Параметры корпуса",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 10,
-        "category": "Общие",
-        "name": "Построенные этажи",
-        "sample": ""
+        "name": "building.name",
+        "category": "Параметры корпуса",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 11,
-        "category": "Общие",
-        "name": "Статус строительства",
-        "sample": ""
+        "name": "building.latitude",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 12,
-        "category": "Общие",
-        "name": "Генплан / Карта",
-        "sample": ""
+        "name": "building.longitude",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 13,
-        "category": "Общие",
-        "name": "Высота потолков в корпусе",
-        "sample": ""
+        "name": "building.address",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 14,
-        "category": "Общие",
-        "name": "Пассажирские лифты",
-        "sample": ""
+        "name": "flat.flat_id",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 15,
-        "category": "Общие",
-        "name": "Грузовые лифты",
-        "sample": ""
+        "name": "flat.apartment",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 16,
-        "category": "Общие",
-        "name": "ID на дом.рф",
-        "sample": ""
+        "name": "flat.floor",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 17,
-        "category": "Общие",
-        "name": "Подъезд",
-        "sample": ""
+        "name": "flat.room",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 18,
-        "category": "Общие",
-        "name": "Статус брони",
-        "sample": ""
+        "name": "flat.plans.plan",
+        "category": "Медиа квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 19,
-        "category": "Общие",
-        "name": "Европланировка",
-        "sample": ""
+        "name": "flat.price",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 20,
-        "category": "Общие",
-        "name": "Количество балконов",
-        "sample": ""
+        "name": "flat.area",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 21,
-        "category": "Общие",
-        "name": "Количество лоджий",
-        "sample": ""
+        "name": "flat.living_area",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 22,
-        "category": "Общие",
-        "name": "Совмещённые санузлы",
-        "sample": ""
+        "name": "flat.housing_type",
+        "category": "Параметры квартиры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 23,
-        "category": "Общие",
-        "name": "Раздельные санузлы",
-        "sample": ""
+        "name": "sales_info.sales_phone",
+        "category": "Офис продаж",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 24,
-        "category": "Общие",
-        "name": "Высота потолков в квартире",
-        "sample": ""
+        "name": "sales_info.timezone",
+        "category": "Офис продаж",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 25,
-        "category": "Общие",
-        "name": "Описание квартиры",
-        "sample": ""
+        "name": "sales_info.work_days.work_day",
+        "category": "Офис продаж",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 26,
-        "category": "Общие",
-        "name": "Качество отделки",
-        "sample": ""
+        "name": "developer.id",
+        "category": "Застройщик",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 27,
-        "category": "Общие",
-        "name": "Вид из окон",
-        "sample": ""
+        "name": "developer.name",
+        "category": "Застройщик",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 28,
-        "category": "Общие",
-        "name": "Тип планировки",
-        "sample": ""
+        "name": "description_main.title",
+        "category": "Описание ЖК",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 29,
-        "category": "Общие",
-        "name": "Площади жилых комнат",
-        "sample": ""
+        "name": "decorations",
+        "category": "Варианты отделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 30,
-        "category": "Общие",
-        "name": "Скидка на квартиру (%)",
-        "sample": ""
+        "name": "infrastructure",
+        "category": "Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 31,
-        "category": "Общие",
-        "name": "Условия скидки на квартиру",
-        "sample": ""
+        "name": "videos",
+        "category": "Медиа ЖК",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 32,
-        "category": "Общие",
-        "name": "Варианты оплаты и отделки",
-        "sample": ""
+        "name": "profits_main",
+        "category": "УТП ЖК",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 33,
-        "category": "Общие",
-        "name": "Размер скидки по общей акции (%)",
-        "sample": ""
+        "name": "building.floors",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 34,
-        "category": "Общие",
-        "name": "Адрес офиса продаж",
-        "sample": ""
+        "name": "building.floors_ready",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 35,
-        "category": "Общие",
-        "name": "Широта офиса продаж",
-        "sample": ""
+        "name": "building.building_state",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 36,
-        "category": "Общие",
-        "name": "Долгота офиса продаж",
-        "sample": ""
+        "name": "building.ceiling_height",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 37,
-        "category": "Общие",
-        "name": "Сайт застройщика",
-        "sample": ""
+        "name": "building.passenger_lifts_count",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 38,
-        "category": "Общие",
-        "name": "Логотип застройщика",
-        "sample": ""
+        "name": "building.cargo_lifts_count",
+        "category": "Параметры корпуса",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 39,
-        "category": "Общие",
-        "name": "Отделка ЖК — название типа",
-        "sample": ""
+        "name": "flat.domrf_id",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 40,
-        "category": "Общие",
-        "name": "Отделка ЖК — описание",
-        "sample": ""
+        "name": "flat.entrance",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 41,
-        "category": "Общие",
-        "name": "Отделка ЖК — фото",
-        "sample": ""
+        "name": "flat.booking",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 42,
-        "category": "Общие",
-        "name": "Видео ЖК — тип",
-        "sample": ""
+        "name": "flat.euro_plan",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 43,
-        "category": "Общие",
-        "name": "Видео ЖК — ссылка",
-        "sample": ""
+        "name": "flat.balcony",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 44,
-        "category": "Общие",
-        "name": "Главные УТП — заголовок",
-        "sample": ""
+        "name": "flat.loggia",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 45,
-        "category": "Общие",
-        "name": "Главные УТП — текст",
-        "sample": ""
+        "name": "flat.connected_bathroom",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 46,
-        "category": "Общие",
-        "name": "Главные УТП — изображение",
-        "sample": ""
+        "name": "flat.separated_bathroom",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.discounts",
+        "category": "Акции квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.ceiling_height",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.description",
+        "category": "Описание квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.renovation",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.price_conditions",
+        "category": "Условия покупки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.rooms_area",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.window_view",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.layout_type",
+        "category": "Параметры квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "flat.virtual_tours",
+        "category": "Медиа квартиры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "discounts",
+        "category": "Акции застройщика",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales_info.sales_address",
+        "category": "Офис продаж",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "developer.site",
+        "category": "Застройщик",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "developer.logo",
+        "category": "Застройщик",
+        "mandatory": false,
+        "formula": "=\"Да\""
       }
     ]
   },

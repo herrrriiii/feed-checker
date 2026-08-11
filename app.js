@@ -3,25 +3,49 @@
 const SAMPLE_FEEDS = {
     nd_domclick: `<?xml version="1.0" encoding="UTF-8"?>
 <feed format-version="1.0">
-    <offer id="DOMCLICK-101">
-        <type>продажа</type>
-        <property-type>жилая</property-type>
-        <category>квартира</category>
-        <price>16500000</price>
-        <area>54.0</area>
-        <title>Заголовок ЖК Премиум Класс</title>
-        <description>Квартира от застройщика в новом жилом комплексе.</description>
-        <floors-total>25</floors-total>
-        <built-year>2026</built-year>
-        <ready-quarter>4</ready-quarter>
-        <lift>1</lift>
-        <parking>1</parking>
-        <security>1</security>
-        <is-euro-flat>1</is-euro-flat>
-        <balconies-count>1</balconies-count>
-        <ceiling-height>3.0</ceiling-height>
-        <developer>ООО Застройщик Девелопмент</developer>
-    </offer>
+    <complex>
+        <id>12345</id>
+        <name>ЖК Южный полюс</name>
+        <latitude>55.751244</latitude>
+        <longitude>37.618423</longitude>
+        <address>г. Москва, Проспект Мира, дом 1</address>
+        <images><image>https://example.com/complex.jpg</image></images>
+        <description_main><text>Комфортный жилой комплекс с уникальным благоустройством.</text></description_main>
+        <buildings>
+            <building>
+                <id>98765</id>
+                <fz_214>true</fz_214>
+                <name>Корпус 1</name>
+                <latitude>55.751244</latitude>
+                <longitude>37.618423</longitude>
+                <address>г. Москва, Проспект Мира, дом 1</address>
+                <flats>
+                    <flat>
+                        <flat_id>913</flat_id>
+                        <apartment>33</apartment>
+                        <floor>8</floor>
+                        <room>2</room>
+                        <plans><plan>https://example.com/plan.png</plan></plans>
+                        <price>14500000</price>
+                        <area>58.4</area>
+                        <living_area>34.0</living_area>
+                        <housing_type>0</housing_type>
+                    </flat>
+                </flats>
+            </building>
+        </buildings>
+        <sales_info>
+            <sales_phone>+74951234567</sales_phone>
+            <timezone>+3</timezone>
+            <work_days>
+                <work_day><day>пн</day><open_at>09:00</open_at><close_at>21:00</close_at></work_day>
+            </work_days>
+        </sales_info>
+        <developer>
+            <id>101</id>
+            <name>ООО Южный Девелопмент</name>
+        </developer>
+    </complex>
 </feed>`,
 
     nd_avito: `<?xml version="1.0" encoding="UTF-8"?>
