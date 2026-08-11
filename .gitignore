@@ -1,0 +1,17 @@
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated reports & logs
+report_*.json
+report_*.csv
+*.log
+
+# Node & Vercel
+node_modules/
+.vercel/

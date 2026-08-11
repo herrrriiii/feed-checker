@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валидатор XML-фидов недвижимости</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Top Navigation Header -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <div class="app-logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="M16 13H8"/>
+                        <path d="M16 17H8"/>
+                    </svg>
+                </div>
+                <span class="app-title">Валидатор XML-фидов</span>
+                <span class="divider">/</span>
+                <span class="app-subtitle">Авито, Циан, Яндекс, Домклик</span>
+            </div>
+
+            <div class="navbar-right">
+                <button class="icon-button" id="btn-theme-toggle" title="Переключить тему">
+                    <svg class="sun-icon hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            
+            <!-- Controls Panel: Market, Platform, Commercial Type -->
+            <div class="controls-panel">
+                <!-- Market Segmented Control -->
+                <div class="control-group">
+                    <label class="control-label">Направление</label>
+                    <div class="segmented-control">
+                        <button class="segment-btn active" data-market="new_developments">
+                            Новостройки
+                        </button>
+                        <button class="segment-btn" data-market="commercial">
+                            Коммерческая
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Platform Buttons -->
+                <div class="control-group">
+                    <label class="control-label">Классифайд</label>
+                    <div class="platform-selector">
+                        <button class="platform-btn active" data-platform="avito">
+                            <span class="dot dot-avito"></span> Авито
+                        </button>
+                        <button class="platform-btn" data-platform="cian">
+                            <span class="dot dot-cian"></span> Циан
+                        </button>
+                        <button class="platform-btn" data-platform="yandex">
+                            <span class="dot dot-yandex"></span> Яндекс
+                        </button>
+                        <button class="platform-btn" data-platform="domclick">
+                            <span class="dot dot-domclick"></span> Домклик
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Commercial Type Select (Hidden for New Developments) -->
+                <div class="control-group hidden" id="commercial-type-group">
+                    <label class="control-label">Тип объекта</label>
+                    <select id="commercial-type-select" class="select-input">
+                        <option value="Все типы">Все типы объектов</option>
+                        <option value="Апартаменты">Апартаменты (Апарт-отели / ПСН)</option>
+                        <option value="Офис">Офис / Здание</option>
+                        <option value="Торговая">Торговая / Ритейл</option>
+                        <option value="ПСН">ПСН (Свободное назначение)</option>
+                        <option value="Склад">Склад / Логистика</option>
+                        <option value="Производство">Производство</option>
+                        <option value="Земля">Земельный участок</option>
+                        <option value="Готовый бизнес">Готовый бизнес</option>
+                        <option value="Гараж">Гараж / Машиноместо</option>
+                        <option value="Общепит">Общепит / Гостиница / Кладовая</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="upload-container">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-zone-body">
+                        <svg class="upload-icon-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <div class="drop-zone-text">
+                            <strong>Загрузите XML файл</strong> или перетащите его сюда
+                        </div>
+                        <input type="file" id="file-input" accept=".xml" class="file-input">
+                        <div class="action-buttons-inline">
+                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('file-input').click()">
+                                Обзор файлов
+                            </button>
+                            <button class="btn btn-tertiary btn-sm" id="btn-paste-xml">
+                                Вставить XML текст
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demos -->
+                <div class="sample-bar">
+                    <span class="sample-title">Быстрый запуск (Демо):</span>
+                    <div class="sample-chips">
+                        <button class="chip" data-sample="nd_domclick">Новостройки (Домклик)</button>
+                        <button class="chip" data-sample="nd_avito">Новостройки (Авито)</button>
+                        <button class="chip" data-sample="nd_cian">Новостройки (Циан)</button>
+                        <button class="chip" data-sample="comm_warehouse">Склад (Яндекс)</button>
+                        <button class="chip" data-sample="comm_office">Офисы (Авито)</button>
+                    </div>
+                </div>
+
+                <!-- File Info Card -->
+                <div class="file-card hidden" id="loaded-file-info">
+                    <div class="file-card-info">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        <span class="file-card-name" id="file-name-display">feed.xml</span>
+                        <span class="file-card-size" id="file-size-display">(0 KB)</span>
+                    </div>
+                    <button class="btn-icon-close" id="btn-remove-file" title="Удалить файл">&times;</button>
+                </div>
+            </div>
+
+            <!-- Results View -->
+            <div class="results-container hidden" id="results-section">
+                
+                <!-- Metrics Header Strip -->
+                <div class="metrics-strip">
+                    <div class="metric-item">
+                        <span class="metric-label">Объектов в фиде</span>
+                        <span class="metric-num" id="metric-objects">0</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-label">Ошибок (нет обязательных)</span>
+                        <span class="metric-num text-danger" id="metric-missing-mandatory">0</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-label">Можно добавить</span>
+                        <span class="metric-num text-warning" id="metric-can-add">0</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-label">Всего XML тегов</span>
+                        <span class="metric-num" id="metric-total-tags">0</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item score-item">
+                        <span class="metric-label">Полнота фида</span>
+                        <span class="score-badge" id="score-value">0%</span>
+                    </div>
+                </div>
+
+                <!-- Table Header Toolbar -->
+                <div class="table-toolbar">
+                    <div class="search-input-wrapper">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="search-input" placeholder="Поиск по тегу или категории...">
+                    </div>
+
+                    <div class="toolbar-right">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="checkbox-hide-na">
+                            <span>Скрыть нетребуемые</span>
+                        </label>
+                        <div class="export-group">
+                            <button class="btn btn-secondary btn-sm" id="btn-export-json">Экспорт JSON</button>
+                            <button class="btn btn-secondary btn-sm" id="btn-export-csv">Экспорт CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Header -->
+                <div class="tabs-header">
+                    <button class="tab-item active" data-tab="tab-mandatory">
+                        Обязательные теги <span class="badge badge-danger" id="badge-tab-mandatory">0</span>
+                    </button>
+                    <button class="tab-item" data-tab="tab-optional">
+                        Можно добавить <span class="badge badge-warning" id="badge-tab-optional">0</span>
+                    </button>
+                    <button class="tab-item" data-tab="tab-present">
+                        Найдено в фиде <span class="badge badge-success" id="badge-tab-present">0</span>
+                    </button>
+                    <button class="tab-item" data-tab="tab-na" id="btn-tab-na">
+                        Не требуется для объекта <span class="badge badge-neutral" id="badge-tab-na">0</span>
+                    </button>
+                    <button class="tab-item" data-tab="tab-all-xml">
+                        Все теги из XML <span class="badge badge-muted" id="badge-tab-all-xml">0</span>
+                    </button>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="tab-panel active" id="tab-mandatory">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 140px;">Статус</th>
+                                    <th style="width: 180px;">Категория</th>
+                                    <th>Имя параметра</th>
+                                    <th>Синонимы (алиасы в XML)</th>
+                                    <th style="width: 120px; text-align: right;">Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-mandatory-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-optional">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 140px;">Статус</th>
+                                    <th style="width: 180px;">Категория</th>
+                                    <th>Имя параметра</th>
+                                    <th>Рекомендация</th>
+                                    <th style="width: 120px; text-align: right;">Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-optional-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-present">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 140px;">Тип</th>
+                                    <th style="width: 180px;">Категория</th>
+                                    <th>Параметр спецификации</th>
+                                    <th>Найденный XML тег</th>
+                                    <th>Значение из фида</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-present-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-na">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 140px;">Статус</th>
+                                    <th style="width: 180px;">Категория</th>
+                                    <th>Параметр</th>
+                                    <th>Причина пропускa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-na-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-all-xml">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>XML Путь элемента</th>
+                                    <th>Имя тега</th>
+                                    <th>Пример значения</th>
+                                    <th style="width: 140px;">Сопоставление</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-all-xml-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Paste XML Modal -->
+    <div class="modal-overlay hidden" id="modal-paste">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Вставить XML код</h3>
+                <button class="btn-icon-close" id="btn-close-paste-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="xml-paste-textarea" class="code-textarea" placeholder="Вставьте XML разметку сюда..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" id="btn-cancel-paste">Отмена</button>
+                <button class="btn btn-primary btn-sm" id="btn-submit-paste">Анализировать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">Скопировано в буфер обмена</div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
