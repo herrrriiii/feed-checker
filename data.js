@@ -85,10 +85,7 @@ const SAMPLE_FILL_EXAMPLES = {
     'застройщик': 'ООО Южный Девелопмент',
     'сайт застройщика': 'https://yuzhny-polus.ru',
     'логотип': 'https://example.com/logo.png',
-    'утп': 'Высокие потолки, панорамные окна',
-    'ширина ворот': '4.5 м',
-    'кран-балка': 'Да (5 тонн)',
-    'железнодорожная ветка': 'Да'
+    'утп': 'Высокие потолки, панорамные окна'
 };
 
 const RAW_EXCEL_DATA = {
@@ -543,250 +540,250 @@ const RAW_EXCEL_DATA = {
     ],
     "cian": [
       {
-        "id": 1,
-        "category": "Общие",
-        "name": "Тип комнат",
-        "sample": ""
+        "name": "Category",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 2,
-        "category": "Общие",
-        "name": "Европланировка",
-        "sample": ""
+        "name": "ExternalId",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 3,
-        "category": "Общие",
-        "name": "Апартаменты",
-        "sample": ""
+        "name": "Description",
+        "category": "Общие параметры",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 4,
-        "category": "Общие",
-        "name": "Пентхаус",
-        "sample": ""
+        "name": "Address",
+        "category": "Расположение",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 5,
-        "category": "Общие",
-        "name": "Тип квартиры",
-        "sample": ""
+        "name": "FlatRoomsCount",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 6,
-        "category": "Общие",
-        "name": "Номер квартиры",
-        "sample": ""
+        "name": "Phones",
+        "category": "Контакты",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 7,
-        "category": "Общие",
-        "name": "Номер секции",
-        "sample": ""
+        "name": "TotalArea",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 8,
-        "category": "Общие",
-        "name": "Площадь комнат строкой",
-        "sample": ""
+        "name": "FloorNumber",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 9,
-        "category": "Общие",
-        "name": "Жилая площадь",
-        "sample": ""
+        "name": "JKSchema.Id",
+        "category": "Параметры ЖК",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 11,
-        "category": "Общие",
-        "name": "Количество балконов",
-        "sample": ""
+        "name": "Building.FloorsCount",
+        "category": "Параметры дома",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 12,
-        "category": "Общие",
-        "name": "Количество лоджий",
-        "sample": ""
+        "name": "BargainTerms.Price",
+        "category": "Условия сделки",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 13,
-        "category": "Общие",
-        "name": "Отделка",
-        "sample": ""
+        "name": "BargainTerms.SaleType",
+        "category": "Условия сделки",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 14,
-        "category": "Общие",
-        "name": "Вид из окон",
-        "sample": ""
+        "name": "LivingArea",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 15,
-        "category": "Общие",
-        "name": "Раздельные санузлы",
-        "sample": ""
+        "name": "IsEuroFlat",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 16,
-        "category": "Общие",
-        "name": "Совмещённые санузлы",
-        "sample": ""
+        "name": "IsApartments",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 17,
-        "category": "Общие",
-        "name": "Дополнительные удобства",
-        "sample": ""
+        "name": "Coordinates",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 18,
-        "category": "Общие",
-        "name": "Название ЖК",
-        "sample": ""
+        "name": "CadastralNumber",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 19,
-        "category": "Общие",
-        "name": "Название корпуса",
-        "sample": ""
+        "name": "Undergrounds",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 20,
-        "category": "Общие",
-        "name": "Высота потолков",
-        "sample": ""
+        "name": "House.Id",
+        "category": "Параметры ЖК",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 21,
-        "category": "Общие",
-        "name": "Тип стен дома",
-        "sample": ""
+        "name": "FlatNumber",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 22,
-        "category": "Общие",
-        "name": "Пассажирские лифты",
-        "sample": ""
+        "name": "LoggiasCount",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 23,
-        "category": "Общие",
-        "name": "Грузовые лифты",
-        "sample": ""
+        "name": "BalconiesCount",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 24,
-        "category": "Общие",
-        "name": "Тип парковки",
-        "sample": ""
+        "name": "Photos",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 25,
-        "category": "Общие",
-        "name": "Срок сдачи — квартал",
-        "sample": ""
+        "name": "LayoutPhoto",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 26,
-        "category": "Общие",
-        "name": "Срок сдачи — год",
-        "sample": ""
+        "name": "Decoration",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 27,
-        "category": "Общие",
-        "name": "Дом сдан",
-        "sample": ""
+        "name": "ProjectDeclarationUrl",
+        "category": "Параметры ЖК",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 28,
-        "category": "Общие",
-        "name": "Пандус в подъезде",
-        "sample": ""
+        "name": "WindowsViewType",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 29,
-        "category": "Общие",
-        "name": "Шлагбаум во дворе",
-        "sample": ""
+        "name": "SeparateWcsCount",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 30,
-        "category": "Общие",
-        "name": "Двор без машин",
-        "sample": ""
+        "name": "CombinedWcsCount",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 31,
-        "category": "Общие",
-        "name": "Консьерж в подъезде",
-        "sample": ""
+        "name": "Videos",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 32,
-        "category": "Общие",
-        "name": "Валюта сделки",
-        "sample": ""
+        "name": "Title",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 33,
-        "category": "Общие",
-        "name": "Возможна ипотека",
-        "sample": ""
+        "name": "ObjectTour",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 34,
-        "category": "Общие",
-        "name": "Ссылка на торги",
-        "sample": ""
+        "name": "Building.MaterialType",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 35,
-        "category": "Общие",
-        "name": "Скрыть номер телефона",
-        "sample": ""
+        "name": "Building.CeilingHeight",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 36,
-        "category": "Общие",
-        "name": "Ссылка на проектную декларацию",
-        "sample": ""
+        "name": "Building.PassengerLiftsCount",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 37,
-        "category": "Общие",
-        "name": "Использован мат. капитал",
-        "sample": ""
+        "name": "Building.CargoLiftsCount",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 38,
-        "category": "Общие",
-        "name": "Координаты — широта",
-        "sample": ""
+        "name": "Parking",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 39,
-        "category": "Общие",
-        "name": "Координаты — долгота",
-        "sample": ""
+        "name": "Deadline",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 40,
-        "category": "Общие",
-        "name": "Расстояние до шоссе (мск)",
-        "sample": ""
+        "name": "YardAndEntranceFeatures",
+        "category": "Параметры дома",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 41,
-        "category": "Общие",
-        "name": "Время пути до метро",
-        "sample": ""
+        "name": "BargainTerms.MortgageAllowed",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 42,
-        "category": "Общие",
-        "name": "Способ пути до метро",
-        "sample": ""
+        "name": "ActionId",
+        "category": "Параметры акции",
+        "mandatory": false,
+        "formula": "=\"Да\""
       }
     ],
     "domclick": [

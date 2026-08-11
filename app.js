@@ -52,16 +52,16 @@ const SAMPLE_FEEDS = {
     <feed_version>2</feed_version>
     <object>
         <ExternalId>CIAN-ND-99</ExternalId>
-        <Category>flat</Category>
+        <Category>newBuildingFlatSale</Category>
+        <Address>г. Москва, ул. Арбат, д. 10</Address>
         <TotalArea>62.1</TotalArea>
         <FloorNumber>12</FloorNumber>
-        <FloorsCount>18</FloorsCount>
         <FlatRoomsCount>2</FlatRoomsCount>
-        <Description>Просторная квартира в новостройке от застройщика.</Description>
+        <Description>Просторная двухкомнатная квартира в новостройке от застройщика.</Description>
         <JKSchema><Id>98765</Id></JKSchema>
-        <House><Id>54321</Id></House>
+        <Building><FloorsCount>18</FloorsCount></Building>
         <BargainTerms><Price>18900000</Price><SaleType>fz214</SaleType></BargainTerms>
-        <Phones><PhoneSchema><Number>+79990000000</Number></PhoneSchema></Phones>
+        <Phones><PhoneSchema><CountryCode>+7</CountryCode><Number>9990000000</Number></PhoneSchema></Phones>
         <LivingArea>38.0</LivingArea>
     </object>
 </feed>`,
