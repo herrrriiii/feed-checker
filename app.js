@@ -364,17 +364,24 @@ function initTabs() {
     });
 }
 
-// Helper to get realistic fill-in example for missing parameters
-function getSampleFillExample(paramName, aliasTag) {
+// Helper to get realistic fill-in example for missing parameters (clean human example, no XML tags)
+function getSampleFillExample(paramName) {
     const nameLow = paramName.toLowerCase();
-    const tagSnippet = aliasTag ? `<${aliasTag}>...</${aliasTag}>` : '';
 
     for (let [k, exampleVal] of Object.entries(SAMPLE_FILL_EXAMPLES)) {
         if (nameLow.includes(k)) {
-            return `${exampleVal} ${tagSnippet ? `(${tagSnippet})` : ''}`;
+            return exampleVal;
         }
     }
-    return `Значение параметра ${tagSnippet ? `(${tagSnippet})` : ''}`;
+    if (nameLow.includes('площадь')) return '58.4 м²';
+    if (nameLow.includes('цена') || nameLow.includes('стоимость')) return '14 500 000 руб.';
+    if (nameLow.includes('дата') || nameLow.includes('срок')) return '4 кв. 2026';
+    if (nameLow.includes('этаж')) return '7';
+    if (nameLow.includes('комнат')) return '2';
+    if (nameLow.includes('телефон')) return '+7 (495) 123-45-67';
+    if (nameLow.includes('ссылка') || nameLow.includes('url') || nameLow.includes('сайт')) return 'https://example.com';
+
+    return 'Пример значения для заполнения';
 }
 
 // Evaluate Commercial Formula
@@ -572,7 +579,7 @@ function analyzeAndRender() {
             const mandatoryKeywords = ['адрес', 'цена', 'площадь', 'категория', 'этаж', 'телефон', 'название', 'id', 'тип', 'застройщик'];
             const isMandatoryHeuristic = mandatoryKeywords.some(k => paramName.toLowerCase().includes(k));
 
-            const sampleFillExample = getSampleFillExample(paramName, aliases[0]);
+            const sampleFillExample = getSampleFillExample(paramName);
 
             if (!isApplicable) {
                 nonApplicableCount++;
