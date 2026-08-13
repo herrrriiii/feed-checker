@@ -22,13 +22,13 @@ const PLATFORM_COMMERCIAL_TYPES = {
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
         { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
         { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
-        { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
+        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
+        { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
+        { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
         { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
         { id: 'building', name: 'Здание (buildingSale)', val: 'Здание' },
         { id: 'land', name: 'Коммерческая земля (commercialLandSale)', val: 'Земля' },
-        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
-        { id: 'garage', name: 'Гараж / Паркинг (garageSale)', val: 'Гараж' },
         { id: 'apartments', name: 'Апартаменты (apartmentsSale)', val: 'Апартаменты' }
     ],
     yandex: [
@@ -1855,13 +1855,19 @@ const RAW_EXCEL_DATA = {
         "name": "TotalArea",
         "category": "Параметры объекта",
         "mandatory": true,
-        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Гараж\"),\"Да\",\"Нет\")"
       },
       {
         "name": "FloorNumber",
         "category": "Параметры помещения",
         "mandatory": true,
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Garage.Type",
+        "category": "Гараж / Машиноместо",
+        "mandatory": true,
+        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
       },
       {
         "name": "BargainTerms.Price",
@@ -1873,7 +1879,7 @@ const RAW_EXCEL_DATA = {
         "name": "BargainTerms.VatType",
         "category": "Условия сделки",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Гараж\",\"Нет\",\"Да\")"
       },
       {
         "name": "ReadyBusinessType",
@@ -1897,7 +1903,7 @@ const RAW_EXCEL_DATA = {
         "name": "Building.FloorsCount",
         "category": "Здание",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Гараж\",\"Нет\",\"Да\")"
       },
       {
         "name": "Land.Area",
@@ -1926,6 +1932,12 @@ const RAW_EXCEL_DATA = {
       {
         "name": "AuctionPerClick",
         "category": "Продвижение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PlacementType",
+        "category": "Торговая площадь",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -1962,6 +1974,96 @@ const RAW_EXCEL_DATA = {
       {
         "name": "Undergrounds",
         "category": "Местоположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Garage.GarageType",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Garage.Material",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Garage.Status",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasLight",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasElectricity",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasHeating",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasWater",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasExtinguishingSystem",
+        "category": "Гараж / Машиноместо",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasTire",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasInspectionPit",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasVideoSurveillance",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasHourSecurity",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasAutomaticGates",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasEntryByPass",
+        "category": "Гараж Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasBasement",
+        "category": "Гараж Инфраструктура",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -2130,6 +2232,42 @@ const RAW_EXCEL_DATA = {
       {
         "name": "ColumnGrid",
         "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasSafeCustody",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "IsCustoms",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasTransportServices",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ShoppingCenterScaleType",
+        "category": "Торговая площадь",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Tenants",
+        "category": "Торговая площадь",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "OpeningHours",
+        "category": "Торговая площадь",
         "mandatory": false,
         "formula": "=\"Да\""
       },
