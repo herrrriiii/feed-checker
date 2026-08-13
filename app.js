@@ -520,6 +520,12 @@ function evaluateCommercialFormula(formulaStr, selectedType) {
 // XML Parser
 function parseXMLFeed(xmlString) {
     if (typeof xmlString === 'string') {
+        xmlString = xmlString.trim();
+        // Fix missing leading '<' (e.g. user pasted "Ads formatVersion="3" ...")
+        if (xmlString.length > 0 && !xmlString.startsWith('<') && xmlString.includes('>')) {
+            xmlString = '<' + xmlString;
+        }
+
         // Strip browser XML view headers (e.g., "This XML file does not appear to have any style information...")
         const firstTagIdx = xmlString.search(/<[a-zA-Z?!]/);
         if (firstTagIdx > 0) {
@@ -624,7 +630,7 @@ function generateAliasesForParam(paramName) {
         aliases.push('VatType', 'BargainTerms.VatType', 'vat', 'Vat');
     }
 
-    if (nameLow.includes('contracttype') || nameLow.includes('договор') || nameLow.includes('сделк')) {
+    if (nameLow.includes('contracttype') || nameLow.includes('договор') || nameLow.includes('сделк') || nameLow.includes('transaction') || nameLow.includes('operation')) {
         aliases.push('ContractType', 'BargainTerms.ContractType', 'SaleType', 'BargainTerms.SaleType', 'OperationType', 'TransactionType');
     }
 
@@ -794,9 +800,11 @@ function analyzeAndRender() {
             for (let alias of aliases) {
                 const aliasLower = alias.toLowerCase();
 
-                if (xmlPathsMap.has(alias)) {
-                    const val = xmlPathsMap.get(alias) || '';
-                    return { present: true, matchedTag: alias, sampleValue: val };
+                // Direct check in xmlPathsMap (exact or case-insensitive key)
+                for (let [k, v] of xmlPathsMap.entries()) {
+                    if (k.toLowerCase() === aliasLower && v && v.trim()) {
+                        return { present: true, matchedTag: k, sampleValue: v.trim() };
+                    }
                 }
 
                 for (let xmlPath of cleanedPaths) {
