@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 1. Market Category Segmented Control
+// 1. Market Category Segmented Control
 function initMarketSelector() {
     const domclickBtn = document.querySelector('[data-platform="domclick"]');
     segmentBtns.forEach(btn => {
@@ -227,6 +228,7 @@ function initMarketSelector() {
                     currentPlatform = 'avito';
                     platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'avito'));
                 }
+                updateCommercialTypeDropdown();
             } else {
                 commercialTypeGroup.classList.add('hidden');
                 if (domclickBtn) domclickBtn.classList.remove('hidden');
@@ -245,13 +247,29 @@ function initPlatformSelector() {
             btn.classList.add('active');
             currentPlatform = btn.getAttribute('data-platform');
 
+            if (currentMarket === 'commercial') {
+                updateCommercialTypeDropdown();
+            }
+
             if (rawXmlText) analyzeAndRender();
         });
     });
 }
 
 // 3. Commercial Object Type Dropdown
+function updateCommercialTypeDropdown() {
+    const types = (typeof PLATFORM_COMMERCIAL_TYPES !== 'undefined' && PLATFORM_COMMERCIAL_TYPES[currentPlatform])
+        ? PLATFORM_COMMERCIAL_TYPES[currentPlatform]
+        : (typeof PLATFORM_COMMERCIAL_TYPES !== 'undefined' ? PLATFORM_COMMERCIAL_TYPES.avito : []);
+
+    if (commercialTypeSelect) {
+        commercialTypeSelect.innerHTML = types.map(t => `<option value="${escapeHtml(t.val)}" data-id="${escapeHtml(t.id)}">${escapeHtml(t.name)}</option>`).join('');
+        currentCommercialType = commercialTypeSelect.value || 'Все типы';
+    }
+}
+
 function initCommercialTypeSelector() {
+    updateCommercialTypeDropdown();
     commercialTypeSelect.addEventListener('change', (e) => {
         currentCommercialType = e.target.value;
         if (rawXmlText) analyzeAndRender();

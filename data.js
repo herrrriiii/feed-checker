@@ -1,18 +1,48 @@
 // Specification Data generated from Памятка Новостройки.xlsx and Памятка коммерция.xlsx
 
-const COMMERCIAL_TYPES = [
-    { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
-    { id: 'apartments', name: 'Апартаменты (Апарт-отели / ПСН)', val: 'Апартаменты' },
-    { id: 'office', name: 'Офис / Здание', val: 'Офис' },
-    { id: 'retail', name: 'Торговая / Ритейл', val: 'Торговая' },
-    { id: 'psn', name: 'ПСН (Свободное назначение)', val: 'ПСН' },
-    { id: 'warehouse', name: 'Склад / Логистика', val: 'Склад' },
-    { id: 'industry', name: 'Производство', val: 'Производство' },
-    { id: 'land', name: 'Земельный участок', val: 'Земля' },
-    { id: 'business', name: 'Готовый бизнес', val: 'Готовый бизнес' },
-    { id: 'garage', name: 'Гараж / Машиноместо', val: 'Гараж' },
-    { id: 'other', name: 'Общепит / Гостиница / Кладовая', val: 'Общепит' }
-];
+const PLATFORM_COMMERCIAL_TYPES = {
+    avito: [
+        { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
+        { id: 'apartments', name: 'Апартаменты (Апарт-отели / ПСН)', val: 'Апартаменты' },
+        { id: 'office', name: 'Офис / Здание', val: 'Офис' },
+        { id: 'retail', name: 'Торговая помешение / Ритейл', val: 'Торговая' },
+        { id: 'psn', name: 'ПСН (Свободное назначение)', val: 'ПСН' },
+        { id: 'warehouse', name: 'Склад / Логистика', val: 'Склад' },
+        { id: 'industry', name: 'Производственное помещение', val: 'Производство' },
+        { id: 'land', name: 'Земельный участок', val: 'Земля' },
+        { id: 'business', name: 'Готовый бизнес', val: 'Готовый бизнес' },
+        { id: 'garage', name: 'Гараж / Машиноместо', val: 'Гараж' },
+        { id: 'other', name: 'Общепит / Гостиница / Кладовая', val: 'Общепит' }
+    ],
+    cian: [
+        { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
+        { id: 'apartments', name: 'Апартаменты (Апарт-отели)', val: 'Апартаменты' },
+        { id: 'office', name: 'Офисное помещение / БЦ (office)', val: 'Офис' },
+        { id: 'retail', name: 'Торговая площадь / ТЦ (shoppingArea)', val: 'Торговая' },
+        { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObject)', val: 'ПСН' },
+        { id: 'warehouse', name: 'Складской комплекс (warehouse)', val: 'Склад' },
+        { id: 'industry', name: 'Производственный объект (industry)', val: 'Производство' },
+        { id: 'land', name: 'Коммерческая земля (land)', val: 'Земля' },
+        { id: 'business', name: 'Готовый бизнес (business)', val: 'Готовый бизнес' },
+        { id: 'garage', name: 'Гараж / Паркинг (garage)', val: 'Гараж' }
+    ],
+    yandex: [
+        { id: 'all', name: 'Все типы объектов (All)', val: 'Все типы' },
+        { id: 'office', name: 'Офисные помещения (office)', val: 'Офис' },
+        { id: 'retail', name: 'Торговые помещения (retail)', val: 'Торговая' },
+        { id: 'free purpose', name: 'Свободного назначения (free purpose)', val: 'ПСН' },
+        { id: 'warehouse', name: 'Склад (warehouse)', val: 'Склад' },
+        { id: 'manufacturing', name: 'Производство (manufacturing)', val: 'Производство' },
+        { id: 'land', name: 'Земли коммерческого назначения (land)', val: 'Земля' },
+        { id: 'business', name: 'Готовый бизнес (business)', val: 'Готовый бизнес' },
+        { id: 'auto repair', name: 'Автосервис (auto repair)', val: 'Автосервис' },
+        { id: 'hotel', name: 'Гостиница (hotel)', val: 'Гостиница' },
+        { id: 'public catering', name: 'Общепит / Ресторан (public catering)', val: 'Общепит' },
+        { id: 'legal address', name: 'Юридический адрес (legal address)', val: 'Юридический адрес' }
+    ]
+};
+
+const COMMERCIAL_TYPES = PLATFORM_COMMERCIAL_TYPES.avito;
 
 const SAMPLE_FILL_EXAMPLES = {
     'название жк': 'ЖК Южный полюс',
@@ -54,6 +84,7 @@ const SAMPLE_FILL_EXAMPLES = {
     'type': 'продажа',
     'property-type': 'жилая',
     'category': 'квартира',
+    'commercial-type': 'office',
     'new-flat': '1',
     'корпус': 'Корпус 2.1',
     'секция': 'Секция 1',
@@ -97,8 +128,8 @@ const SAMPLE_FILL_EXAMPLES = {
     'парковка': 'Подземная парковка',
     'охрана': 'Закрытая территория, КПП',
     'видеонаблюдение': 'Да',
-    'описание': 'Просторная двухкомнатная квартира с отделкой в ЖК бизнес-класса.',
-    'заголовок': '2-комн. квартира 58.4 м² в ЖК Южный полюс',
+    'описание': 'Просторное коммерческое помещение в современном комплексе.',
+    'заголовок': 'Офисное помещение 138.4 м² на Невском проспекте',
     'кадастровый номер': '77:01:0001001:1234',
     'год сдачи': '2026',
     'квартал сдачи': '4 кв.',
@@ -123,7 +154,7 @@ const SAMPLE_FILL_EXAMPLES = {
     'застройщик': 'ЗАО Девелопмент Групп',
     'сайт застройщика': 'https://example.ru',
     'логотип': 'https://example.com/logo.png',
-    'утп': 'Высокие потолки, панорамные окна'
+    'утп': 'Высокие потолки, витринные окна'
 };
 
 const RAW_EXCEL_DATA = {
@@ -1292,370 +1323,496 @@ const RAW_EXCEL_DATA = {
   "commercial": {
     "yandex": [
       {
-        "id": 1,
-        "category": "Общие",
-        "name": "Тип здания в котором находится",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 2,
-        "category": "Общие",
-        "name": "Рекомендуемое назначение",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Торговая\",$C$2=\"ПСН\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 3,
-        "category": "Общие",
-        "name": "Район в нас. пункте",
+        "name": "offer internal-id",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 4,
-        "category": "Общие",
-        "name": "Шоссе (только для МСК)",
+        "name": "type",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 5,
-        "category": "Общие",
-        "name": "Расстояние до МКАД (только для МСК)",
+        "name": "category",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 6,
-        "category": "Общие",
-        "name": "Номер помещения",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 7,
-        "category": "Общие",
-        "name": "Метро — название",
+        "name": "commercial-type",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 8,
-        "category": "Общие",
-        "name": "Метро — пешком (мин)",
+        "name": "creation-date",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 9,
-        "category": "Общие",
-        "name": "Метро — на транспорте (мин)",
+        "name": "location.address",
+        "category": "Расположение",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 10,
-        "category": "Общие",
-        "name": "Ж/д станция",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Земля\",$C$2=\"Производство\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 11,
-        "category": "Общие",
-        "name": "Умные фото",
+        "name": "location.latitude",
+        "category": "Расположение",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 12,
-        "category": "Общие",
-        "name": "Ремонт",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 13,
-        "category": "Общие",
-        "name": "Состояние",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 14,
-        "category": "Общие",
-        "name": "Текст описания",
+        "name": "location.longitude",
+        "category": "Расположение",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 15,
-        "category": "Общие",
-        "name": "Ссылка на YouTube",
+        "name": "sales-agent.phone",
+        "category": "Контакты",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 16,
-        "category": "Общие",
-        "name": "Онлайн-показ",
+        "name": "sales-agent.category",
+        "category": "Контакты",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 17,
-        "category": "Общие",
-        "name": "Количество комнат",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Гостиница\",$C$2=\"Общепит\",$C$2=\"Торговая\",$C$2=\"ПСН\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 18,
-        "category": "Общие",
-        "name": "Вход",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 19,
-        "category": "Общие",
-        "name": "Свободная планировка",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Торговая\",$C$2=\"ПСН\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 20,
-        "category": "Общие",
-        "name": "Количество телефонных линий",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 21,
-        "category": "Общие",
-        "name": "Доп. телефонные линии по запросу",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 22,
-        "category": "Общие",
-        "name": "Интернет",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 23,
-        "category": "Общие",
-        "name": "Выбор интернет-провайдера",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 24,
-        "category": "Общие",
-        "name": "Наличие мебели",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Общепит\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 25,
-        "category": "Общие",
-        "name": "Кондиционер",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 26,
-        "category": "Общие",
-        "name": "Вентиляция",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 27,
-        "category": "Общие",
-        "name": "Пожарная сигнализация",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 28,
-        "category": "Общие",
-        "name": "Водопровод",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 29,
-        "category": "Общие",
-        "name": "Канализация",
+        "name": "price.value",
+        "category": "Условия сделки",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 30,
-        "category": "Общие",
-        "name": "Электричество",
+        "name": "price.currency",
+        "category": "Условия сделки",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 31,
-        "category": "Общие",
-        "name": "Газовые сети",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Склад\",$C$2=\"Производство\",$C$2=\"Земля\",$C$2=\"Общепит\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 32,
-        "category": "Общие",
-        "name": "Выделенная мощность",
+        "name": "price.period",
+        "category": "Условия сделки",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 33,
-        "category": "Общие",
-        "name": "Покрытие пола",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"ПСН\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 34,
-        "category": "Общие",
-        "name": "Тип окон",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Торговая\",$C$2=\"ПСН\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 35,
-        "category": "Общие",
-        "name": "Вид из окон",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 36,
-        "category": "Общие",
-        "name": "Класс здания",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Готовый бизнес\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 37,
-        "category": "Общие",
-        "name": "Высота потолков",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 38,
-        "category": "Общие",
-        "name": "Наличие лифта",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Здание\",$C$2=\"Торговая\",$C$2=\"Склад\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 39,
-        "category": "Общие",
-        "name": "Круглосуточный доступ 24/7",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Склад\",$C$2=\"Производство\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 40,
-        "category": "Общие",
-        "name": "Охрана здания",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 41,
-        "category": "Общие",
-        "name": "Охраняемая парковка",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 42,
-        "category": "Общие",
-        "name": "Мест на парковке",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 43,
-        "category": "Общие",
-        "name": "Стоимость машиноместа",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 44,
-        "category": "Общие",
-        "name": "Гостевая парковка",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Торговая\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 45,
-        "category": "Общие",
-        "name": "Гостевых мест",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Торговая\",$C$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 46,
-        "category": "Общие",
-        "name": "Общепит в здании",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Склад\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 47,
-        "category": "Общие",
-        "name": "Элитность объекта",
+        "name": "deal-status",
+        "category": "Условия сделки",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 48,
-        "category": "Общие",
-        "name": "ID новостройки в Яндексе",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Торговая\",$C$2=\"ПСН\",$C$2=\"Гостиница\"),\"Да\",\"—\")"
+        "name": "area.value",
+        "category": "Параметры объекта",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 49,
-        "category": "Общие",
-        "name": "Назначение склада",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\"),\"Да\",\"—\")"
+        "name": "image",
+        "category": "Медиа",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 50,
-        "category": "Общие",
-        "name": "Ответственное хранение",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "floor",
+        "category": "Параметры помещения",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 51,
-        "category": "Общие",
-        "name": "Цена палето-места",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\"),\"Да\",\"—\")"
+        "name": "floors-total",
+        "category": "Параметры здания",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 52,
-        "category": "Общие",
-        "name": "Грузовой лифт",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "commercial-building-type",
+        "category": "Параметры здания",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 53,
-        "category": "Общие",
-        "name": "Подъезд фуры",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "purpose",
+        "category": "Параметры объекта",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 54,
-        "category": "Общие",
-        "name": "Наличие пандуса",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "purpose-warehouse",
+        "category": "Параметры склада",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 55,
-        "category": "Общие",
-        "name": "Ж/д ветка",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "lot-number",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 56,
-        "category": "Общие",
-        "name": "Офис на складе",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "url",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 57,
-        "category": "Общие",
-        "name": "Открытая площадка",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "cadastral-number",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 58,
-        "category": "Общие",
-        "name": "Наличие 3PL услуг",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "vas",
+        "category": "Продвижение",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 59,
-        "category": "Общие",
-        "name": "Температурный режим",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Склад\",$C$2=\"Производство\"),\"Да\",\"—\")"
+        "name": "location.apartment",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 60,
-        "category": "Общие",
-        "name": "Отопление",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2<>\"Земля\"),\"Да\",\"—\")"
+        "name": "location.direction",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 61,
-        "category": "Общие",
-        "name": "Пропускная система (access-control-system)",
-        "formula": "=IF(OR($C$2=\"Все типы\",$C$2=\"Офис\",$C$2=\"Склад\",$C$2=\"Производство\",$C$2=\"Гостиница\"),\"Да\",\"—\")"
+        "name": "location.distance",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "location.metro",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "location.railway-station",
+        "category": "Расположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.name",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.whatsapp-phone",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.telegram-link",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.organization",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.url",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sales-agent.photo",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.unit",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.commission",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.prepayment",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.security-payment",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.rent-pledge",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "price.taxation-form",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "cleaning-included",
+        "category": "Условия аренды",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "utilities-included",
+        "category": "Условия аренды",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "electricity-included",
+        "category": "Условия аренды",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "renovation",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "quality",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "description",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "video-review",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "virtual-tour",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "rooms",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "entrance-type",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "open-plan",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "phone-lines",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "internet",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "air-conditioner",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ventilation",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "fire-alarm",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "water-supply",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "sewerage-supply",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "gas-supply",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "heating-supply",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "electricity-supply",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "electric-capacity",
+        "category": "Коммуникации",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "office-class",
+        "category": "Параметры здания",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ceiling-height",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "guarded-building",
+        "category": "Безопасность",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "access-control-system",
+        "category": "Безопасность",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "twenty-four-seven",
+        "category": "Режим работы",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "lift",
+        "category": "Параметры здания",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "parking",
+        "category": "Парковка",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "parking-places",
+        "category": "Парковка",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "parking-place-price",
+        "category": "Парковка",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "security",
+        "category": "Безопасность",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "responsible-storage",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "pallet-price",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "freight-elevator",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "truck-entrance",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ramp",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "railway",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "office-warehouse",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "open-area",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
       }
     ],
     "cian": [
