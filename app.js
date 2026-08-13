@@ -545,10 +545,8 @@ function parseXMLFeed(xmlString) {
         const tag = node.localName || node.tagName.split(':').pop();
         const path = currentPath ? `${currentPath}.${tag}` : tag;
 
-        let sampleVal = '';
-        if (node.children.length === 0 && node.textContent) {
-            sampleVal = node.textContent.trim();
-        }
+        // Capture text content for both leaf nodes and container tags (e.g. <Description><p>...</p></Description>)
+        const sampleVal = (node.textContent || '').trim();
 
         if (!xmlPathsMap.has(path) && sampleVal) xmlPathsMap.set(path, sampleVal);
         if (!xmlPathsMap.has(tag) && sampleVal) xmlPathsMap.set(tag, sampleVal);
@@ -595,7 +593,7 @@ function generateAliasesForParam(paramName) {
     }
 
     if (nameLow.includes('phone') || nameLow.includes('телефон') || nameLow.includes('номер') || nameLow.includes('phones')) {
-        aliases.push('Number', 'Phone', 'Phones', 'PhoneSchema', 'PhoneSchema.Number', 'Phones.PhoneSchema.Number', 'phone', 'sales-agent.phone', 'sales_phone', 'number', 'Phones.PhoneSchema', 'PhoneSchema.Phone');
+        aliases.push('Number', 'Phone', 'Phones', 'PhoneSchema', 'PhoneSchema.Number', 'Phones.PhoneSchema.Number', 'phone', 'sales-agent.phone', 'sales_phone', 'number', 'Phones.PhoneSchema', 'PhoneSchema.Phone', 'ContactPhone');
     }
 
     const dict = {
@@ -612,26 +610,20 @@ function generateAliasesForParam(paramName) {
         'описание': ['Description', 'description', 'description_main.text'],
         'фотографии': ['Images', 'images', 'Photos', 'Photos.PhotoSchema', 'picture', 'image', 'images.image', 'plans.plan'],
         'видео': ['VideoURL', 'video_url', 'ObjectTour.FullUrl', 'virtual-tour', 'video-review'],
-        'телефон': ['Phones', 'Phone', 'phone', 'sales-agent.phone', 'Number', 'PhoneSchema', 'PhoneSchema.Number', 'sales_phone'],
+        'телефон': ['Phones', 'Phone', 'phone', 'sales-agent.phone', 'Number', 'PhoneSchema', 'PhoneSchema.Number', 'sales_phone', 'ContactPhone'],
         'менеджер': ['ManagerName', 'manager_name', 'sales-agent.name', 'SubAgent.FirstName'],
         'отделка': ['Decoration', 'decoration', 'renovation', 'flat.renovation', 'decorations'],
         'потолок': ['CeilingHeight', 'ceiling_height', 'Building.CeilingHeight', 'ceiling-height', 'flat.ceiling_height'],
-        'парковка': ['Parking', 'parking', 'Parking.Type', 'infrastructure.parking'],
+        'парковка': ['Parking', 'parking', 'Parking.Type', 'infrastructure.parking', 'ParkingType'],
         'охрана': ['Security', 'security', 'guarded-building', 'YardAndEntranceFeatures', 'Courtyard', 'infrastructure.security'],
         'лифт': ['Lift', 'lift', 'PassengerElevator', 'FreightElevator', 'building.passenger_lifts_count', 'building.cargo_lifts_count'],
         'здание': ['HouseType', 'house_type', 'building-type', 'Building.MaterialType', 'BuildingType'],
         'класс': ['BuildingClass', 'building_class', 'Building.ClassType', 'building-class'],
         'мощность': ['Power', 'power', 'Building.Power', 'electric-capacity'],
         'вход': ['EntranceType', 'entrance_type', 'Entrance', 'entrance-type'],
-        'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category'],
+        'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category', 'ObjectType'],
         'комнат': ['Rooms', 'rooms', 'FlatRoomsCount', 'flat.room'],
         'жилая': ['LivingArea', 'LivingSpace', 'living-space.value', 'flat.living_area'],
-        'двор': ['Courtyard', 'guarded-building', 'YardAndEntranceFeatures'],
-        'детский сад': ['Kindergarten', 'kindergarten'],
-        'школа': ['School', 'school'],
-        'балкон': ['Balcony', 'balcony', 'BalconiesCount', 'balconies-count', 'flat.balcony'],
-        'лоджия': ['Loggia', 'loggia', 'LoggiasCount', 'loggias-count', 'flat.loggia'],
-        'санузел': ['Bathroom', 'bathroom-unit', 'Wc', 'SeparateWcsCount', 'CombinedWcsCount', 'flat.connected_bathroom', 'flat.separated_bathroom'],
         'застройщик': ['Developer', 'developer', 'builder', 'developer.name'],
         'скидка': ['Discount', 'discount', 'discount.final-price', 'discounts']
     };
@@ -649,6 +641,24 @@ function generateAliasesForParam(paramName) {
 function analyzeAndRender() {
     try {
         const { xmlPathsMap, totalObjects } = parseXMLFeed(rawXmlText);
+
+        // Auto-detect Commercial ObjectType from feed if in Commercial mode
+        if (currentMarket === 'commercial') {
+            const detectedTypeStr = xmlPathsMap.get('ObjectType') || xmlPathsMap.get('objecttype') || xmlPathsMap.get('commercial-type') || xmlPathsMap.get('category') || xmlPathsMap.get('Category') || '';
+            if (detectedTypeStr) {
+                const typeLow = detectedTypeStr.toLowerCase();
+                const options = Array.from(commercialTypeSelect.options);
+                const matched = options.find(opt => {
+                    const valLow = opt.value.toLowerCase();
+                    const idLow = (opt.getAttribute('data-id') || '').toLowerCase();
+                    return typeLow.includes(valLow) || typeLow.includes(idLow) || valLow.includes(typeLow);
+                });
+                if (matched && matched.value !== currentCommercialType) {
+                    currentCommercialType = matched.value;
+                    commercialTypeSelect.value = matched.value;
+                }
+            }
+        }
 
         // Get spec parameters from RAW_EXCEL_DATA
         let marketSpec = RAW_EXCEL_DATA[currentMarket][currentPlatform] || [];

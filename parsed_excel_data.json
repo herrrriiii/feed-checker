@@ -2326,50 +2326,8 @@
         "formula": "=\"Да\""
       },
       {
-        "name": "Entrance",
-        "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Floor",
-        "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Layout",
-        "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "Square",
         "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Decoration",
-        "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Heating",
-        "category": "О помещениях",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "BuildingType",
-        "category": "О здании",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "ParkingType",
-        "category": "О здании",
         "mandatory": true,
         "formula": "=\"Да\""
       },
@@ -2378,6 +2336,108 @@
         "category": "Условия сделки",
         "mandatory": true,
         "formula": "=\"Да\""
+      },
+      {
+        "name": "Entrance",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Floor",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Кладовая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Layout",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Кладовая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Decoration",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\",E2=\"Кладовая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Heating",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\",E2=\"Кладовая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "BuildingType",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\",E2=\"Кладовая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "ParkingType",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "StorageRoomType",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Width",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Length",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "CeilingHeight",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(OR(E2=\"Кладовая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Volume",
+        "category": "Кладовая",
+        "mandatory": false,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Security",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "AccessSchedule",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "CarAccess",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Lighting",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "PowerSockets",
+        "category": "Кладовая",
+        "mandatory": true,
+        "formula": "IF(E2=\"Кладовая\",\"Да\",\"Нет\")"
       },
       {
         "name": "DateBegin",
@@ -2497,37 +2557,19 @@
         "name": "PremisesType",
         "category": "О помещениях",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Торговая\",\"Да\",\"Нет\")"
       },
       {
         "name": "EntranceAdditionally",
         "category": "О помещениях",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "FloorAdditionally",
         "category": "О помещениях",
         "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "StorageRoomType",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Width",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Length",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\"),\"Да\",\"Нет\")"
       },
       {
         "name": "PlaceIsRented",
@@ -2566,40 +2608,10 @@
         "formula": "=\"Да\""
       },
       {
-        "name": "CeilingHeight",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Volume",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Security",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "AccessSchedule",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "CarAccess",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "PowerGridCapacity",
         "category": "О помещениях",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "PowerGridAdditionally",
@@ -2608,46 +2620,34 @@
         "formula": "=\"Да\""
       },
       {
-        "name": "Lighting",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "PowerSockets",
-        "category": "О помещениях",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "ReadinessStatus",
         "category": "О здании",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "BuildingClass",
         "category": "О здании",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
         "name": "DistanceFromRoad",
         "category": "О здании",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
         "name": "ParkingAdditionally",
         "category": "О здании",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "ParkingSpaces",
         "category": "О здании",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Общепит\",E2=\"Гостиница\",E2=\"Автосервис\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "PriceType",
