@@ -20,11 +20,11 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     cian: [
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
+        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
         { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
         { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
         { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
-        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
         { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
         { id: 'building', name: 'Здание (buildingSale)', val: 'Здание' },
@@ -1870,12 +1870,6 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "Specialty",
-        "category": "ПСН",
-        "mandatory": true,
-        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
-      },
-      {
         "name": "Building.FloorsCount",
         "category": "Здание",
         "mandatory": true,
@@ -1886,6 +1880,12 @@ const RAW_EXCEL_DATA = {
         "category": "Условия сделки",
         "mandatory": true,
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Готовый бизнес\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Specialty",
+        "category": "ПСН / Торговая",
+        "mandatory": true,
+        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {
         "name": "ReadyBusinessType",
@@ -1924,70 +1924,46 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
       },
       {
-        "name": "InputType",
-        "category": "Параметры помещения",
+        "name": "FloorMaterialTypeType",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "HasShopWindows",
-        "category": "Параметры помещения",
+        "name": "CranageTypes",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "ConditionType",
-        "category": "Параметры помещения",
+        "name": "GatesType",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Производство\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "JKSchema",
-        "category": "Жилой комплекс",
+        "name": "ColumnGrid",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "IsOccupied",
-        "category": "Параметры помещения",
+        "name": "HasSafeCustody",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
-        "name": "Layout",
-        "category": "Параметры помещения",
+        "name": "IsCustoms",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
-        "name": "AvailableFrom",
-        "category": "Параметры помещения",
+        "name": "HasTransportServices",
+        "category": "Склад",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "IsLegalAddressProvided",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "WaterPipesCount",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "TaxNumber",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "BusinessShoppingCenter.Id",
-        "category": "Здание / ТЦ / БЦ",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
         "name": "Auction",
@@ -2030,6 +2006,60 @@ const RAW_EXCEL_DATA = {
         "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
+      },
+      {
+        "name": "ConditionType",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "JKSchema",
+        "category": "Жилой комплекс",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "IsOccupied",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Layout",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "AvailableFrom",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "IsLegalAddressProvided",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "WaterPipesCount",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "TaxNumber",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Склад\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "BusinessShoppingCenter.Id",
+        "category": "Здание / ТЦ / БЦ",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\"),\"Да\",\"Нет\")"
       },
       {
         "name": "SubAgent.Email",
@@ -2083,7 +2113,7 @@ const RAW_EXCEL_DATA = {
         "name": "MultiListingSlots",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Здание\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "PublishTerms",
@@ -2122,6 +2152,12 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
+        "name": "Building.BuildYear",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
         "name": "Building.HeatingType",
         "category": "Здание",
         "mandatory": false,
@@ -2135,6 +2171,12 @@ const RAW_EXCEL_DATA = {
       },
       {
         "name": "Building.Type",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.ClassType",
         "category": "Здание",
         "mandatory": false,
         "formula": "=\"Да\""
@@ -2174,6 +2216,12 @@ const RAW_EXCEL_DATA = {
         "category": "Здание",
         "mandatory": false,
         "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.LiftTypes",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Garage.GarageType",
@@ -2222,48 +2270,6 @@ const RAW_EXCEL_DATA = {
         "category": "Гараж / Машиноместо",
         "mandatory": false,
         "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "FloorMaterialTypeType",
-        "category": "Производство / Склад",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "CranageTypes",
-        "category": "Производство / Склад",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "GatesType",
-        "category": "Производство / Склад",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "ColumnGrid",
-        "category": "Производство / Склад",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Производство\",E2=\"Склад\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasSafeCustody",
-        "category": "Склад",
-        "mandatory": false,
-        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "IsCustoms",
-        "category": "Склад",
-        "mandatory": false,
-        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasTransportServices",
-        "category": "Склад",
-        "mandatory": false,
-        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
         "name": "ShoppingCenterScaleType",
