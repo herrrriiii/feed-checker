@@ -519,6 +519,14 @@ function evaluateCommercialFormula(formulaStr, selectedType) {
 
 // XML Parser
 function parseXMLFeed(xmlString) {
+    if (typeof xmlString === 'string') {
+        // Strip browser XML view headers (e.g., "This XML file does not appear to have any style information...")
+        const firstTagIdx = xmlString.search(/<[a-zA-Z?!]/);
+        if (firstTagIdx > 0) {
+            xmlString = xmlString.substring(firstTagIdx);
+        }
+    }
+
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
@@ -668,6 +676,13 @@ function generateAliasesForParam(paramName) {
 // Analyzer Function
 function analyzeAndRender() {
     try {
+        if (typeof rawXmlText === 'string') {
+            const firstTagIdx = rawXmlText.search(/<[a-zA-Z?!]/);
+            if (firstTagIdx > 0) {
+                rawXmlText = rawXmlText.substring(firstTagIdx);
+            }
+        }
+
         const { xmlPathsMap, totalObjects } = parseXMLFeed(rawXmlText);
 
         // Auto-detect Market & Platform from XML tags if obvious
