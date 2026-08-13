@@ -589,7 +589,7 @@ function generateAliasesForParam(paramName) {
     const aliases = [paramName];
 
     if (nameLow.includes('internal-id') || nameLow.includes('internal_id') || nameLow === 'id' || nameLow.includes('идентификатор') || nameLow.includes('offer internal-id')) {
-        aliases.push('offer internal-id', 'internal-id', 'offer@internal-id', '@internal-id', 'offer.internal-id', 'Id', 'id', 'ExternalId', 'flat_id', 'complex.id', 'building.id', 'offer id', 'offer@id');
+        aliases.push('offer internal-id', 'internal-id', 'offer@internal-id', '@internal-id', 'offer.internal-id', 'Id', 'id', 'ExternalId', 'flat_id', 'complex.id', 'building.id', 'offer id', 'offer@id', 'offer@id', '@id');
     }
 
     if (nameLow.includes('phone') || nameLow.includes('телефон') || nameLow.includes('номер') || nameLow.includes('phones')) {
@@ -609,7 +609,7 @@ function generateAliasesForParam(paramName) {
     }
 
     const dict = {
-        'заголовок': ['Title', 'title', 'Header'],
+        'заголовок': ['Title', 'title', 'Header', 'name'],
         'адрес': ['Address', 'address', 'location.address', 'location', 'complex.address', 'building.address'],
         'широта': ['Latitude', 'latitude', 'Coordinates.Lat', 'location.latitude', 'complex.latitude', 'building.latitude', 'lat'],
         'долгота': ['Longitude', 'longitude', 'Coordinates.Lng', 'location.longitude', 'complex.longitude', 'building.longitude', 'lng'],
@@ -633,10 +633,10 @@ function generateAliasesForParam(paramName) {
         'класс': ['BuildingClass', 'building_class', 'Building.ClassType', 'building-class'],
         'мощность': ['Power', 'power', 'Building.Power', 'electric-capacity'],
         'вход': ['EntranceType', 'entrance_type', 'Entrance', 'entrance-type'],
-        'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category', 'ObjectType'],
+        'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category', 'ObjectType', 'categoryId'],
         'комнат': ['Rooms', 'rooms', 'FlatRoomsCount', 'flat.room'],
         'жилая': ['LivingArea', 'LivingSpace', 'living-space.value', 'flat.living_area'],
-        'застройщик': ['Developer', 'developer', 'builder', 'developer.name'],
+        'застройщик': ['Developer', 'developer', 'builder', 'developer.name', 'vendor', 'company', 'organization'],
         'скидка': ['Discount', 'discount', 'discount.final-price', 'discounts']
     };
 
@@ -658,7 +658,8 @@ function analyzeAndRender() {
         const categoryVal = (xmlPathsMap.get('Category') || xmlPathsMap.get('category') || xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || '').toLowerCase();
         
         const isCommercialFeed = ['garagesale', 'officesale', 'warehousesale', 'businesssale', 'commerciallandsale', 'buildingsale', 'shoppingareasale', 'freeappointmentobjectsale', 'commercial', 'коммерческая'].some(k => categoryVal.includes(k)) ||
-            xmlPathsMap.has('commercial-type') || xmlPathsMap.has('ObjectType') || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType');
+            xmlPathsMap.has('commercial-type') || xmlPathsMap.has('ObjectType') || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType') ||
+            rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop') || rawXmlText.toLowerCase().includes('апартаменты');
 
         if (isCommercialFeed && currentMarket !== 'commercial') {
             currentMarket = 'commercial';
@@ -667,7 +668,7 @@ function analyzeAndRender() {
         }
 
         // Platform Auto-detection (Yandex -> Avito -> Cian)
-        if (rawXmlText.includes('realty-feed') || xmlPathsMap.has('commercial-type') || xmlPathsMap.has('generation-date') || xmlPathsMap.has('yandex-building-id')) {
+        if (rawXmlText.includes('realty-feed') || xmlPathsMap.has('commercial-type') || xmlPathsMap.has('generation-date') || xmlPathsMap.has('yandex-building-id') || rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop')) {
             if (currentPlatform !== 'yandex') {
                 currentPlatform = 'yandex';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'yandex'));
@@ -693,7 +694,9 @@ function analyzeAndRender() {
             const rawCat = commTypeVal || categoryVal || (xmlPathsMap.get('Garage.Type') || '').toLowerCase();
             let targetType = '';
 
-            if (rawCat.includes('garage') || rawCat.includes('parking') || rawCat.includes('гараж') || rawCat.includes('машиноместо')) {
+            if (rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || rawXmlText.toLowerCase().includes('апартаменты') || rawCat.includes('apart')) {
+                targetType = 'Апартаменты';
+            } else if (rawCat.includes('garage') || rawCat.includes('parking') || rawCat.includes('гараж') || rawCat.includes('машиноместо')) {
                 targetType = 'Гараж';
             } else if (rawCat.includes('office') || rawCat.includes('офис')) {
                 targetType = 'Офис';

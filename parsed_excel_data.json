@@ -1173,13 +1173,13 @@
         "name": "type",
         "category": "Общие параметры",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "category",
         "category": "Общие параметры",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "commercial-type",
@@ -1191,13 +1191,13 @@
         "name": "creation-date",
         "category": "Общие параметры",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "location.address",
         "category": "Местоположение",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "location.latitude",
@@ -1215,13 +1215,13 @@
         "name": "sales-agent.phone",
         "category": "Контакты",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "sales-agent.category",
         "category": "Контакты",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "price.value",
@@ -1239,7 +1239,7 @@
         "name": "area.value",
         "category": "Параметры помещения",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "image",
@@ -1251,13 +1251,13 @@
         "name": "floor",
         "category": "Параметры помещения",
         "mandatory": true,
-        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "floors-total",
         "category": "Здание",
         "mandatory": true,
-        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "price.period",
