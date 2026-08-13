@@ -541,6 +541,9 @@ function parseXMLFeed(xmlString) {
             const attrTag = `${tag}@${attr.name}`;
             if (!xmlPathsMap.has(attrPath)) xmlPathsMap.set(attrPath, attr.value);
             if (!xmlPathsMap.has(attrTag)) xmlPathsMap.set(attrTag, attr.value);
+            if (!xmlPathsMap.has(attr.name)) xmlPathsMap.set(attr.name, attr.value);
+            if (!xmlPathsMap.has(`@${attr.name}`)) xmlPathsMap.set(`@${attr.name}`, attr.value);
+            if (!xmlPathsMap.has(`${tag} ${attr.name}`)) xmlPathsMap.set(`${tag} ${attr.name}`, attr.value);
         }
 
         for (let child of node.children) {
@@ -557,42 +560,50 @@ function generateAliasesForParam(paramName) {
     const nameLow = paramName.toLowerCase();
     const aliases = [paramName];
 
+    if (nameLow.includes('internal-id') || nameLow.includes('internal_id') || nameLow === 'id' || nameLow.includes('идентификатор')) {
+        aliases.push('offer@internal-id', 'internal-id', 'offer.internal-id', '@internal-id', 'offer internal-id', 'Id', 'id', 'ExternalId', 'flat_id', 'complex.id', 'building.id');
+    }
+
+    if (nameLow.includes('phone') || nameLow.includes('телефон') || nameLow.includes('номер') || nameLow.includes('phones')) {
+        aliases.push('Number', 'Phone', 'Phones', 'PhoneSchema', 'PhoneSchema.Number', 'Phones.PhoneSchema.Number', 'phone', 'sales-agent.phone', 'sales_phone', 'number', 'Phones.PhoneSchema', 'PhoneSchema.Phone');
+    }
+
     const dict = {
         'заголовок': ['Title', 'title', 'Header'],
-        'адрес': ['Address', 'address', 'location.address', 'location'],
-        'широта': ['Latitude', 'latitude', 'Coordinates.Lat', 'location.latitude', 'lat'],
-        'долгота': ['Longitude', 'longitude', 'Coordinates.Lng', 'location.longitude', 'lng'],
+        'адрес': ['Address', 'address', 'location.address', 'location', 'complex.address', 'building.address'],
+        'широта': ['Latitude', 'latitude', 'Coordinates.Lat', 'location.latitude', 'complex.latitude', 'building.latitude', 'lat'],
+        'долгота': ['Longitude', 'longitude', 'Coordinates.Lng', 'location.longitude', 'complex.longitude', 'building.longitude', 'lng'],
         'кадастровый': ['CadastralNumber', 'cadastral_number', 'cadastral-number'],
         'метро': ['Metro', 'metro', 'Metro.Name', 'location.metro', 'subway'],
-        'цена': ['Price', 'price', 'BargainTerms.Price', 'price.value'],
-        'площадь': ['Square', 'square', 'TotalArea', 'area.value', 'area'],
-        'этаж': ['Floor', 'floor', 'FloorNumber', 'floors-total'],
-        'этажей': ['Floors', 'floors', 'FloorsCount', 'floors-total'],
-        'описание': ['Description', 'description'],
-        'фотографии': ['Images', 'images', 'Photos', 'Photos.PhotoSchema', 'picture', 'image'],
+        'цена': ['Price', 'price', 'BargainTerms.Price', 'price.value', 'flat.price'],
+        'площадь': ['Square', 'square', 'TotalArea', 'area.value', 'flat.area', 'area'],
+        'этаж': ['Floor', 'floor', 'FloorNumber', 'flat.floor'],
+        'этажей': ['Floors', 'floors', 'FloorsCount', 'floors-total', 'building.floors'],
+        'описание': ['Description', 'description', 'description_main.text'],
+        'фотографии': ['Images', 'images', 'Photos', 'Photos.PhotoSchema', 'picture', 'image', 'images.image', 'plans.plan'],
         'видео': ['VideoURL', 'video_url', 'ObjectTour.FullUrl', 'virtual-tour', 'video-review'],
-        'телефон': ['Phones', 'Phone', 'phone', 'sales-agent.phone'],
+        'телефон': ['Phones', 'Phone', 'phone', 'sales-agent.phone', 'Number', 'PhoneSchema', 'PhoneSchema.Number', 'sales_phone'],
         'менеджер': ['ManagerName', 'manager_name', 'sales-agent.name', 'SubAgent.FirstName'],
-        'отделка': ['Decoration', 'decoration', 'renovation'],
-        'потолок': ['CeilingHeight', 'ceiling_height', 'Building.CeilingHeight', 'ceiling-height'],
-        'парковка': ['Parking', 'parking', 'Parking.Type'],
-        'охрана': ['Security', 'security', 'guarded-building', 'YardAndEntranceFeatures', 'Courtyard'],
-        'лифт': ['Lift', 'lift', 'PassengerElevator', 'FreightElevator'],
+        'отделка': ['Decoration', 'decoration', 'renovation', 'flat.renovation', 'decorations'],
+        'потолок': ['CeilingHeight', 'ceiling_height', 'Building.CeilingHeight', 'ceiling-height', 'flat.ceiling_height'],
+        'парковка': ['Parking', 'parking', 'Parking.Type', 'infrastructure.parking'],
+        'охрана': ['Security', 'security', 'guarded-building', 'YardAndEntranceFeatures', 'Courtyard', 'infrastructure.security'],
+        'лифт': ['Lift', 'lift', 'PassengerElevator', 'FreightElevator', 'building.passenger_lifts_count', 'building.cargo_lifts_count'],
         'здание': ['HouseType', 'house_type', 'building-type', 'Building.MaterialType', 'BuildingType'],
         'класс': ['BuildingClass', 'building_class', 'Building.ClassType', 'building-class'],
         'мощность': ['Power', 'power', 'Building.Power', 'electric-capacity'],
         'вход': ['EntranceType', 'entrance_type', 'Entrance', 'entrance-type'],
         'назначение': ['Purpose', 'purpose', 'commercial-type', 'Category', 'category'],
-        'комнат': ['Rooms', 'rooms', 'FlatRoomsCount'],
-        'жилая': ['LivingArea', 'LivingSpace', 'living-space.value'],
+        'комнат': ['Rooms', 'rooms', 'FlatRoomsCount', 'flat.room'],
+        'жилая': ['LivingArea', 'LivingSpace', 'living-space.value', 'flat.living_area'],
         'двор': ['Courtyard', 'guarded-building', 'YardAndEntranceFeatures'],
         'детский сад': ['Kindergarten', 'kindergarten'],
         'школа': ['School', 'school'],
-        'балкон': ['Balcony', 'balcony', 'BalconiesCount', 'balconies-count'],
-        'лоджия': ['Loggia', 'loggia', 'LoggiasCount', 'loggias-count'],
-        'санузел': ['Bathroom', 'bathroom-unit', 'Wc', 'SeparateWcsCount', 'CombinedWcsCount'],
-        'застройщик': ['Developer', 'developer', 'builder'],
-        'скидка': ['Discount', 'discount', 'discount.final-price']
+        'балкон': ['Balcony', 'balcony', 'BalconiesCount', 'balconies-count', 'flat.balcony'],
+        'лоджия': ['Loggia', 'loggia', 'LoggiasCount', 'loggias-count', 'flat.loggia'],
+        'санузел': ['Bathroom', 'bathroom-unit', 'Wc', 'SeparateWcsCount', 'CombinedWcsCount', 'flat.connected_bathroom', 'flat.separated_bathroom'],
+        'застройщик': ['Developer', 'developer', 'builder', 'developer.name'],
+        'скидка': ['Discount', 'discount', 'discount.final-price', 'discounts']
     };
 
     for (let [k, list] of Object.entries(dict)) {
@@ -618,22 +629,34 @@ function analyzeAndRender() {
         }
 
         const cleanedPaths = Array.from(xmlPathsMap.keys());
-        const lowerPaths = cleanedPaths.map(p => p.toLowerCase());
 
         function matchXmlAlias(aliases) {
+            let bestMatch = null;
+
             for (let alias of aliases) {
                 const aliasLower = alias.toLowerCase();
-                if (lowerPaths.includes(aliasLower)) {
-                    const idx = lowerPaths.indexOf(aliasLower);
-                    return { present: true, matchedTag: cleanedPaths[idx], sampleValue: xmlPathsMap.get(cleanedPaths[idx]) || '' };
-                }
+
                 for (let xmlPath of cleanedPaths) {
-                    if (xmlPath.endsWith(alias) || xmlPath.toLowerCase().endsWith(aliasLower)) {
-                        return { present: true, matchedTag: xmlPath, sampleValue: xmlPathsMap.get(xmlPath) || '' };
+                    const xmlPathLow = xmlPath.toLowerCase();
+                    if (
+                        xmlPathLow === aliasLower ||
+                        xmlPathLow.endsWith(aliasLower) ||
+                        xmlPathLow.endsWith(`@${aliasLower}`) ||
+                        xmlPathLow.includes(`@${aliasLower}`) ||
+                        xmlPathLow.endsWith(`.${aliasLower}`)
+                    ) {
+                        const val = xmlPathsMap.get(xmlPath) || '';
+                        if (val && val.trim()) {
+                            return { present: true, matchedTag: xmlPath, sampleValue: val.trim() };
+                        }
+                        if (!bestMatch) {
+                            bestMatch = { present: true, matchedTag: xmlPath, sampleValue: val };
+                        }
                     }
                 }
             }
-            return { present: false, matchedTag: '', sampleValue: '' };
+
+            return bestMatch || { present: false, matchedTag: '', sampleValue: '' };
         }
 
         const processedParams = [];
