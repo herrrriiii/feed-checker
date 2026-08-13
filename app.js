@@ -687,15 +687,27 @@ function analyzeAndRender() {
 
         // Auto-detect Market & Platform from XML tags if obvious
         const categoryVal = (xmlPathsMap.get('Category') || xmlPathsMap.get('category') || xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || '').toLowerCase();
-        
-        const isCommercialFeed = ['garagesale', 'officesale', 'warehousesale', 'businesssale', 'commerciallandsale', 'buildingsale', 'shoppingareasale', 'freeappointmentobjectsale', 'commercial', 'коммерческая'].some(k => categoryVal.includes(k)) ||
-            xmlPathsMap.has('commercial-type') || xmlPathsMap.has('ObjectType') || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType') ||
-            rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop') || rawXmlText.toLowerCase().includes('апартаменты');
+        const marketTypeVal = (xmlPathsMap.get('MarketType') || '').toLowerCase();
+
+        // Check if explicitly a New Developments (Новостройки) feed
+        const isExplicitNewDev = categoryVal.includes('квартир') || marketTypeVal.includes('новостройк') || xmlPathsMap.has('NewDevelopmentId') || xmlPathsMap.has('JKSchema') || xmlPathsMap.has('complex.id');
+
+        let isCommercialFeed = false;
+
+        if (!isExplicitNewDev) {
+            isCommercialFeed = ['garagesale', 'officesale', 'warehousesale', 'businesssale', 'commerciallandsale', 'buildingsale', 'shoppingareasale', 'freeappointmentobjectsale', 'commercial', 'коммерческая'].some(k => categoryVal.includes(k)) ||
+                xmlPathsMap.has('commercial-type') || (xmlPathsMap.has('ObjectType') && !categoryVal.includes('квартир')) || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType') ||
+                rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop');
+        }
 
         if (isCommercialFeed && currentMarket !== 'commercial') {
             currentMarket = 'commercial';
             commercialTypeGroup.classList.remove('hidden');
             segmentBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-market') === 'commercial'));
+        } else if (isExplicitNewDev && currentMarket !== 'new_developments') {
+            currentMarket = 'new_developments';
+            commercialTypeGroup.classList.add('hidden');
+            segmentBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-market') === 'new_developments'));
         }
 
         // Platform Auto-detection (Yandex -> Avito -> Cian)
