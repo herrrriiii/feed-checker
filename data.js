@@ -20,8 +20,8 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     cian: [
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
-        { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
         { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
+        { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
         { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
         { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
@@ -1853,7 +1853,7 @@ const RAW_EXCEL_DATA = {
       },
       {
         "name": "TotalArea",
-        "category": "Параметры объекта",
+        "category": "Параметры помещения",
         "mandatory": true,
         "formula": "=\"Да\""
       },
@@ -1870,16 +1870,22 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "Garage.Type",
-        "category": "Гараж / Машиноместо",
+        "name": "Building.FloorsCount",
+        "category": "Здание",
         "mandatory": true,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "BargainTerms.VatType",
         "category": "Условия сделки",
         "mandatory": true,
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Готовый бизнес\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Garage.Type",
+        "category": "Гараж / Машиноместо",
+        "mandatory": true,
+        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
       },
       {
         "name": "ReadyBusinessType",
@@ -1898,12 +1904,6 @@ const RAW_EXCEL_DATA = {
         "category": "Параметры объекта",
         "mandatory": true,
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Building.FloorsCount",
-        "category": "Здание",
-        "mandatory": true,
-        "formula": "IF(OR(E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Land.Area",
@@ -1966,6 +1966,252 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
+        "name": "ConditionType",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "JKSchema",
+        "category": "Жилой комплекс",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "IsOccupied",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Layout",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "FurniturePresence",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "AvailableFrom",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "IsLegalAddressProvided",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "WaterPipesCount",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "TaxNumber",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "BusinessShoppingCenter.Id",
+        "category": "Здание / ТЦ / БЦ",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "Building.Name",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.BuildYear",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.MaterialType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.HeatingType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.CeilingHeight",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Parking",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Type",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.ClassType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Developer",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.ManagementCompany",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.VentilationType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.ConditioningType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.ExtinguishingSystemType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.StatusType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.AccessType",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Infrastructure",
+        "category": "Здание Инфраструктура",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "SubAgent.Email",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "LayoutPhoto",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Photos",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CollateralObjectSchema",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "IsInHiddenBase",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Videos",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Title",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ObjectTour",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Land.Type",
+        "category": "Коммерческая земля",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Земля\",E2=\"Здание\",E2=\"Офис\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "MultiListingSlots",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "PublishTerms",
+        "category": "Продвижение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ExtraData",
+        "category": "Модерация",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BargainTerms.Currency",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BargainTerms.ContractType",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BargainTerms.AgentBonus",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
         "name": "Garage.GarageType",
         "category": "Гараж / Машиноместо",
         "mandatory": false,
@@ -2012,216 +2258,6 @@ const RAW_EXCEL_DATA = {
         "category": "Гараж / Машиноместо",
         "mandatory": false,
         "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasTire",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasInspectionPit",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasVideoSurveillance",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasHourSecurity",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasAutomaticGates",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasEntryByPass",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasBasement",
-        "category": "Гараж Инфраструктура",
-        "mandatory": false,
-        "formula": "IF(E2=\"Гараж\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "SubAgent.Email",
-        "category": "Контакты",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "LayoutPhoto",
-        "category": "Медиа",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Photos",
-        "category": "Медиа",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "CollateralObjectSchema",
-        "category": "Общие параметры",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "IsInHiddenBase",
-        "category": "Общие параметры",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Videos",
-        "category": "Медиа",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Title",
-        "category": "Общие параметры",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Building.Name",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Parking.Type",
-        "category": "Здание / Парковка",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "PublishTerms",
-        "category": "Продвижение",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "BargainTerms.Currency",
-        "category": "Условия сделки",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "BargainTerms.ContractType",
-        "category": "Условия сделки",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "BargainTerms.AgentBonus",
-        "category": "Условия сделки",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "IsNeedHideExactAddress",
-        "category": "Местоположение",
-        "mandatory": false,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "PlacementType",
-        "category": "Торговая площадь",
-        "mandatory": false,
-        "formula": "IF(E2=\"Торговая\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasFurniture",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasEquipment",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Производство\",E2=\"Общепит\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "ObjectTour",
-        "category": "Медиа",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "MultiListingSlots",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\",E2=\"Здание\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "ConditionType",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Layout",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "InputType",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "AvailableFrom",
-        "category": "Параметры помещения",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "TaxNumber",
-        "category": "Общие параметры",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "IsLegalAddressProvided",
-        "category": "Офис / ПСН / Производство",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "WaterPipesCount",
-        "category": "Офис / ПСН / Производство",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "BusinessShoppingCenter.Id",
-        "category": "Офис / ПСН / Торговая",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
-      },
-      {
-        "name": "HasShopWindows",
-        "category": "ПСН / Торговая",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
       },
       {
         "name": "FloorMaterialTypeType",
@@ -2272,6 +2308,12 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(E2=\"Торговая\",\"Да\",\"Нет\")"
       },
       {
+        "name": "PlacementType",
+        "category": "Торговая площадь",
+        "mandatory": false,
+        "formula": "IF(E2=\"Торговая\",\"Да\",\"Нет\")"
+      },
+      {
         "name": "Tenants",
         "category": "Торговая площадь",
         "mandatory": false,
@@ -2282,60 +2324,6 @@ const RAW_EXCEL_DATA = {
         "category": "Торговая площадь",
         "mandatory": false,
         "formula": "IF(E2=\"Торговая\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.PossibleToChangeStatus",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.PermittedUseType",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.PossibleToChangePermitedUseType",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.HasEncumbrances",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.Electricity",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.Gas",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.Drainage",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.Water",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
-      },
-      {
-        "name": "Land.DrivewayType",
-        "category": "Коммерческая земля",
-        "mandatory": false,
-        "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
       }
     ],
     "avito": [
