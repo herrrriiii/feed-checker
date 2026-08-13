@@ -552,6 +552,18 @@ function parseXMLFeed(xmlString) {
     }
 
     walkElement(root);
+
+    // Guaranteed regex fallback for Yandex offer internal-id attribute
+    const internalIdMatch = xmlString.match(/internal-id\s*=\s*["']?([^"'\s>]+)/i);
+    if (internalIdMatch) {
+        const internalIdVal = internalIdMatch[1].replace(/["']/g, '');
+        xmlPathsMap.set('offer internal-id', internalIdVal);
+        xmlPathsMap.set('internal-id', internalIdVal);
+        xmlPathsMap.set('offer@internal-id', internalIdVal);
+        xmlPathsMap.set('@internal-id', internalIdVal);
+        xmlPathsMap.set('offer.internal-id', internalIdVal);
+    }
+
     return { xmlPathsMap, totalObjects };
 }
 
@@ -560,8 +572,8 @@ function generateAliasesForParam(paramName) {
     const nameLow = paramName.toLowerCase();
     const aliases = [paramName];
 
-    if (nameLow.includes('internal-id') || nameLow.includes('internal_id') || nameLow === 'id' || nameLow.includes('идентификатор')) {
-        aliases.push('offer@internal-id', 'internal-id', 'offer.internal-id', '@internal-id', 'offer internal-id', 'Id', 'id', 'ExternalId', 'flat_id', 'complex.id', 'building.id');
+    if (nameLow.includes('internal-id') || nameLow.includes('internal_id') || nameLow === 'id' || nameLow.includes('идентификатор') || nameLow.includes('offer internal-id')) {
+        aliases.push('offer internal-id', 'internal-id', 'offer@internal-id', '@internal-id', 'offer.internal-id', 'Id', 'id', 'ExternalId', 'flat_id', 'complex.id', 'building.id', 'offer id', 'offer@id');
     }
 
     if (nameLow.includes('phone') || nameLow.includes('телефон') || nameLow.includes('номер') || nameLow.includes('phones')) {
@@ -636,6 +648,11 @@ function analyzeAndRender() {
             for (let alias of aliases) {
                 const aliasLower = alias.toLowerCase();
 
+                if (xmlPathsMap.has(alias)) {
+                    const val = xmlPathsMap.get(alias) || '';
+                    return { present: true, matchedTag: alias, sampleValue: val };
+                }
+
                 for (let xmlPath of cleanedPaths) {
                     const xmlPathLow = xmlPath.toLowerCase();
                     if (
@@ -643,6 +660,7 @@ function analyzeAndRender() {
                         xmlPathLow.endsWith(aliasLower) ||
                         xmlPathLow.endsWith(`@${aliasLower}`) ||
                         xmlPathLow.includes(`@${aliasLower}`) ||
+                        (xmlPathLow.includes(`internal-id`) && aliasLower.includes(`internal-id`)) ||
                         xmlPathLow.endsWith(`.${aliasLower}`)
                     ) {
                         const val = xmlPathsMap.get(xmlPath) || '';
