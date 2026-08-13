@@ -531,11 +531,11 @@ function parseXMLFeed(xmlString) {
     const xmlPathsMap = new Map();
     let totalObjects = 0;
 
-    const objectTags = ['object', 'Ad', 'offer', 'flat'];
+    const objectTags = ['object', 'ad', 'offer', 'flat', 'item', 'realty'];
     const allElements = xmlDoc.getElementsByTagName("*");
 
     for (let elem of allElements) {
-        const cleanTag = elem.localName || elem.tagName.split(':').pop();
+        const cleanTag = (elem.localName || elem.tagName.split(':').pop()).toLowerCase();
         if (objectTags.includes(cleanTag)) {
             totalObjects++;
         }
