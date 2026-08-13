@@ -1457,7 +1457,7 @@ const RAW_EXCEL_DATA = {
       {
         "name": "url",
         "category": "Общие параметры",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
