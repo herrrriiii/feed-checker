@@ -696,7 +696,7 @@ function analyzeAndRender() {
         const marketTypeVal = (xmlPathsMap.get('MarketType') || '').toLowerCase();
 
         // Check if explicitly a New Developments (Новостройки) feed
-        const isExplicitNewDev = categoryVal.includes('квартир') || marketTypeVal.includes('новостройк') || xmlPathsMap.has('NewDevelopmentId') || xmlPathsMap.has('JKSchema') || xmlPathsMap.has('complex.id');
+        const isExplicitNewDev = categoryVal.includes('квартир') || marketTypeVal.includes('новостройк') || xmlPathsMap.has('NewDevelopmentId') || xmlPathsMap.has('JKSchema') || xmlPathsMap.has('complex.id') || xmlPathsMap.has('complexes') || xmlPathsMap.has('complex') || xmlPathsMap.has('flats');
 
         let isCommercialFeed = false;
 
@@ -716,8 +716,14 @@ function analyzeAndRender() {
             segmentBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-market') === 'new_developments'));
         }
 
-        // Platform Auto-detection (Yandex -> Avito -> Cian)
-        if (rawXmlText.includes('realty-feed') || xmlPathsMap.has('commercial-type') || xmlPathsMap.has('generation-date') || xmlPathsMap.has('yandex-building-id') || rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop')) {
+        // Platform Auto-detection (Domclick -> Yandex -> Avito -> Cian)
+        if (rawXmlText.includes('complexes') || xmlPathsMap.has('complexes') || xmlPathsMap.has('complex') || xmlPathsMap.has('domrf_id') || xmlPathsMap.has('housing_type') || xmlPathsMap.has('sales_info') || xmlPathsMap.has('description_main')) {
+            if (currentPlatform !== 'domclick') {
+                currentPlatform = 'domclick';
+                platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'domclick'));
+                updateCommercialTypeDropdown();
+            }
+        } else if (rawXmlText.includes('realty-feed') || xmlPathsMap.has('commercial-type') || xmlPathsMap.has('generation-date') || xmlPathsMap.has('yandex-building-id') || rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop')) {
             if (currentPlatform !== 'yandex') {
                 currentPlatform = 'yandex';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'yandex'));
