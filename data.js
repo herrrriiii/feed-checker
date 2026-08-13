@@ -1366,13 +1366,13 @@ const RAW_EXCEL_DATA = {
       {
         "name": "location.latitude",
         "category": "Местоположение",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "location.longitude",
         "category": "Местоположение",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
