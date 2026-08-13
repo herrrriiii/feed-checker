@@ -1714,13 +1714,13 @@
       {
         "name": "BargainTerms.VatType",
         "category": "Условия сделки",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Готовый бизнес\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Specialty",
         "category": "ПСН / Торговая",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {

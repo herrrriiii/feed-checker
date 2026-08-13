@@ -20,11 +20,11 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     cian: [
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
-        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
         { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
         { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
         { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
+        { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
         { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
         { id: 'building', name: 'Здание (buildingSale)', val: 'Здание' },
@@ -1878,13 +1878,13 @@ const RAW_EXCEL_DATA = {
       {
         "name": "BargainTerms.VatType",
         "category": "Условия сделки",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Готовый бизнес\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Specialty",
         "category": "ПСН / Торговая",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {

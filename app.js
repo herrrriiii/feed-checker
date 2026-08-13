@@ -596,6 +596,18 @@ function generateAliasesForParam(paramName) {
         aliases.push('Number', 'Phone', 'Phones', 'PhoneSchema', 'PhoneSchema.Number', 'Phones.PhoneSchema.Number', 'phone', 'sales-agent.phone', 'sales_phone', 'number', 'Phones.PhoneSchema', 'PhoneSchema.Phone', 'ContactPhone');
     }
 
+    if (nameLow.includes('vat') || nameLow.includes('ндс')) {
+        aliases.push('VatType', 'BargainTerms.VatType', 'vat', 'Vat');
+    }
+
+    if (nameLow.includes('contracttype') || nameLow.includes('договор') || nameLow.includes('сделк')) {
+        aliases.push('ContractType', 'BargainTerms.ContractType', 'SaleType', 'BargainTerms.SaleType', 'OperationType', 'TransactionType');
+    }
+
+    if (nameLow.includes('specialty') || nameLow.includes('назначение')) {
+        aliases.push('Specialty', 'Types', 'AdditionalTypes', 'Purpose', 'purpose', 'commercial-type', 'ObjectType');
+    }
+
     const dict = {
         'заголовок': ['Title', 'title', 'Header'],
         'адрес': ['Address', 'address', 'location.address', 'location', 'complex.address', 'building.address'],
