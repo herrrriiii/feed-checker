@@ -2332,202 +2332,406 @@
     ],
     "avito": [
       {
-        "id": 1,
-        "category": "Общие",
-        "name": "Вариант задания цены",
+        "name": "Id",
+        "category": "Общие элементы",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 2,
-        "category": "Общие",
-        "name": "Способ продажи",
+        "name": "Description",
+        "category": "Общие элементы",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 3,
-        "category": "Общие",
-        "name": "Объект забронирован",
+        "name": "Address",
+        "category": "Местоположение",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 4,
-        "category": "Общие",
-        "name": "Географическая широта",
+        "name": "Category",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 5,
-        "category": "Общие",
-        "name": "Географическая долгота",
+        "name": "Price",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 6,
-        "category": "Общие",
-        "name": "Фотографии объекта",
+        "name": "OperationType",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 7,
-        "category": "Общие",
-        "name": "Ссылка на видео",
+        "name": "ObjectType",
+        "category": "Общие параметры",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 8,
-        "category": "Общие",
-        "name": "Прямой видеофайл",
+        "name": "PropertyRights",
+        "category": "Контакты",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 9,
-        "category": "Общие",
-        "name": "Дополнительные назначения",
+        "name": "Entrance",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 10,
-        "category": "Общие",
-        "name": "НДС включён в цену",
+        "name": "Floor",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 11,
-        "category": "Общие",
-        "name": "Тип помещения (торговля)",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Торговая\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 12,
-        "category": "Общие",
-        "name": "Отдельный вход",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 13,
-        "category": "Общие",
-        "name": "Несколько этажей",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 14,
-        "category": "Общие",
-        "name": "Объём кладовой",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 15,
-        "category": "Общие",
-        "name": "Мощность электросети",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 16,
-        "category": "Общие",
-        "name": "Возможность увеличения мощности",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 17,
-        "category": "Общие",
-        "name": "Выписка ЕГРН (ссылка)",
+        "name": "Layout",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 18,
-        "category": "Общие",
-        "name": "Статус готовности здания",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 19,
-        "category": "Общие",
-        "name": "Класс здания",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"Склад\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 20,
-        "category": "Общие",
-        "name": "Удалённость от дороги",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"ПСН\",$O$2=\"Торговая\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 21,
-        "category": "Общие",
-        "name": "Дополнительно о парковке",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 22,
-        "category": "Общие",
-        "name": "Количество мест на парковке",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Офис\",$O$2=\"ПСН\",$O$2=\"Торговая\",$O$2=\"Склад\",$O$2=\"Производство\",$O$2=\"Общепит\",$O$2=\"Гостиница\",$O$2=\"Автосервис\",$O$2=\"Здание\"),\"Да\",\"—\")"
-      },
-      {
-        "id": 23,
-        "category": "Общие",
-        "name": "Помещение сдано в аренду",
+        "name": "Square",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 24,
-        "category": "Общие",
-        "name": "Название / бренд арендатора",
+        "name": "Decoration",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 25,
-        "category": "Общие",
-        "name": "Месячный арендный платёж",
+        "name": "Heating",
+        "category": "О помещениях",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 26,
-        "category": "Общие",
-        "name": "Срок окончания аренды",
+        "name": "BuildingType",
+        "category": "О здании",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 27,
-        "category": "Общие",
-        "name": "Ежегодная индексация аренды",
+        "name": "ParkingType",
+        "category": "О здании",
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
-        "id": 28,
-        "category": "Общие",
-        "name": "Процент с товарооборота",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Торговая\",$O$2=\"Общепит\"),\"Да\",\"—\")"
+        "name": "TransactionType",
+        "category": "Условия сделки",
+        "mandatory": true,
+        "formula": "=\"Да\""
       },
       {
-        "id": 29,
-        "category": "Общие",
-        "name": "Охрана",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
+        "name": "DateBegin",
+        "category": "Общие элементы",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 30,
-        "category": "Общие",
-        "name": "Подъезд машины",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
+        "name": "DateEnd",
+        "category": "Общие элементы",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 31,
-        "category": "Общие",
-        "name": "Доступ (график)",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
+        "name": "ListingFee",
+        "category": "Общие элементы",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 32,
-        "category": "Общие",
-        "name": "Освещение",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
+        "name": "AdStatus",
+        "category": "Общие элементы",
+        "mandatory": false,
+        "formula": "=\"Да\""
       },
       {
-        "id": 33,
-        "category": "Общие",
-        "name": "Розетки",
-        "formula": "=IF(OR($O$2=\"Все типы\",$O$2=\"Кладовая\"),\"Да\",\"—\")"
+        "name": "AvitoId",
+        "category": "Общие элементы",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ManagerName",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ContactPhone",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Images",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "VideoURL",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Latitude",
+        "category": "Местоположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Longitude",
+        "category": "Местоположение",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ContactMethod",
+        "category": "Способ связи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "InternetCalls",
+        "category": "Способ связи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CallsDevices",
+        "category": "Способ связи",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Title",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PriceWithVAT",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "AdditionalObjectTypes",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "VideoFileURL",
+        "category": "Медиа",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "EgrnExtractionLink",
+        "category": "Документы",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PremisesType",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "EntranceAdditionally",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "FloorAdditionally",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "StorageRoomType",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Width",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Length",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PlaceIsRented",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "RenterName",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "RenterMonthPayment",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "RentContractExpireDate",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PaymentIndexation",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PercentOfTrade",
+        "category": "Арендатор",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CeilingHeight",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Volume",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Security",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "AccessSchedule",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CarAccess",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PowerGridCapacity",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PowerGridAdditionally",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Lighting",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PowerSockets",
+        "category": "О помещениях",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ReadinessStatus",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BuildingClass",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "DistanceFromRoad",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ParkingAdditionally",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ParkingSpaces",
+        "category": "О здании",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "PriceType",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "SaleOptions",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ObjectBooked",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "AgentSellCommissionPresence",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "AgentSellCommissionSize",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
       }
     ]
   }
