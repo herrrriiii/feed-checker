@@ -733,11 +733,11 @@ function analyzeAndRender() {
 
         // Auto-detect Commercial ObjectType from feed
         if (currentMarket === 'commercial') {
-            const commTypeVal = (xmlPathsMap.get('commercial-type') || '').toLowerCase();
-            const rawCat = commTypeVal || categoryVal || (xmlPathsMap.get('Garage.Type') || '').toLowerCase();
+            const objectTypeVal = (xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || xmlPathsMap.get('Garage.Type') || xmlPathsMap.get('StorageRoomType') || xmlPathsMap.get('category') || xmlPathsMap.get('Category') || '').toLowerCase();
+            const rawCat = objectTypeVal;
             let targetType = '';
 
-            if (rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || rawXmlText.toLowerCase().includes('апартаменты') || rawCat.includes('apart')) {
+            if (rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || (xmlPathsMap.get('Status') || '').toLowerCase().includes('апартаменты') || rawCat.includes('apart')) {
                 targetType = 'Апартаменты';
             } else if (rawCat.includes('garage') || rawCat.includes('parking') || rawCat.includes('гараж') || rawCat.includes('машиноместо')) {
                 targetType = 'Гараж';
