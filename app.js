@@ -1149,6 +1149,8 @@ const PARAM_RUSSIAN_MAP = {
     'HasEquipment': 'Наличие оборудования',
     'IsInHiddenBase': 'Размещение в закрытой базе',
     'FurniturePresence': 'Наличие мебели',
+    'InputType': 'Тип входа в помещение',
+    'HasShopWindows': 'Витринные окна',
     'IsOccupied': 'Помещение занято',
     'WaterPipesCount': 'Количество мокрых точек',
     'TaxNumber': 'Номер налоговой',

@@ -20,10 +20,10 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     cian: [
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
-        { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
-        { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
-        { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
         { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
+        { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
+        { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
+        { id: 'garage', name: 'Гараж / Машиноместо (garageSale)', val: 'Гараж' },
         { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
         { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
         { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
@@ -1853,7 +1853,7 @@ const RAW_EXCEL_DATA = {
       },
       {
         "name": "TotalArea",
-        "category": "Параметры объекта",
+        "category": "Параметры помещения",
         "mandatory": true,
         "formula": "=\"Да\""
       },
@@ -1864,22 +1864,22 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "ReadyBusinessType",
-        "category": "Готовый бизнес",
+        "name": "FloorNumber",
+        "category": "Параметры помещения",
         "mandatory": true,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Specialty",
-        "category": "Готовый бизнес",
+        "category": "ПСН",
         "mandatory": true,
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "MonthlyIncome.Income",
-        "category": "Готовый бизнес",
+        "name": "Building.FloorsCount",
+        "category": "Здание",
         "mandatory": true,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "BargainTerms.VatType",
@@ -1888,16 +1888,16 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\",E2=\"Готовый бизнес\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "FloorNumber",
-        "category": "Параметры помещения",
+        "name": "ReadyBusinessType",
+        "category": "Готовый бизнес",
         "mandatory": true,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
       },
       {
-        "name": "Building.FloorsCount",
-        "category": "Здание",
+        "name": "MonthlyIncome.Income",
+        "category": "Готовый бизнес",
         "mandatory": true,
-        "formula": "IF(OR(E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
       },
       {
         "name": "Garage.Type",
@@ -1924,34 +1924,70 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(E2=\"Земля\",\"Да\",\"Нет\")"
       },
       {
-        "name": "IsNeedHideExactAddress",
-        "category": "Местоположение",
+        "name": "InputType",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "HasFurniture",
+        "name": "HasShopWindows",
         "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "ConditionType",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "JKSchema",
+        "category": "Жилой комплекс",
         "mandatory": false,
         "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "HasEquipment",
+        "name": "IsOccupied",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Производство\",E2=\"Общепит\"),\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "EstateType",
-        "category": "Готовый бизнес",
+        "name": "Layout",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
-        "name": "MonthlyIncome.Currency",
-        "category": "Готовый бизнес",
+        "name": "AvailableFrom",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "IF(E2=\"Готовый бизнес\",\"Да\",\"Нет\")"
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "IsLegalAddressProvided",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "WaterPipesCount",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "TaxNumber",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "BusinessShoppingCenter.Id",
+        "category": "Здание / ТЦ / БЦ",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\"),\"Да\",\"Нет\")"
       },
       {
         "name": "Auction",
@@ -1994,12 +2030,6 @@ const RAW_EXCEL_DATA = {
         "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
-      },
-      {
-        "name": "JKSchema",
-        "category": "Жилой комплекс",
-        "mandatory": false,
-        "formula": "IF(OR(E2=\"Офис\",E2=\"ПСН\",E2=\"Торговая\",E2=\"Готовый бизнес\"),\"Да\",\"Нет\")"
       },
       {
         "name": "SubAgent.Email",
@@ -2092,18 +2122,6 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "Building.BuildYear",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Building.MaterialType",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "Building.HeatingType",
         "category": "Здание",
         "mandatory": false,
@@ -2116,19 +2134,7 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "Building.Parking",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "Building.Type",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Building.ClassType",
         "category": "Здание",
         "mandatory": false,
         "formula": "=\"Да\""
@@ -2166,18 +2172,6 @@ const RAW_EXCEL_DATA = {
       {
         "name": "Building.StatusType",
         "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Building.AccessType",
-        "category": "Здание",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "Building.Infrastructure",
-        "category": "Здание Инфраструктура",
         "mandatory": false,
         "formula": "=\"Да\""
       },
