@@ -1328,7 +1328,7 @@ const RAW_EXCEL_DATA = {
   "commercial": {
     "yandex": [
       {
-        "name": "offer internal-id",
+        "name": "offer@internal-id",
         "category": "Общие параметры",
         "mandatory": true,
         "formula": "=\"Да\""
@@ -1359,19 +1359,19 @@ const RAW_EXCEL_DATA = {
       },
       {
         "name": "location.address",
-        "category": "Расположение",
+        "category": "Местоположение",
         "mandatory": true,
         "formula": "=\"Да\""
       },
       {
         "name": "location.latitude",
-        "category": "Расположение",
+        "category": "Местоположение",
         "mandatory": true,
         "formula": "=\"Да\""
       },
       {
         "name": "location.longitude",
-        "category": "Расположение",
+        "category": "Местоположение",
         "mandatory": true,
         "formula": "=\"Да\""
       },
@@ -1400,20 +1400,8 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "price.period",
-        "category": "Условия сделки",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "deal-status",
-        "category": "Условия сделки",
-        "mandatory": true,
-        "formula": "=\"Да\""
-      },
-      {
         "name": "area.value",
-        "category": "Параметры объекта",
+        "category": "Параметры помещения",
         "mandatory": true,
         "formula": "=\"Да\""
       },
@@ -1427,31 +1415,37 @@ const RAW_EXCEL_DATA = {
         "name": "floor",
         "category": "Параметры помещения",
         "mandatory": true,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "floors-total",
-        "category": "Параметры здания",
+        "category": "Здание",
         "mandatory": true,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "price.period",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "deal-status",
+        "category": "Условия сделки",
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "commercial-building-type",
-        "category": "Параметры здания",
+        "category": "Общие параметры",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "purpose",
-        "category": "Параметры объекта",
+        "category": "Общие параметры",
         "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "purpose-warehouse",
-        "category": "Параметры склада",
-        "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Торговая\",E2=\"ПСН\",E2=\"Офис\",E2=\"Общепит\"),\"Да\",\"Нет\")"
       },
       {
         "name": "lot-number",
@@ -1479,31 +1473,31 @@ const RAW_EXCEL_DATA = {
       },
       {
         "name": "location.apartment",
-        "category": "Расположение",
+        "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "location.direction",
-        "category": "Расположение",
+        "name": "direction",
+        "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "location.distance",
-        "category": "Расположение",
+        "name": "distance",
+        "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "location.metro",
-        "category": "Расположение",
+        "name": "metro",
+        "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "location.railway-station",
-        "category": "Расположение",
+        "name": "railway-station",
+        "category": "Местоположение",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -1514,19 +1508,25 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "sales-agent.whatsapp-phone",
+        "name": "whatsapp-phone",
         "category": "Контакты",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "sales-agent.telegram-link",
+        "name": "telegram-link",
         "category": "Контакты",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "sales-agent.organization",
+        "name": "max-link",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "organization",
         "category": "Контакты",
         "mandatory": false,
         "formula": "=\"Да\""
@@ -1538,8 +1538,20 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "sales-agent.photo",
+        "name": "email",
         "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "photo",
+        "category": "Контакты",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "partner",
+        "category": "Общие параметры",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -1550,50 +1562,62 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "price.commission",
+        "name": "commission",
         "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "price.prepayment",
+        "name": "prepayment",
         "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "price.security-payment",
+        "name": "security-payment",
         "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "price.rent-pledge",
+        "name": "rent-pledge",
         "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
-        "name": "price.taxation-form",
+        "name": "taxation-form",
         "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "cleaning-included",
-        "category": "Условия аренды",
+        "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "utilities-included",
-        "category": "Условия аренды",
+        "category": "Условия сделки",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "electricity-included",
-        "category": "Условия аренды",
+        "category": "Условия сделки",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "area.unit",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "is-image-order-change-allowed",
+        "category": "Медиа",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -1601,13 +1625,13 @@ const RAW_EXCEL_DATA = {
         "name": "renovation",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "quality",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "description",
@@ -1631,121 +1655,157 @@ const RAW_EXCEL_DATA = {
         "name": "rooms",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "entrance-type",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Общепит\"),\"Да\",\"Нет\")"
       },
       {
         "name": "open-plan",
         "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {
         "name": "phone-lines",
-        "category": "Коммуникации",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "adding-phone-on-request",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "internet",
-        "category": "Коммуникации",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "self-selection-telecom",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "room-furniture",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Гостиница\"),\"Да\",\"Нет\")"
       },
       {
         "name": "air-conditioner",
-        "category": "Коммуникации",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "ventilation",
-        "category": "Коммуникации",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "fire-alarm",
-        "category": "Коммуникации",
+        "category": "Параметры помещения",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "water-supply",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "sewerage-supply",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "gas-supply",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "heating-supply",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "electricity-supply",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "electric-capacity",
-        "category": "Коммуникации",
+        "category": "Инженерия",
         "mandatory": false,
         "formula": "=\"Да\""
+      },
+      {
+        "name": "floor-covering",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "window-type",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Торговая\",E2=\"ПСН\",E2=\"Офис\",E2=\"Общепит\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "window-view",
+        "category": "Параметры помещения",
+        "mandatory": false,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "office-class",
-        "category": "Параметры здания",
+        "category": "Здание",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"Здание\"),\"Да\",\"Нет\")"
       },
       {
         "name": "ceiling-height",
-        "category": "Параметры помещения",
+        "category": "Здание",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "guarded-building",
-        "category": "Безопасность",
+        "category": "Здание",
         "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "access-control-system",
-        "category": "Безопасность",
+        "category": "Здание",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Здание\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "twenty-four-seven",
-        "category": "Режим работы",
+        "category": "Здание",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Склад\",E2=\"Производство\",E2=\"ПСН\"),\"Да\",\"Нет\")"
       },
       {
         "name": "lift",
-        "category": "Параметры здания",
+        "category": "Здание",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
       },
       {
         "name": "parking",
@@ -1766,58 +1826,124 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
-        "name": "security",
-        "category": "Безопасность",
+        "name": "parking-guest",
+        "category": "Парковка",
         "mandatory": false,
         "formula": "=\"Да\""
+      },
+      {
+        "name": "parking-guest-places",
+        "category": "Парковка",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "security",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "eating-facilities",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Склад\",E2=\"Производство\",E2=\"Здание\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "is-elite",
+        "category": "Общие параметры",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "yandex-building-id",
+        "category": "Жилой комплекс",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "yandex-house-id",
+        "category": "Жилой комплекс",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "built-year",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "IF(E2=\"Земля\",\"Нет\",\"Да\")"
+      },
+      {
+        "name": "building-name",
+        "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "purpose-warehouse",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
         "name": "responsible-storage",
         "category": "Склад",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
         "name": "pallet-price",
         "category": "Склад",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       },
       {
         "name": "freight-elevator",
-        "category": "Склад",
+        "category": "Склад / Производство",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "truck-entrance",
-        "category": "Склад",
+        "category": "Склад / Производство",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "ramp",
-        "category": "Склад",
+        "category": "Склад / Производство",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "railway",
-        "category": "Склад",
+        "category": "Склад / Производство",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\",E2=\"Земля\"),\"Да\",\"Нет\")"
       },
       {
         "name": "office-warehouse",
-        "category": "Склад",
+        "category": "Склад / Производство",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
         "name": "open-area",
+        "category": "Склад / Производство",
+        "mandatory": false,
+        "formula": "IF(OR(E2=\"Склад\",E2=\"Производство\",E2=\"Земля\"),\"Да\",\"Нет\")"
+      },
+      {
+        "name": "service-three-pl",
         "category": "Склад",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
+      },
+      {
+        "name": "temperature-comment",
+        "category": "Склад",
+        "mandatory": false,
+        "formula": "IF(E2=\"Склад\",\"Да\",\"Нет\")"
       }
     ],
     "cian": [
