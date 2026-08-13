@@ -770,7 +770,7 @@ function renderMandatoryTable(items) {
         <tr>
             <td><span class="status-dot status-dot-danger">Отсутствует</span></td>
             <td><span class="cat-label">${escapeHtml(item.category)}</span></td>
-            <td><span class="code-tag">${escapeHtml(item.name)}</span></td>
+            <td><span class="code-tag">${escapeHtml(formatParamNameWithTag(item))}</span></td>
             <td><span class="alias-text">${item.aliases.slice(0, 4).join(', ')}</span></td>
             <td style="text-align: right;">
                 <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('<${item.aliases[0]}></${item.aliases[0]}>')">
@@ -791,7 +791,7 @@ function renderOptionalTable(items) {
         <tr>
             <td><span class="status-dot status-dot-warning">Можно добавить</span></td>
             <td><span class="cat-label">${escapeHtml(item.category)}</span></td>
-            <td><span class="code-tag">${escapeHtml(item.name)}</span></td>
+            <td><span class="code-tag">${escapeHtml(formatParamNameWithTag(item))}</span></td>
             <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
             <td style="text-align: right;">
                 <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('<${item.aliases[0]}></${item.aliases[0]}>')">
@@ -862,6 +862,140 @@ function renderAllXmlTable(xmlPathsMap, processedParams) {
     tableAllXmlBody.innerHTML = rows.join('');
 }
 
+// Russian Translation Dictionary for Parameter Names
+const PARAM_RUSSIAN_MAP = {
+    'complex.id': 'ID ЖК',
+    'complex.name': 'Название ЖК',
+    'complex.latitude': 'Широта ЖК',
+    'complex.longitude': 'Долгота ЖК',
+    'complex.address': 'Адрес ЖК',
+    'images.image': 'Фотографии ЖК',
+    'description_main.text': 'Описание ЖК',
+    'description_main.title': 'Заголовок описания ЖК',
+    'building.id': 'ID корпуса',
+    'building.fz_214': 'Соответствие ФЗ-214',
+    'building.name': 'Название корпуса',
+    'building.latitude': 'Широта корпуса',
+    'building.longitude': 'Долгота корпуса',
+    'building.address': 'Адрес корпуса',
+    'building.floors': 'Этажность корпуса',
+    'building.floors_ready': 'Построено этажей',
+    'building.building_state': 'Стадия строительства',
+    'building.ceiling_height': 'Высота потолков в корпусе',
+    'building.passenger_lifts_count': 'Пассажирские лифты',
+    'building.cargo_lifts_count': 'Грузовые лифты',
+    'flat.flat_id': 'ID квартиры',
+    'flat.apartment': 'Номер квартиры / помещения',
+    'flat.domrf_id': 'ID на дом.рф',
+    'flat.entrance': 'Подъезд',
+    'flat.booking': 'Статус бронирования',
+    'flat.euro_plan': 'Европланировка',
+    'flat.balcony': 'Количество балконов',
+    'flat.loggia': 'Количество лоджий',
+    'flat.connected_bathroom': 'Совмещенный санузел',
+    'flat.separated_bathroom': 'Раздельный санузел',
+    'flat.floor': 'Этаж',
+    'flat.room': 'Количество комнат',
+    'flat.plans.plan': 'Планировка квартиры',
+    'flat.price': 'Цена квартиры',
+    'flat.area': 'Общая площадь',
+    'flat.living_area': 'Жилая площадь',
+    'flat.housing_type': 'Тип жилья (квартира / апартаменты)',
+    'sales_info.sales_phone': 'Телефон отдела продаж',
+    'sales_info.timezone': 'Часовой пояс',
+    'sales_info.work_days.work_day': 'График работы отдела продаж',
+    'sales_info.sales_address': 'Адрес отдела продаж',
+    'developer.id': 'ID застройщика',
+    'developer.name': 'Название застройщика',
+    'developer.site': 'Сайт застройщика',
+    'developer.logo': 'Логотип застройщика',
+    'offer internal-id': 'ID объявления',
+    'type': 'Тип сделки',
+    'property-type': 'Тип недвижимости',
+    'category': 'Категория объекта',
+    'creation-date': 'Дата создания объявления',
+    'location.address': 'Адрес объекта',
+    'location.latitude': 'Широта объекта',
+    'location.longitude': 'Долгота объекта',
+    'sales-agent.phone': 'Телефон продавца',
+    'sales-agent.category': 'Категория продавца',
+    'deal-status': 'Тип сделки (первичная / 214-ФЗ)',
+    'price.value': 'Цена объекта',
+    'price.currency': 'Валюта цены',
+    'area.value': 'Общая площадь',
+    'living-space.value': 'Жилая площадь',
+    'image': 'Фотографии объекта',
+    'new-flat': 'Признак новостройки',
+    'floor': 'Этаж',
+    'rooms': 'Количество комнат',
+    'yandex-building-id': 'ID ЖК в Яндекс',
+    'yandex-house-id': 'ID корпуса в Яндекс',
+    'built-year': 'Год сдачи',
+    'ready-quarter': 'Квартал сдачи',
+    'building-state': 'Стадия строительства',
+    'Category': 'Категория',
+    'ExternalId': 'Внешний ID (CRM)',
+    'Description': 'Описание',
+    'Address': 'Адрес',
+    'FlatRoomsCount': 'Количество комнат',
+    'Phones': 'Телефон',
+    'TotalArea': 'Общая площадь',
+    'FloorNumber': 'Этаж',
+    'JKSchema.Id': 'ID ЖК в Циан',
+    'Building.FloorsCount': 'Количество этажей в доме',
+    'BargainTerms.Price': 'Цена объекта',
+    'BargainTerms.SaleType': 'Тип продажи',
+    'Id': 'Идентификатор объявления',
+    'OperationType': 'Тип операции',
+    'MarketType': 'Рынок недвижимости',
+    'NewDevelopmentId': 'ID ЖК в Авито',
+    'PropertyRights': 'Право собственности',
+    'Price': 'Цена объекта',
+    'Square': 'Общая площадь',
+    'Rooms': 'Количество комнат',
+    'Floors': 'Количество этажей',
+    'HouseType': 'Тип дома / стены',
+    'Decoration': 'Отделка помещения',
+    'Status': 'Статус недвижимости',
+    'LivingSpace': 'Жилая площадь',
+    'ApartmentNumber': 'Номер квартиры',
+    'BalconyOrLoggiaMulti': 'Балкон или лоджия',
+    'ViewFromWindows': 'Вид из окон',
+    'PassengerElevator': 'Пассажирский лифт',
+    'FreightElevator': 'Грузовой лифт',
+    'Courtyard': 'Особенности двора',
+    'Parking': 'Парковка',
+    'RoomType': 'Тип комнат',
+    'BathroomMulti': 'Санузел',
+    'SaleOptions': 'Способ продажи',
+    'CeilingHeight': 'Высота потолков',
+    'NDAdditionally': 'Дополнительно',
+    'SaleMethod': 'Способ продажи',
+    'BasePriceND': 'Базовая цена',
+    'DduLink': 'Ссылка на ДДУ',
+    'ManagerName': 'Имя менеджера',
+    'ContactPhone': 'Контактный телефон',
+    'Images': 'Фотографии',
+    'VideoURL': 'Ссылка на видео'
+};
+
+function formatParamNameWithTag(item) {
+    const rawName = item.name;
+    const rusName = PARAM_RUSSIAN_MAP[rawName] || rawName;
+
+    let tagToShow = rawName;
+    if (item.aliases && item.aliases.length > 0) {
+        if (rusName === rawName && item.aliases[0] !== rawName) {
+            tagToShow = item.aliases[0];
+        }
+    }
+
+    if (rusName !== tagToShow) {
+        return `${rusName} (${tagToShow})`;
+    }
+    return rusName;
+}
+
 // Open Export Summary Modal (Shows ONLY missing parameters + Fill Examples + Category)
 function openExportSummaryModal() {
     if (!parsedAnalysisResult) return;
@@ -874,9 +1008,11 @@ function openExportSummaryModal() {
     if (missingParams.length === 0) {
         tableSummaryBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--color-success); font-weight: 500;">🎉 Замечательный фид! Все параметры из спецификации присутствуют в файле.</td></tr>`;
     } else {
-        tableSummaryBody.innerHTML = missingParams.map(item => `
+        tableSummaryBody.innerHTML = missingParams.map(item => {
+            const formattedName = formatParamNameWithTag(item);
+            return `
             <tr>
-                <td><strong style="color: var(--text-primary);">${escapeHtml(item.name)}</strong></td>
+                <td><strong style="color: var(--text-primary);">${escapeHtml(formattedName)}</strong></td>
                 <td>
                     <span class="status-dot ${item.isMandatory ? 'status-dot-danger' : 'status-dot-warning'}">
                         ${item.isMandatory ? 'Обязательный' : 'Необязательный'}
@@ -884,7 +1020,8 @@ function openExportSummaryModal() {
                 </td>
                 <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
             </tr>
-        `).join('');
+            `;
+        }).join('');
     }
 
     modalExportSummary.classList.remove('hidden');
@@ -904,7 +1041,8 @@ function copySummaryToClipboard() {
 
     missingParams.forEach((item, i) => {
         const cat = item.isMandatory ? 'Обязательный' : 'Необязательный';
-        text += `${i + 1}. ${item.name}\n`;
+        const formattedName = formatParamNameWithTag(item);
+        text += `${i + 1}. ${formattedName}\n`;
         text += `   Категория: ${cat}\n`;
         text += `   Пример для заполнения: ${item.sampleFillExample}\n\n`;
     });
@@ -927,7 +1065,8 @@ function triggerCsvExport() {
     let csvContent = "Название параметра;Категория;Пример для заполнения\n";
     missingParams.forEach(p => {
         const categoryStr = p.isMandatory ? "Обязательный" : "Необязательный";
-        csvContent += `"${p.name}";"${categoryStr}";"${p.sampleFillExample}"\n`;
+        const formattedName = formatParamNameWithTag(p);
+        csvContent += `"${formattedName}";"${categoryStr}";"${p.sampleFillExample}"\n`;
     });
 
     downloadFile("\uFEFF" + csvContent, `report_missing_${currentFileName.split('.')[0]}_${currentPlatform}.csv`, 'text/csv;charset=utf-8;');
@@ -940,7 +1079,7 @@ function triggerJsonExport() {
     const missingParams = parsedAnalysisResult.processedParams.filter(
         p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
     ).map(p => ({
-        "Название параметра": p.name,
+        "Название параметра": formatParamNameWithTag(p),
         "Категория": p.isMandatory ? "Обязательный" : "Необязательный",
         "Пример для заполнения": p.sampleFillExample
     }));
