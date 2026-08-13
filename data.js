@@ -20,14 +20,14 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     cian: [
         { id: 'all', name: 'Все типы объектов', val: 'Все типы' },
+        { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
+        { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObjectSale)', val: 'ПСН' },
+        { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
+        { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
         { id: 'business', name: 'Готовый бизнес (businessSale)', val: 'Готовый бизнес' },
         { id: 'building', name: 'Здание (buildingSale)', val: 'Здание' },
         { id: 'land', name: 'Коммерческая земля (commercialLandSale)', val: 'Земля' },
-        { id: 'office', name: 'Офисное помещение (officeSale / officeRent)', val: 'Офис' },
-        { id: 'retail', name: 'Торговая площадь (shoppingAreaSale)', val: 'Торговая' },
-        { id: 'psn', name: 'Помещение свободного назначения (freeAppointmentObject)', val: 'ПСН' },
         { id: 'warehouse', name: 'Складской комплекс (warehouseSale)', val: 'Склад' },
-        { id: 'industry', name: 'Производственный объект (industrySale)', val: 'Производство' },
         { id: 'garage', name: 'Гараж / Паркинг (garageSale)', val: 'Гараж' },
         { id: 'apartments', name: 'Апартаменты (apartmentsSale)', val: 'Апартаменты' }
     ],
@@ -1858,6 +1858,12 @@ const RAW_EXCEL_DATA = {
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
+        "name": "FloorNumber",
+        "category": "Параметры помещения",
+        "mandatory": true,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
         "name": "BargainTerms.Price",
         "category": "Условия сделки",
         "mandatory": true,
@@ -1891,7 +1897,7 @@ const RAW_EXCEL_DATA = {
         "name": "Building.FloorsCount",
         "category": "Здание",
         "mandatory": true,
-        "formula": "IF(E2=\"Здание\",\"Да\",\"Нет\")"
+        "formula": "=\"Да\""
       },
       {
         "name": "Land.Area",
@@ -1956,12 +1962,6 @@ const RAW_EXCEL_DATA = {
       {
         "name": "Undergrounds",
         "category": "Местоположение",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "FloorNumber",
-        "category": "Параметры помещения",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -2086,6 +2086,54 @@ const RAW_EXCEL_DATA = {
         "formula": "=\"Да\""
       },
       {
+        "name": "IsLegalAddressProvided",
+        "category": "Офис / ПСН / Производство",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "WaterPipesCount",
+        "category": "Офис / ПСН / Производство",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BusinessShoppingCenter.Id",
+        "category": "Офис / ПСН / Торговая",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasShopWindows",
+        "category": "ПСН / Торговая",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "FloorMaterialTypeType",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CranageTypes",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "GatesType",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ColumnGrid",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
         "name": "Building.Name",
         "category": "Здание",
         "mandatory": false,
@@ -2166,6 +2214,18 @@ const RAW_EXCEL_DATA = {
       {
         "name": "Building.StatusType",
         "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.AccessType",
+        "category": "Офис / Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Infrastructure",
+        "category": "Инфраструктура здания",
         "mandatory": false,
         "formula": "=\"Да\""
       },

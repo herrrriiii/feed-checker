@@ -1694,6 +1694,12 @@
         "formula": "IF(OR(E2=\"Готовый бизнес\",E2=\"Здание\",E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
       },
       {
+        "name": "FloorNumber",
+        "category": "Параметры помещения",
+        "mandatory": true,
+        "formula": "IF(OR(E2=\"Офис\",E2=\"Торговая\",E2=\"ПСН\",E2=\"Склад\",E2=\"Производство\"),\"Да\",\"Нет\")"
+      },
+      {
         "name": "BargainTerms.Price",
         "category": "Условия сделки",
         "mandatory": true,
@@ -1727,7 +1733,7 @@
         "name": "Building.FloorsCount",
         "category": "Здание",
         "mandatory": true,
-        "formula": "IF(E2=\"Здание\",\"Да\",\"Нет\")"
+        "formula": "=\"Да\""
       },
       {
         "name": "Land.Area",
@@ -1792,12 +1798,6 @@
       {
         "name": "Undergrounds",
         "category": "Местоположение",
-        "mandatory": false,
-        "formula": "=\"Да\""
-      },
-      {
-        "name": "FloorNumber",
-        "category": "Параметры помещения",
         "mandatory": false,
         "formula": "=\"Да\""
       },
@@ -1922,6 +1922,54 @@
         "formula": "=\"Да\""
       },
       {
+        "name": "IsLegalAddressProvided",
+        "category": "Офис / ПСН / Производство",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "WaterPipesCount",
+        "category": "Офис / ПСН / Производство",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "BusinessShoppingCenter.Id",
+        "category": "Офис / ПСН / Торговая",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "HasShopWindows",
+        "category": "ПСН / Торговая",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "FloorMaterialTypeType",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "CranageTypes",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "GatesType",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "ColumnGrid",
+        "category": "Производство / Склад",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
         "name": "Building.Name",
         "category": "Здание",
         "mandatory": false,
@@ -2002,6 +2050,18 @@
       {
         "name": "Building.StatusType",
         "category": "Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.AccessType",
+        "category": "Офис / Здание",
+        "mandatory": false,
+        "formula": "=\"Да\""
+      },
+      {
+        "name": "Building.Infrastructure",
+        "category": "Инфраструктура здания",
         "mandatory": false,
         "formula": "=\"Да\""
       },
