@@ -1120,6 +1120,7 @@ const PARAM_RUSSIAN_MAP = {
     'ObjectBooked': 'Объект забронирован',
     'ReadyBusinessType': 'Тип готового бизнеса',
     'MonthlyIncome.Income': 'Месячная прибыль (готовый бизнес)',
+    'MonthlyIncome.Currency': 'Валюта месячной прибыли',
     'Specialty': 'Возможное назначение объекта',
     'Building.FloorsCount': 'Количество этажей в здании',
     'Land.Area': 'Площадь участка',
