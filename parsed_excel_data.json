@@ -1203,13 +1203,13 @@
         "name": "location.latitude",
         "category": "Местоположение",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "location.longitude",
         "category": "Местоположение",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "sales-agent.phone",
@@ -1292,7 +1292,7 @@
       {
         "name": "url",
         "category": "Общие параметры",
-        "mandatory": false,
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {

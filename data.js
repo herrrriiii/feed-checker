@@ -33,7 +33,7 @@ const PLATFORM_COMMERCIAL_TYPES = {
     ],
     yandex: [
         { id: 'all', name: 'Все типы объектов (All)', val: 'Все типы' },
-        { id: 'apartments', name: 'Апартаменты / Отель (YML / realty)', val: 'Апартаменты' },
+        { id: 'apartments', name: 'Апартаменты / Инвест-отель (YML / Товарный фид)', val: 'Апартаменты' },
         { id: 'office', name: 'Офисные помещения (office)', val: 'Офис' },
         { id: 'retail', name: 'Торговые помещения (retail)', val: 'Торговая' },
         { id: 'free purpose', name: 'Свободного назначения (free purpose)', val: 'ПСН' },
@@ -1368,13 +1368,13 @@ const RAW_EXCEL_DATA = {
         "name": "location.latitude",
         "category": "Местоположение",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "location.longitude",
         "category": "Местоположение",
         "mandatory": false,
-        "formula": "=\"Да\""
+        "formula": "IF(E2=\"Апартаменты\",\"Нет\",\"Да\")"
       },
       {
         "name": "sales-agent.phone",
@@ -1457,7 +1457,7 @@ const RAW_EXCEL_DATA = {
       {
         "name": "url",
         "category": "Общие параметры",
-        "mandatory": false,
+        "mandatory": true,
         "formula": "=\"Да\""
       },
       {
