@@ -1111,13 +1111,13 @@ const RAW_EXCEL_DATA = {
       {
         "name": "sales_info.timezone",
         "category": "Офис продаж",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
         "name": "sales_info.work_days.work_day",
         "category": "Офис продаж",
-        "mandatory": true,
+        "mandatory": false,
         "formula": "=\"Да\""
       },
       {
