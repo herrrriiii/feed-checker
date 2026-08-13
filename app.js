@@ -488,7 +488,7 @@ function evaluateCommercialFormula(formulaStr, selectedType) {
 
     if (formulaStr.includes('IF(')) {
         const typeTokensMap = {
-            'Апартаменты': ['Апартаменты', 'ПСН', 'Гостиница', 'Общепит'],
+            'Апартаменты': ['Апартаменты'],
             'Офис': ['Офис', 'Офисная'],
             'Торговая': ['Торговая', 'Ритейл'],
             'ПСН': ['ПСН'],
@@ -594,6 +594,22 @@ function generateAliasesForParam(paramName) {
 
     if (nameLow.includes('phone') || nameLow.includes('телефон') || nameLow.includes('номер') || nameLow.includes('phones')) {
         aliases.push('Number', 'Phone', 'Phones', 'PhoneSchema', 'PhoneSchema.Number', 'Phones.PhoneSchema.Number', 'phone', 'sales-agent.phone', 'sales_phone', 'number', 'Phones.PhoneSchema', 'PhoneSchema.Phone', 'ContactPhone');
+    }
+
+    if (nameLow.includes('price.value') || nameLow === 'price' || nameLow.includes('цена')) {
+        aliases.push('price', 'price.value', 'value', 'BargainTerms.Price', 'flat.price');
+    }
+
+    if (nameLow.includes('price.currency') || nameLow.includes('currency') || nameLow.includes('валюта')) {
+        aliases.push('currencyId', 'currency', 'price.currency', 'Currency', 'currency-id', 'BargainTerms.Currency');
+    }
+
+    if (nameLow === 'image' || nameLow.includes('image') || nameLow.includes('фото')) {
+        aliases.push('picture', 'image', 'Photos', 'Photos.PhotoSchema', 'picture.url', 'images.image', 'plans.plan');
+    }
+
+    if (nameLow.includes('commercial-type') || nameLow.includes('тип коммерции')) {
+        aliases.push('commercial-type', 'categoryId', 'category', 'ObjectType', 'Specialty');
     }
 
     if (nameLow.includes('vat') || nameLow.includes('ндс')) {
