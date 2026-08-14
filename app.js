@@ -386,6 +386,12 @@ function initModal() {
     btnExportSummary.addEventListener('click', openExportSummaryModal);
     btnCloseSummaryModal.addEventListener('click', () => modalExportSummary.classList.add('hidden'));
     
+    const btnCopyTableDirect = document.getElementById('btn-copy-table-direct');
+    if (btnCopyTableDirect) btnCopyTableDirect.addEventListener('click', copySummaryTableToClipboard);
+
+    const btnCopySummaryTable = document.getElementById('btn-copy-summary-table');
+    if (btnCopySummaryTable) btnCopySummaryTable.addEventListener('click', copySummaryTableToClipboard);
+
     btnCopySummaryText.addEventListener('click', copySummaryToClipboard);
     btnModalCsv.addEventListener('click', triggerCsvExport);
     btnModalJson.addEventListener('click', triggerJsonExport);
@@ -1447,6 +1453,85 @@ function openExportSummaryModal() {
     }
 
     modalExportSummary.classList.remove('hidden');
+}
+
+// Copy as Tab-Separated Table & HTML for Excel / Google Sheets
+function copySummaryTableToClipboard() {
+    if (!parsedAnalysisResult) return;
+
+    const missingParams = parsedAnalysisResult.processedParams.filter(
+        p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
+    );
+
+    if (missingParams.length === 0) {
+        toast.textContent = 'Все параметры присутствуют в фиде!';
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2000);
+        return;
+    }
+
+    // 1. TSV text representation (for Excel / Google Sheets plain paste)
+    let tsv = "Название параметра\tОбязательность\tВарианты выбора\n";
+    missingParams.forEach(p => {
+        const name = formatParamNameWithTag(p);
+        const cat = p.isMandatory ? "Обязательный" : "Необязательный";
+        const optsList = getParamOptionsList(p);
+        const optsStr = optsList.join("\n");
+        // TSV formatting: wrap multiline cells in quotes
+        const formattedOpts = optsStr.includes("\n") ? `"${optsStr.replace(/"/g, '""')}"` : optsStr;
+        tsv += `${name}\t${cat}\t${formattedOpts}\n`;
+    });
+
+    // 2. HTML table representation (for rich paste in Google Sheets, Excel, Word, Notion)
+    let html = `<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: sans-serif;">
+<thead>
+<tr style="background-color: #f3f4f6;">
+  <th style="border: 1px solid #d1d5db; padding: 8px; font-weight: bold; text-align: left;">Название параметра</th>
+  <th style="border: 1px solid #d1d5db; padding: 8px; font-weight: bold; text-align: left;">Обязательность</th>
+  <th style="border: 1px solid #d1d5db; padding: 8px; font-weight: bold; text-align: left;">Варианты выбора</th>
+</tr>
+</thead>
+<tbody>
+${missingParams.map(p => {
+    const name = formatParamNameWithTag(p);
+    const cat = p.isMandatory ? "Обязательный" : "Необязательный";
+    const optsList = getParamOptionsList(p);
+    const optsHtml = optsList.map(o => escapeHtml(o)).join("<br>");
+    return `<tr>
+  <td style="border: 1px solid #e5e7eb; padding: 6px 8px;">${escapeHtml(name)}</td>
+  <td style="border: 1px solid #e5e7eb; padding: 6px 8px;">${escapeHtml(cat)}</td>
+  <td style="border: 1px solid #e5e7eb; padding: 6px 8px;">${optsHtml}</td>
+</tr>`;
+}).join("\n")}
+</tbody>
+</table>`;
+
+    if (navigator.clipboard && window.ClipboardItem) {
+        const textBlob = new Blob([tsv], { type: 'text/plain' });
+        const htmlBlob = new Blob([html], { type: 'text/html' });
+        navigator.clipboard.write([
+            new ClipboardItem({
+                'text/plain': textBlob,
+                'text/html': htmlBlob
+            })
+        ]).then(() => {
+            toast.textContent = `📋 Таблица скопирована (${missingParams.length} строк). Готово для вставки в Excel / Google Таблицы!`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }).catch(() => {
+            navigator.clipboard.writeText(tsv).then(() => {
+                toast.textContent = `📋 Таблица скопирована (${missingParams.length} строк) для Excel`;
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 2500);
+            });
+        });
+    } else {
+        navigator.clipboard.writeText(tsv).then(() => {
+            toast.textContent = `📋 Таблица скопирована (${missingParams.length} строк) для Excel`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        });
+    }
 }
 
 function copySummaryToClipboard() {

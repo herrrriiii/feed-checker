@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=42">
+    <link rel="stylesheet" href="styles.css?v=43">
 </head>
 <body>
     <div class="app-shell">
@@ -192,8 +192,11 @@
                             <span>Скрыть нетребуемые</span>
                         </label>
                         <div class="export-group">
-                            <button class="btn btn-primary btn-sm" id="btn-export-summary">
-                                📋 Отчет недостающих тегов
+                            <button class="btn btn-primary btn-sm" id="btn-copy-table-direct" title="Скопировать таблицу для вставки в Excel или Google Таблицы">
+                                📋 Скопировать для Excel
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="btn-export-summary">
+                                📋 Отчет недостающих
                             </button>
                             <button class="btn btn-secondary btn-sm" id="btn-export-csv">Экспорт CSV</button>
                             <button class="btn btn-secondary btn-sm" id="btn-export-json">Экспорт JSON</button>
@@ -333,13 +336,18 @@
                     </table>
                 </div>
             </div>
-            <div class="modal-footer" style="justify-content: space-between;">
-                <button class="btn btn-secondary btn-sm" id="btn-copy-summary-text">
-                    📋 Скопировать весь текст
-                </button>
+            <div class="modal-footer" style="justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                 <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-secondary btn-sm" id="btn-modal-csv">Скачать CSV (Excel)</button>
-                    <button class="btn btn-primary btn-sm" id="btn-modal-json">Скачать JSON</button>
+                    <button class="btn btn-primary btn-sm" id="btn-copy-summary-table">
+                        📋 Скопировать таблицу (для Excel / Google Таблиц)
+                    </button>
+                    <button class="btn btn-secondary btn-sm" id="btn-copy-summary-text">
+                        📝 Текстом
+                    </button>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-secondary btn-sm" id="btn-modal-csv">Скачать CSV</button>
+                    <button class="btn btn-secondary btn-sm" id="btn-modal-json">Скачать JSON</button>
                 </div>
             </div>
         </div>
@@ -365,7 +373,7 @@
     <!-- Toast Notification -->
     <div class="toast hidden" id="toast">Скопировано в буфер обмена</div>
 
-    <script src="data.js?v=42"></script>
-    <script src="app.js?v=42"></script>
+    <script src="data.js?v=43"></script>
+    <script src="app.js?v=43"></script>
 </body>
 </html>
