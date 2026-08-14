@@ -523,31 +523,81 @@ function evaluateCommercialFormula(formulaStr, selectedType) {
     return true;
 }
 
-// XML Parser
-function parseXMLFeed(xmlString) {
-    if (typeof xmlString === 'string') {
-        xmlString = xmlString.trim();
-        // Fix missing leading '<' (e.g. user pasted "Ads formatVersion="3" ...")
-        if (xmlString.length > 0 && !xmlString.startsWith('<') && xmlString.includes('>')) {
-            xmlString = '<' + xmlString;
-        }
+// XML Sanitizer & Repair Helper
+function sanitizeAndRepairXML(xmlString) {
+    if (!xmlString || typeof xmlString !== 'string') return '';
+    let str = xmlString.trim();
 
-        // Strip browser XML view headers (e.g., "This XML file does not appear to have any style information...")
-        const firstTagIdx = xmlString.search(/<[a-zA-Z?!]/);
-        if (firstTagIdx > 0) {
-            xmlString = xmlString.substring(firstTagIdx);
-        }
+    // 1. Strip browser copy-paste error preambles or XML info banners
+    const firstTagIdx = str.search(/<[a-zA-Z?!]/);
+    if (firstTagIdx > 0) {
+        str = str.substring(firstTagIdx);
     }
 
+    // 2. Fix missing leading '<' (e.g. user pasted "Ads formatVersion="3" ...")
+    if (str.length > 0 && !str.startsWith('<') && str.includes('>')) {
+        str = '<' + str;
+    }
+
+    // 3. Remove XML-incompatible control characters (ASCII 0-8, 11-12, 14-31)
+    str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+
+    // 4. Replace named HTML entities with Unicode characters or standard XML entities
+    const htmlEntityMap = {
+        '&nbsp;': ' ',
+        '&laquo;': '«',
+        '&raquo;': '»',
+        '&mdash;': '—',
+        '&ndash;': '–',
+        '&copy;': '©',
+        '&reg;': '®',
+        '&hellip;': '…',
+        '&bull;': '•',
+        '&deg;': '°',
+        '&plusmn;': '±',
+        '&trade;': '™',
+        '&euro;': '€',
+        '&rub;': '₽',
+        '&sect;': '§',
+        '&times;': '×',
+        '&divide;': '÷'
+    };
+    for (const [entity, replacement] of Object.entries(htmlEntityMap)) {
+        str = str.split(entity).join(replacement);
+    }
+
+    // 5. Replace any naked / unescaped '&' that is not a valid XML entity reference
+    // Valid XML entities: &amp;, &lt;, &gt;, &quot;, &apos;, &#123;, &#x1A;
+    str = str.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/gi, '&amp;');
+
+    return str;
+}
+
+// XML Parser
+function parseXMLFeed(rawXml) {
+    const xmlString = sanitizeAndRepairXML(rawXml);
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+    let xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
     const parseError = xmlDoc.getElementsByTagName("parsererror");
     if (parseError.length > 0) {
-        throw new Error("Ошибка парсинга XML: " + parseError[0].textContent);
+        // Attempt fallback: Parse with forgiving HTML parser
+        const htmlDoc = parser.parseFromString(xmlString, "text/html");
+        if (htmlDoc && htmlDoc.body && htmlDoc.body.children.length > 0) {
+            xmlDoc = htmlDoc;
+        } else {
+            // Aggressive repair: wrap in dummy root
+            const wrapped = `<root>${xmlString}</root>`;
+            const retryDoc = parser.parseFromString(wrapped, "application/xml");
+            if (retryDoc.getElementsByTagName("parsererror").length === 0) {
+                xmlDoc = retryDoc;
+            } else {
+                throw new Error("Ошибка парсинга XML: " + parseError[0].textContent);
+            }
+        }
     }
 
-    const root = xmlDoc.documentElement;
+    const root = xmlDoc.documentElement || xmlDoc.body;
     const xmlPathsMap = new Map();
     let totalObjects = 0;
 
@@ -563,6 +613,13 @@ function parseXMLFeed(xmlString) {
 
     function walkElement(node, currentPath = '') {
         const tag = node.localName || node.tagName.split(':').pop();
+        if (!tag || tag === 'html' || tag === 'body' || tag === 'head') {
+            for (let child of node.children) {
+                walkElement(child, currentPath);
+            }
+            return;
+        }
+
         const path = currentPath ? `${currentPath}.${tag}` : tag;
 
         // Capture text content for both leaf nodes and container tags (e.g. <Description><p>...</p></Description>)
@@ -571,15 +628,17 @@ function parseXMLFeed(xmlString) {
         if (!xmlPathsMap.has(path) && sampleVal) xmlPathsMap.set(path, sampleVal);
         if (!xmlPathsMap.has(tag) && sampleVal) xmlPathsMap.set(tag, sampleVal);
 
-        for (let i = 0; i < node.attributes.length; i++) {
-            const attr = node.attributes[i];
-            const attrPath = `${path}@${attr.name}`;
-            const attrTag = `${tag}@${attr.name}`;
-            if (!xmlPathsMap.has(attrPath)) xmlPathsMap.set(attrPath, attr.value);
-            if (!xmlPathsMap.has(attrTag)) xmlPathsMap.set(attrTag, attr.value);
-            if (!xmlPathsMap.has(attr.name)) xmlPathsMap.set(attr.name, attr.value);
-            if (!xmlPathsMap.has(`@${attr.name}`)) xmlPathsMap.set(`@${attr.name}`, attr.value);
-            if (!xmlPathsMap.has(`${tag} ${attr.name}`)) xmlPathsMap.set(`${tag} ${attr.name}`, attr.value);
+        if (node.attributes) {
+            for (let i = 0; i < node.attributes.length; i++) {
+                const attr = node.attributes[i];
+                const attrPath = `${path}@${attr.name}`;
+                const attrTag = `${tag}@${attr.name}`;
+                if (!xmlPathsMap.has(attrPath)) xmlPathsMap.set(attrPath, attr.value);
+                if (!xmlPathsMap.has(attrTag)) xmlPathsMap.set(attrTag, attr.value);
+                if (!xmlPathsMap.has(attr.name)) xmlPathsMap.set(attr.name, attr.value);
+                if (!xmlPathsMap.has(`@${attr.name}`)) xmlPathsMap.set(`@${attr.name}`, attr.value);
+                if (!xmlPathsMap.has(`${tag} ${attr.name}`)) xmlPathsMap.set(`${tag} ${attr.name}`, attr.value);
+            }
         }
 
         for (let child of node.children) {
