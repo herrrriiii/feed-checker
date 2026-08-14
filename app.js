@@ -993,7 +993,7 @@ function renderOptionalTable(items) {
             <td><span class="status-dot status-dot-warning">Можно добавить</span></td>
             <td><span class="cat-label">${escapeHtml(item.category)}</span></td>
             <td><span class="code-tag">${escapeHtml(formatParamNameWithTag(item))}</span></td>
-            <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
+            <td>${formatParamOptionsHtml(getParamOptionsList(item))}</td>
             <td style="text-align: right;">
                 <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('<${item.aliases[0]}></${item.aliases[0]}>')">
                     Скопировать
@@ -1359,6 +1359,47 @@ const PARAM_RUSSIAN_MAP = {
     'VideoURL': 'Ссылка на видео'
 };
 
+function getParamOptionsList(item, market = currentMarket, platform = currentPlatform) {
+    if (!item) return [];
+    const rawName = item.name;
+    const rusName = PARAM_RUSSIAN_MAP[rawName] || rawName;
+
+    const key = `${market}_${platform}`;
+    const specificMap = (typeof PARAM_OPTIONS_MAP !== 'undefined' && PARAM_OPTIONS_MAP[key]) || {};
+    const yandexCommon = (typeof PARAM_OPTIONS_MAP !== 'undefined' && PARAM_OPTIONS_MAP['yandex_common']) || {};
+
+    if (specificMap[rawName]) return specificMap[rawName];
+    if (specificMap[rusName]) return specificMap[rusName];
+    if (yandexCommon[rawName]) return yandexCommon[rawName];
+    if (yandexCommon[rusName]) return yandexCommon[rusName];
+
+    // Check all sub-maps in PARAM_OPTIONS_MAP as fallback
+    if (typeof PARAM_OPTIONS_MAP !== 'undefined') {
+        for (let subKey of Object.keys(PARAM_OPTIONS_MAP)) {
+            if (PARAM_OPTIONS_MAP[subKey][rawName]) return PARAM_OPTIONS_MAP[subKey][rawName];
+            if (PARAM_OPTIONS_MAP[subKey][rusName]) return PARAM_OPTIONS_MAP[subKey][rusName];
+        }
+    }
+
+    // Fallback to sample fill example
+    const fallbackEx = getSampleFillExample(rawName);
+    return fallbackEx ? [fallbackEx] : ['Произвольное значение'];
+}
+
+function formatParamOptionsHtml(optionsList) {
+    if (!optionsList || optionsList.length === 0) return '<span class="opt-single">—</span>';
+    if (optionsList.length === 1) {
+        return `<span class="opt-single">${escapeHtml(optionsList[0])}</span>`;
+    }
+    return `<ul class="opt-list">${optionsList.map(opt => `<li>${escapeHtml(opt)}</li>`).join('')}</ul>`;
+}
+
+function formatParamOptionsText(optionsList) {
+    if (!optionsList || optionsList.length === 0) return '—';
+    if (optionsList.length === 1) return optionsList[0];
+    return optionsList.map(opt => `     • ${opt}`).join('\n');
+}
+
 function formatParamNameWithTag(item) {
     const rawName = item.name;
     const rusName = PARAM_RUSSIAN_MAP[rawName] || rawName;
@@ -1376,7 +1417,7 @@ function formatParamNameWithTag(item) {
     return rusName;
 }
 
-// Open Export Summary Modal (Shows ONLY missing parameters + Fill Examples + Category)
+// Open Export Summary Modal (Shows ONLY missing parameters + Choices/Options + Category)
 function openExportSummaryModal() {
     if (!parsedAnalysisResult) return;
 
@@ -1390,6 +1431,7 @@ function openExportSummaryModal() {
     } else {
         tableSummaryBody.innerHTML = missingParams.map(item => {
             const formattedName = formatParamNameWithTag(item);
+            const optsList = getParamOptionsList(item);
             return `
             <tr>
                 <td><strong style="color: var(--text-primary);">${escapeHtml(formattedName)}</strong></td>
@@ -1398,7 +1440,7 @@ function openExportSummaryModal() {
                         ${item.isMandatory ? 'Обязательный' : 'Необязательный'}
                     </span>
                 </td>
-                <td><span class="sample-text" style="max-width: 100%; font-size: 0.8rem;" title="${escapeHtml(item.sampleFillExample)}">${escapeHtml(item.sampleFillExample)}</span></td>
+                <td>${formatParamOptionsHtml(optsList)}</td>
             </tr>
             `;
         }).join('');
@@ -1415,20 +1457,30 @@ function copySummaryToClipboard() {
     );
 
     let text = `ОТЧЕТ ПО НЕДОСТАЮЩИМ ПАРАМЕТРАМ В ФИДЕ (${currentFileName})\n`;
-    text += `Направление: ${currentMarket === 'new_developments' ? 'Новостройки' : 'Коммерческая'}\n`;
+    text += `Направление: ${currentMarket === 'new_developments' ? 'Новостройки' : 'Коммерческая недвижимость'}\n`;
     text += `Площадка: ${currentPlatform.toUpperCase()}\n`;
     text += `--------------------------------------------------\n\n`;
 
     missingParams.forEach((item, i) => {
         const cat = item.isMandatory ? 'Обязательный' : 'Необязательный';
         const formattedName = formatParamNameWithTag(item);
+        const optsList = getParamOptionsList(item);
+
         text += `${i + 1}. ${formattedName}\n`;
         text += `   Категория: ${cat}\n`;
-        text += `   Пример для заполнения: ${item.sampleFillExample}\n\n`;
+        text += `   Варианты выбора:\n`;
+        if (optsList.length === 1) {
+            text += `     ${optsList[0]}\n\n`;
+        } else {
+            optsList.forEach(opt => {
+                text += `     • ${opt}\n`;
+            });
+            text += `\n`;
+        }
     });
 
     navigator.clipboard.writeText(text).then(() => {
-        toast.textContent = `Отчет скопирован в буфер обмена (${missingParams.length} элементов)`;
+        toast.textContent = `Отчет скопирован в буфер обмена (${missingParams.length} параметров)`;
         toast.classList.remove('hidden');
         setTimeout(() => toast.classList.add('hidden'), 2500);
     });
@@ -1442,11 +1494,12 @@ function triggerCsvExport() {
         p => p.status === 'MISSING_MANDATORY' || p.status === 'CAN_ADD'
     );
 
-    let csvContent = "Название параметра;Категория;Пример для заполнения\n";
+    let csvContent = "Название параметра;Категория;Варианты выбора\n";
     missingParams.forEach(p => {
         const categoryStr = p.isMandatory ? "Обязательный" : "Необязательный";
         const formattedName = formatParamNameWithTag(p);
-        csvContent += `"${formattedName}";"${categoryStr}";"${p.sampleFillExample}"\n`;
+        const optsStr = getParamOptionsList(p).join(', ');
+        csvContent += `"${formattedName}";"${categoryStr}";"${optsStr}"\n`;
     });
 
     downloadFile("\uFEFF" + csvContent, `report_missing_${currentFileName.split('.')[0]}_${currentPlatform}.csv`, 'text/csv;charset=utf-8;');
@@ -1461,7 +1514,7 @@ function triggerJsonExport() {
     ).map(p => ({
         "Название параметра": formatParamNameWithTag(p),
         "Категория": p.isMandatory ? "Обязательный" : "Необязательный",
-        "Пример для заполнения": p.sampleFillExample
+        "Варианты выбора": getParamOptionsList(p)
     }));
 
     downloadFile(JSON.stringify(missingParams, null, 4), `report_missing_${currentFileName.split('.')[0]}_${currentPlatform}.json`, 'application/json');

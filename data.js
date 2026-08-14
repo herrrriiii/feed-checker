@@ -163,6 +163,881 @@ const SAMPLE_FILL_EXAMPLES = {
     'утп': 'Высокие потолки, витринные окна'
 };
 
+const PARAM_OPTIONS_MAP = {
+  "new_developments_avito": {
+    "Courtyard": [
+      "Закрытая территория",
+      "Детская площадка",
+      "Спортивная площадка"
+    ],
+    "Parking": [
+      "Подземная",
+      "Наземная многоуровневая",
+      "Открытая во дворе",
+      "За шлагбаумом во дворе",
+      "Гостевая"
+    ],
+    "Decoration": [
+      "Без отделки",
+      "Черновая",
+      "Предчистовая",
+      "Чистовая",
+      "Чистовая с мебелью"
+    ],
+    "ViewFromWindows": [
+      "Во двор",
+      "На улицу",
+      "На солнечную сторону"
+    ],
+    "RoomType": [
+      "Изолированные",
+      "Смежные"
+    ],
+    "BathroomMulti": [
+      "Совмещённый",
+      "Раздельный",
+      "Несколько"
+    ],
+    "BalconyOrLoggiaMulti": [
+      "Балкон",
+      "Лоджия",
+      "Несколько"
+    ],
+    "PassengerElevator": [
+      "Нет",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "FreightElevator": [
+      "Нет",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "NDAdditionally": [
+      "Гардеробная",
+      "Панорамные окна",
+      "Терраса",
+      "Французский балкон"
+    ],
+    "SaleOptions": [
+      "Можно в ипотеку",
+      "Продажа доли",
+      "Аукцион"
+    ],
+    "SaleMethod": [
+      "Договор долевого участия (ДДУ)",
+      "Договор уступки права требования",
+      "Договор ЖСК",
+      "Договор купли-продажи"
+    ],
+    "HouseType": [
+      "Кирпичный",
+      "Монолитный",
+      "Панельный",
+      "Блочный",
+      "Монолитно-кирпичный"
+    ],
+    "Status": [
+      "Квартира",
+      "Апартаменты"
+    ],
+    "MarketType": [
+      "Новостройка",
+      "Вторичка"
+    ],
+    "PropertyRights": [
+      "Застройщик",
+      "Собственник",
+      "Агентство"
+    ],
+    "OperationType": [
+      "Продам"
+    ],
+    "Category": [
+      "Квартиры"
+    ],
+    "Rooms": [
+      "Студия",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5+"
+    ],
+    "Floor": [
+      "Числовой этаж (например, 7)"
+    ],
+    "Floors": [
+      "Всего этажей в здании (например, 25)"
+    ],
+    "Square": [
+      "Общая площадь в м² (например, 64.5)"
+    ],
+    "LivingSpace": [
+      "Жилая площадь в м² (например, 32.0)"
+    ],
+    "Price": [
+      "Полная стоимость в рублях (например, 12500000)"
+    ],
+    "Description": [
+      "Подробное описание объекта и ЖК"
+    ],
+    "Images": [
+      "Ссылки на фотографии планировки и рендеров"
+    ],
+    "ContactPhone": [
+      "Номер телефона отдела продаж (+7XXXXXXXXXX)"
+    ],
+    "ManagerName": [
+      "Имя менеджера или Отдел продаж"
+    ],
+    "NewDevelopmentId": [
+      "Идентификатор ЖК в базе Авито (число)"
+    ],
+    "DduLink": [
+      "Ссылка на архив/документ ДДУ"
+    ],
+    "VideoURL": [
+      "Ссылка на видеоролик объекта / ЖК"
+    ]
+  },
+  "commercial_avito": {
+    "ObjectType": [
+      "Офисное помещение",
+      "Торговое помещение",
+      "Помещение свободного назначения",
+      "Складское помещение",
+      "Производственное помещение",
+      "Здание",
+      "Земельный участок",
+      "Готовый бизнес",
+      "Гараж",
+      "Помещение общественного питания",
+      "Гостиница",
+      "Автосервис",
+      "Кладовая"
+    ],
+    "TransactionType": [
+      "Продажа",
+      "Аренда",
+      "Прямая аренда",
+      "Субаренда"
+    ],
+    "PriceType": [
+      "за всё",
+      "за м²"
+    ],
+    "Entrance": [
+      "С улицы",
+      "Со двора",
+      "Отдельный вход",
+      "Общий вход"
+    ],
+    "Layout": [
+      "Открытая (open space)",
+      "Кабинетная",
+      "Коридорная",
+      "Смешанная"
+    ],
+    "Decoration": [
+      "Без отделки",
+      "Черновая",
+      "Чистовая",
+      "Офисная отделка",
+      "Требуется ремонт"
+    ],
+    "Heating": [
+      "Центральное",
+      "Автономное",
+      "Индивидуальное",
+      "Нет"
+    ],
+    "ParkingType": [
+      "В здании",
+      "Подземная",
+      "Наземная",
+      "Открытая во дворе",
+      "Охраняемая"
+    ],
+    "BuildingType": [
+      "Бизнес-центр",
+      "Торговый центр",
+      "Жилой дом",
+      "Административное здание",
+      "Отдельно стоящее здание",
+      "Складской комплекс"
+    ],
+    "BuildingClass": [
+      "A",
+      "B",
+      "C"
+    ],
+    "DistanceFromRoad": [
+      "Первая линия",
+      "Вторая линия и дальше"
+    ],
+    "ReadinessStatus": [
+      "Проект",
+      "Строится",
+      "В эксплуатации"
+    ],
+    "PlacementType": [
+      "Для уличной торговли",
+      "В торговом комплексе"
+    ],
+    "ObjectBooked": [
+      "Забронировано",
+      "Свободно"
+    ],
+    "Category": [
+      "Коммерческая недвижимость"
+    ],
+    "OperationType": [
+      "Продам",
+      "Сдам"
+    ],
+    "PropertyRights": [
+      "Собственник",
+      "Застройщик",
+      "Агентство"
+    ],
+    "Square": [
+      "Общая площадь помещения в м²"
+    ],
+    "Price": [
+      "Стоимость объекта в рублях"
+    ],
+    "PowerGridCapacity": [
+      "Электрическая мощность в кВт (например, 50)"
+    ],
+    "PowerGridAdditionally": [
+      "Возможность увеличения мощности (Да / Нет)"
+    ],
+    "Lighting": [
+      "Есть",
+      "Нет"
+    ],
+    "PowerSockets": [
+      "Есть",
+      "Нет"
+    ],
+    "ParkingAdditionally": [
+      "Бесплатная",
+      "Платная",
+      "Охраняемая"
+    ],
+    "ParkingSpaces": [
+      "Количество машиномест (число)"
+    ],
+    "CarAccess": [
+      "Легковой",
+      "Грузовой",
+      "Пандус"
+    ],
+    "FloorMaterialTypeType": [
+      "Бетонный",
+      "Антипыль",
+      "Плитка",
+      "Наливной",
+      "Асфальт"
+    ],
+    "GatesType": [
+      "Доковые",
+      "Въездные нулевой уровень",
+      "Пандус"
+    ],
+    "ColumnGrid": [
+      "Сетка колонн (например, 6x6 м, 12x18 м)"
+    ],
+    "WaterPipesCount": [
+      "Количество мокрых точек (число)"
+    ],
+    "HasShopWindows": [
+      "Да (витринные окна)",
+      "Нет"
+    ],
+    "HasFurniture": [
+      "Есть",
+      "Нет"
+    ],
+    "HasEquipment": [
+      "Есть",
+      "Нет"
+    ]
+  },
+  "new_developments_cian": {
+    "FlatRoomsCount": [
+      "0 (студия)",
+      "1 (однокомнатная)",
+      "2 (двухкомнатная)",
+      "3 (трёхкомнатная)",
+      "4 (четырёхкомнатная)",
+      "5 (пятикомнатная)"
+    ],
+    "IsEuroFlat": [
+      "true (европланировка)",
+      "false (классическая)"
+    ],
+    "IsApartments": [
+      "true (апартаменты)",
+      "false (квартира)"
+    ],
+    "IsPenthouse": [
+      "true (пентхаус)",
+      "false (нет)"
+    ],
+    "Decoration": [
+      "without (без отделки)",
+      "rough (черновая)",
+      "preFine (предчистовая)",
+      "fine (чистовая)",
+      "fineWithFurniture (чистовая с мебелью)",
+      "turnkey (под ключ)",
+      "unknown (не указано)"
+    ],
+    "ViewFromWindows": [
+      "yard (во двор)",
+      "street (на улицу)",
+      "yardAndStreet (во двор и на улицу)"
+    ],
+    "RoomType": [
+      "separate (изолированные)",
+      "combined (смежные)",
+      "both (смежно-изолированные)"
+    ],
+    "Building.MaterialType": [
+      "brick (кирпичный)",
+      "monolith (монолитный)",
+      "panel (панельный)",
+      "monolithBrick (монолитно-кирпичный)"
+    ],
+    "Building.Parking.Type": [
+      "ground (наземная)",
+      "multilevel (многоуровневая)",
+      "open (открытая)",
+      "roof (на крыше)",
+      "underground (подземная)"
+    ],
+    "Building.Deadline.Quarter": [
+      "first (1 кв.)",
+      "second (2 кв.)",
+      "third (3 кв.)",
+      "fourth (4 кв.)"
+    ],
+    "Building.IsDelivered": [
+      "true (дом сдан)",
+      "false (строится)"
+    ],
+    "Building.HasRamp": [
+      "true (пандус есть)",
+      "false (нет)"
+    ],
+    "Building.HasBarrier": [
+      "true (шлагбаум есть)",
+      "false (нет)"
+    ],
+    "Building.IsYardCarFree": [
+      "true (двор без машин)",
+      "false (нет)"
+    ],
+    "Building.HasConcierge": [
+      "true (консьерж есть)",
+      "false (нет)"
+    ],
+    "BargainTerms.Currency": [
+      "rur (рубли)",
+      "usd (доллары)",
+      "eur (евро)"
+    ],
+    "BargainTerms.SaleType": [
+      "free (свободная)",
+      "alternative (альтернативная)",
+      "ddu (ДДУ)"
+    ],
+    "Category": [
+      "flatSale (квартира в новостройке)"
+    ],
+    "TotalArea": [
+      "Общая площадь в м²"
+    ],
+    "LivingArea": [
+      "Жилая площадь в м²"
+    ],
+    "FloorNumber": [
+      "Номер этажа"
+    ],
+    "Building.FloorsCount": [
+      "Количество этажей в доме"
+    ],
+    "JKSchema.Id": [
+      "Идентификатор ЖК в базе Циан"
+    ],
+    "ApartmentNumber": [
+      "Номер квартиры на площадке"
+    ],
+    "BalconiesCount": [
+      "Количество балконов (число)"
+    ],
+    "LoggiasCount": [
+      "Количество лоджий (число)"
+    ],
+    "SeparateWcsCount": [
+      "Количество раздельных санузлов (число)"
+    ],
+    "CombinedWcsCount": [
+      "Количество совмещенных санузлов (число)"
+    ],
+    "PassengerLiftsCount": [
+      "Количество пассажирских лифтов"
+    ],
+    "CargoLiftsCount": [
+      "Количество грузовых лифтов"
+    ],
+    "CeilingHeight": [
+      "Высота потолков в метрах (например, 3.1)"
+    ]
+  },
+  "commercial_cian": {
+    "Category": [
+      "officeSale (Офис)",
+      "freeAppointmentObjectSale (ПСН)",
+      "shoppingAreaSale (Торговая)",
+      "warehouseSale (Склад)",
+      "businessSale (Готовый бизнес)",
+      "commercialLandSale (Земля)",
+      "buildingSale (Здание)",
+      "garageSale (Гараж)"
+    ],
+    "BargainTerms.VatType": [
+      "included (НДС включен)",
+      "notIncluded (НДС не включен)",
+      "usn (УСН)"
+    ],
+    "BargainTerms.ContractType": [
+      "sale (продажа)",
+      "rent (прямая аренда)",
+      "subrent (субаренда)"
+    ],
+    "ConditionType": [
+      "typical (типовой)",
+      "euro (евроремонт)",
+      "cosmetic (косметический)",
+      "design (дизайнерский)",
+      "major (капитальный)",
+      "no (без ремонта)"
+    ],
+    "Layout": [
+      "cabinet (кабинетная)",
+      "corridor (коридорная)",
+      "mixed (смешанная)",
+      "openSpace (открытое пространство)"
+    ],
+    "InputType": [
+      "commonStreet (общий с улицы)",
+      "commonYard (общий со двора)",
+      "separateStreet (отдельный с улицы)",
+      "separateYard (отдельный со двора)"
+    ],
+    "Building.ClassType": [
+      "a",
+      "aPlus",
+      "b",
+      "bMinus",
+      "bPlus",
+      "c",
+      "d"
+    ],
+    "Building.HouseLineType": [
+      "first (первая линия)",
+      "second (вторая линия)",
+      "other (другая)"
+    ],
+    "Building.AccessType": [
+      "free (свободный доступ)",
+      "passSystem (пропускной режим)"
+    ],
+    "Building.StatusType": [
+      "operational (действующее)",
+      "project (проект)",
+      "underConstruction (строящееся)"
+    ],
+    "Building.MaterialType": [
+      "brick (кирпичный)",
+      "monolith (монолитный)",
+      "panel (панельный)"
+    ],
+    "GatesType": [
+      "zeroLevel (в ноль)",
+      "dockType (док)",
+      "ramp (пандус)"
+    ],
+    "PlacementType": [
+      "shoppingCenter (торговый центр)",
+      "streetRetail (стрит-ритейл)"
+    ],
+    "Land.AreaUnitType": [
+      "sotka (сотка)",
+      "hectare (гектар)"
+    ],
+    "Land.Status": [
+      "owned (собственность)",
+      "rent (аренда)"
+    ],
+    "Land.DrivewayType": [
+      "asphalt (асфальт)",
+      "ground (грунт)",
+      "no (нет)"
+    ],
+    "Land.Electricity": [
+      "border (по границе)",
+      "location (на участке)",
+      "no (нет)"
+    ],
+    "Land.Gas": [
+      "border (по границе)",
+      "location (на участке)",
+      "no (нет)"
+    ],
+    "Land.Water": [
+      "border (по границе)",
+      "location (на участке)",
+      "no (нет)"
+    ],
+    "Land.Drainage": [
+      "border (по границе)",
+      "location (на участке)",
+      "no (нет)"
+    ],
+    "Garage.Type": [
+      "garage (гараж)",
+      "parkingPlace (машиноместо)",
+      "box (бокс)"
+    ],
+    "Garage.GarageType": [
+      "builtIn (встроенный)",
+      "capital (капитальный)",
+      "metal (металлический)"
+    ],
+    "Garage.Status": [
+      "byTrust (по доверенности)",
+      "cooperative (кооператив)",
+      "ownership (собственность)"
+    ],
+    "FloorMaterialTypeType": [
+      "asphalt (асфальт)",
+      "concrete (бетон)",
+      "ironConcrete (железобетон)",
+      "polymer (полимерный)",
+      "antiDust (антипыль)",
+      "selfLeveling (наливной)",
+      "tiles (плитка)"
+    ],
+    "Auction": [
+      "Ставка продвижения (Double: 10, 20, 30...)"
+    ],
+    "AuctionPerClick": [
+      "Ставка за клик (Double: 1, 2, 5...)"
+    ],
+    "Specialty": [
+      "Специализация объекта (office, bank, retail, medical...)"
+    ],
+    "ReadyBusinessType": [
+      "readyBusiness (готовый бизнес)",
+      "rentalBusiness (арендный бизнес)"
+    ],
+    "HasSafeCustody": [
+      "true (есть ответственное хранение)",
+      "false (нет)"
+    ],
+    "IsCustoms": [
+      "true (таможенный склад)",
+      "false (нет)"
+    ],
+    "HasTransportServices": [
+      "true (транспортные услуги есть)",
+      "false (нет)"
+    ],
+    "HasVideoSurveillance": [
+      "true (видеонаблюдение)",
+      "false (нет)"
+    ],
+    "HasHourSecurity": [
+      "true (круглосуточная охрана)",
+      "false (нет)"
+    ],
+    "HasAutomaticGates": [
+      "true (автоматические ворота)",
+      "false (нет)"
+    ],
+    "HasEntryByPass": [
+      "true (въезд по пропускам)",
+      "false (нет)"
+    ],
+    "HasBasement": [
+      "true (подвал / погреб)",
+      "false (нет)"
+    ]
+  },
+  "yandex_common": {
+    "commercial-type": [
+      "office (Офис)",
+      "retail (Торговая)",
+      "free purpose (ПСН)",
+      "warehouse (Склад)",
+      "industry (Производство)",
+      "public catering (Общепит)",
+      "auto repair (Автосервис)",
+      "business (Готовый бизнес)",
+      "legal address (Юридический адрес)",
+      "land (Земля)",
+      "hotel (Гостиница)"
+    ],
+    "commercial-building-type": [
+      "business center (Бизнес-центр)",
+      "warehouse (Складской комплекс)",
+      "shopping center (ТЦ)",
+      "residential building (Жилой дом)",
+      "detached (Отдельно стоящее здание)",
+      "standalone",
+      "other"
+    ],
+    "building-state": [
+      "built (построен)",
+      "hand-over (сдан в эксплуатацию)",
+      "unfinished (строится)"
+    ],
+    "renovation": [
+      "дизайнерский",
+      "евроремонт",
+      "косметический",
+      "требует ремонта",
+      "хороший",
+      "черновая отделка"
+    ],
+    "entrance-type": [
+      "separate (отдельный)",
+      "common (общий)"
+    ],
+    "window-type": [
+      "show-windows (витринные)",
+      "small (маленькие)",
+      "standard (стандартные)"
+    ],
+    "window-view": [
+      "yard (во двор)",
+      "street (на улицу)",
+      "yard and street (во двор и на улицу)"
+    ],
+    "office-class": [
+      "A",
+      "A+",
+      "B",
+      "B+",
+      "C",
+      "C+"
+    ],
+    "floor-covering": [
+      "carpet (ковролин)",
+      "laminate (ламинат)",
+      "linoleum (линолеум)",
+      "parquet (паркет)"
+    ],
+    "purpose-warehouse": [
+      "alcohol (алкогольный)",
+      "pharmaceutical (фармацевтический)",
+      "vegetable store (овощехранилище)"
+    ],
+    "deal-status": [
+      "primary (первичная продажа)",
+      "reassignment (переуступка)",
+      "direct (прямая продажа)"
+    ],
+    "taxation-form": [
+      "ndfl (НДФЛ)",
+      "usn (УСН)",
+      "osn (ОСНО)",
+      "envd (ЕНВД)"
+    ],
+    "type": [
+      "продажа",
+      "аренда"
+    ],
+    "category": [
+      "commercial (коммерческая)",
+      "квартира",
+      "новостройка"
+    ],
+    "open-plan": [
+      "1 (свободная планировка)",
+      "0 (нет)"
+    ],
+    "self-selection-telecom": [
+      "1 (выбор провайдера)",
+      "0 (нет)"
+    ],
+    "room-furniture": [
+      "1 (есть мебель)",
+      "0 (нет)"
+    ],
+    "guarded-building": [
+      "1 (охраняемое здание)",
+      "0 (нет)"
+    ],
+    "access-control-system": [
+      "1 (пропускная система)",
+      "0 (нет)"
+    ],
+    "twenty-four-seven": [
+      "1 (доступ 24/7)",
+      "0 (нет)"
+    ],
+    "eating-facilities": [
+      "1 (общепит в здании)",
+      "0 (нет)"
+    ],
+    "responsible-storage": [
+      "1 (ответственное хранение)",
+      "0 (нет)"
+    ],
+    "freight-elevator": [
+      "1 (грузовой лифт)",
+      "0 (нет)"
+    ],
+    "truck-entrance": [
+      "1 (подъезд фуры)",
+      "0 (нет)"
+    ],
+    "ramp": [
+      "1 (пандус)",
+      "0 (нет)"
+    ],
+    "railway": [
+      "1 (жд ветка)",
+      "0 (нет)"
+    ],
+    "office-warehouse": [
+      "1 (офис на складе)",
+      "0 (нет)"
+    ],
+    "open-area": [
+      "1 (открытая площадка)",
+      "0 (нет)"
+    ],
+    "service-three-pl": [
+      "1 (3PL услуги)",
+      "0 (нет)"
+    ]
+  },
+  "new_developments_domclick": {
+    "flat.housing_type": [
+      "0 (квартира)",
+      "1 (апартаменты)"
+    ],
+    "flat.renovation": [
+      "без отделки",
+      "черновая",
+      "предчистовая",
+      "чистовая",
+      "да",
+      "нет"
+    ],
+    "flat.room": [
+      "0 (студия)",
+      "1 (однокомнатная)",
+      "2 (двухкомнатная)",
+      "3 (трёхкомнатная)",
+      "4 (четырёхкомнатная)",
+      "5 (пятикомнатная)"
+    ],
+    "flat.layout_type": [
+      "free (свободная планировка)",
+      "standard (стандартная)"
+    ],
+    "flat.window_view": [
+      "во двор",
+      "на улицу",
+      "во двор и на улицу"
+    ],
+    "flat.booking": [
+      "0 (свободна к продаже)",
+      "1 (забронирована)"
+    ],
+    "flat.euro_plan": [
+      "1 (европланировка)",
+      "0 (стандартная)"
+    ],
+    "building.building_state": [
+      "built (построен, но не сдан)",
+      "hand_over (сдан в эксплуатацию)",
+      "unfinished (строится)",
+      "ready (построен и сдан)"
+    ],
+    "building.fz_214": [
+      "true / 1 (соответствует 214-ФЗ)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.parking": [
+      "подземная",
+      "наземная",
+      "нет"
+    ],
+    "infrastructure.security": [
+      "true / 1 (есть охрана)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.fenced_area": [
+      "true / 1 (огороженная территория)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.sports_ground": [
+      "true / 1 (спортивная площадка)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.playground": [
+      "true / 1 (детская площадка)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.school": [
+      "true / 1 (школа на территории)",
+      "false / 0 (нет)"
+    ],
+    "infrastructure.kindergarten": [
+      "true / 1 (детский сад)",
+      "false / 0 (нет)"
+    ],
+    "videos.video.type": [
+      "rutube",
+      "vk"
+    ],
+    "sales_info.work_days.work_day.day": [
+      "пн",
+      "вт",
+      "ср",
+      "чт",
+      "пт",
+      "сб",
+      "вс"
+    ],
+    "condition.kind": [
+      "cash (наличные)",
+      "mortgage (ипотека)"
+    ],
+    "discounts.discount.type": [
+      "скидки на жилье",
+      "бонусы и подарки",
+      "программы с господдержкой",
+      "скидки для профессий и семей",
+      "trade-in",
+      "рассрочка и гибкие платежи",
+      "другие акции"
+    ]
+  }
+};
+
 const RAW_EXCEL_DATA = {
   "new_developments": {
     "yandex": [

@@ -790,7 +790,6 @@ body {
     gap: 8px;
 }
 
-/* Toast */
 .toast {
     position: fixed;
     bottom: 20px;
@@ -803,6 +802,24 @@ body {
     font-weight: 500;
     z-index: 2000;
     box-shadow: var(--shadow-md);
+}
+
+.opt-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    list-style-type: disc;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.opt-list li {
+    margin-bottom: 2px;
+}
+
+.opt-single {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
 }
 
 .hidden { display: none !important; }
