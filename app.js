@@ -847,7 +847,7 @@ function analyzeAndRender() {
                 targetType = 'Склад';
             } else if (combinedTypeStr.includes('shopping') || combinedTypeStr.includes('retail') || combinedTypeStr.includes('торгов')) {
                 targetType = 'Торговая';
-            } else if (combinedTypeStr.includes('free purpose') || combinedTypeStr.includes('free') || combinedTypeStr.includes('psn') || combinedTypeStr.includes('псн')) {
+            } else if (combinedTypeStr.includes('freeappointment') || combinedTypeStr.includes('free purpose') || combinedTypeStr.includes('free') || combinedTypeStr.includes('psn') || combinedTypeStr.includes('псн')) {
                 targetType = 'ПСН';
             } else if (combinedTypeStr.includes('industry') || combinedTypeStr.includes('manufactur') || combinedTypeStr.includes('производств')) {
                 targetType = 'Производство';
