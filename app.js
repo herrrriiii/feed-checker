@@ -416,7 +416,9 @@ function getSampleFillExample(paramName) {
     if (!paramName) return 'Пример значения';
     const n = paramName.toLowerCase();
 
-    for (let [k, exampleVal] of Object.entries(SAMPLE_FILL_EXAMPLES)) {
+    const examplesMap = (typeof SAMPLE_FILL_EXAMPLES !== 'undefined') ? SAMPLE_FILL_EXAMPLES : {};
+
+    for (let [k, exampleVal] of Object.entries(examplesMap)) {
         if (n.includes(k)) return exampleVal;
     }
 
