@@ -1451,21 +1451,43 @@ function getParamOptionsList(item, market = currentMarket, platform = currentPla
     if (!item) return [];
     const rawName = item.name;
     const rusName = PARAM_RUSSIAN_MAP[rawName] || rawName;
+    const aliases = item.aliases || [];
 
     const key = `${market}_${platform}`;
     const specificMap = (typeof PARAM_OPTIONS_MAP !== 'undefined' && PARAM_OPTIONS_MAP[key]) || {};
-    const yandexCommon = (typeof PARAM_OPTIONS_MAP !== 'undefined' && PARAM_OPTIONS_MAP['yandex_common']) || {};
 
-    if (specificMap[rawName]) return specificMap[rawName];
-    if (specificMap[rusName]) return specificMap[rusName];
-    if (yandexCommon[rawName]) return yandexCommon[rawName];
-    if (yandexCommon[rusName]) return yandexCommon[rusName];
+    const candidates = [rawName, rusName, ...aliases];
+
+    for (let c of candidates) {
+        if (!c) continue;
+        if (specificMap[c]) return specificMap[c];
+    }
+
+    // Try case-insensitive / normalized in specificMap
+    const clean = str => str.toLowerCase().replace(/[^a-zа-я0-9]/g, '');
+    for (let c of candidates) {
+        if (!c) continue;
+        const targetClean = clean(c);
+        for (let [mk, mv] of Object.entries(specificMap)) {
+            if (clean(mk) === targetClean) return mv;
+        }
+    }
 
     // Check all sub-maps in PARAM_OPTIONS_MAP as fallback
     if (typeof PARAM_OPTIONS_MAP !== 'undefined') {
         for (let subKey of Object.keys(PARAM_OPTIONS_MAP)) {
-            if (PARAM_OPTIONS_MAP[subKey][rawName]) return PARAM_OPTIONS_MAP[subKey][rawName];
-            if (PARAM_OPTIONS_MAP[subKey][rusName]) return PARAM_OPTIONS_MAP[subKey][rusName];
+            const subMap = PARAM_OPTIONS_MAP[subKey];
+            for (let c of candidates) {
+                if (!c) continue;
+                if (subMap[c]) return subMap[c];
+            }
+            for (let c of candidates) {
+                if (!c) continue;
+                const targetClean = clean(c);
+                for (let [mk, mv] of Object.entries(subMap)) {
+                    if (clean(mk) === targetClean) return mv;
+                }
+            }
         }
     }
 
