@@ -490,37 +490,50 @@ function getSampleFillExample(paramName) {
 // Evaluate Commercial Formula
 function evaluateCommercialFormula(formulaStr, selectedType) {
     if (!formulaStr || formulaStr === '="Да"') return true;
-    if (selectedType === 'Все типы') return true;
+    if (!selectedType || selectedType === 'Все типы') return true;
 
-    if (formulaStr.includes('IF(')) {
-        const typeTokensMap = {
-            'Апартаменты': ['Апартаменты'],
-            'Офис': ['Офис', 'Офисная'],
-            'Торговая': ['Торговая', 'Ритейл'],
-            'ПСН': ['ПСН'],
-            'Склад': ['Склад'],
-            'Производство': ['Производство'],
-            'Земля': ['Земля'],
-            'Готовый бизнес': ['Готовый бизнес'],
-            'Гараж': ['Гараж'],
-            'Общепит': ['Общепит'],
-            'Гостиница': ['Гостиница'],
-            'Автосервис': ['Автосервис'],
-            'Здание': ['Здание'],
-            'Кладовая': ['Кладовая']
-        };
+    const typeTokensMap = {
+        'Апартаменты': ['Апартаменты', 'apart'],
+        'Офис': ['Офис', 'Офисная', 'office'],
+        'Торговая': ['Торговая', 'Ритейл', 'retail', 'shopping'],
+        'ПСН': ['ПСН', 'free purpose', 'psn'],
+        'Склад': ['Склад', 'warehouse'],
+        'Производство': ['Производство', 'industry', 'manufactur'],
+        'Земля': ['Земля', 'land'],
+        'Готовый бизнес': ['Готовый бизнес', 'business'],
+        'Гараж': ['Гараж', 'garage', 'parking'],
+        'Общепит': ['Общепит', 'catering', 'restaurant'],
+        'Гостиница': ['Гостиница', 'hotel'],
+        'Автосервис': ['Автосервис', 'auto repair'],
+        'Здание': ['Здание', 'building'],
+        'Кладовая': ['Кладовая', 'storage', 'pantry']
+    };
 
-        const tokens = typeTokensMap[selectedType] || [selectedType];
-        const hasType = tokens.some(t => formulaStr.includes(`"${t}"`));
+    const tokens = typeTokensMap[selectedType] || [selectedType];
 
-        if (formulaStr.includes('"Нет","Да"') || formulaStr.includes('"Нет", "Да"') || formulaStr.includes('"Нет","Да"')) {
-            return !hasType;
-        } else {
-            return hasType;
+    // Check negation patterns: <>"Земля", <>"Гараж", etc.
+    if (formulaStr.includes('<>')) {
+        for (let t of tokens) {
+            if (formulaStr.includes(`<>"${t}"`) || formulaStr.includes(`<>${t}`) || formulaStr.includes(`<>'${t}'`)) {
+                return false;
+            }
         }
+        return true;
     }
 
-    return true;
+    // Check positive inclusion: ="TypeName"
+    const hasType = tokens.some(t =>
+        formulaStr.includes(`="${t}"`) ||
+        formulaStr.includes(`='${t}'`) ||
+        formulaStr.includes(`=${t}`) ||
+        formulaStr.includes(`"${t}"`)
+    );
+
+    if (formulaStr.includes('"Нет","Да"') || formulaStr.includes('"Нет", "Да"') || formulaStr.includes('"Нет","Да"')) {
+        return !hasType;
+    }
+
+    return hasType;
 }
 
 // XML Sanitizer & Repair Helper
@@ -756,26 +769,39 @@ function analyzeAndRender() {
 
         const { xmlPathsMap, totalObjects } = parseXMLFeed(rawXmlText);
 
-        // Auto-detect Market & Platform from XML tags if obvious
-        const categoryVal = (xmlPathsMap.get('Category') || xmlPathsMap.get('category') || xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || '').toLowerCase();
+        // Auto-detect Market & Platform from XML tags
+        const categoryVal = (xmlPathsMap.get('Category') || xmlPathsMap.get('category') || '').toLowerCase();
+        const objectTypeVal = (xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || xmlPathsMap.get('Garage.Type') || xmlPathsMap.get('StorageRoomType') || '').toLowerCase();
         const marketTypeVal = (xmlPathsMap.get('MarketType') || '').toLowerCase();
 
+        // Check if explicitly a Commercial feed
+        const commercialCats = [
+            'коммерческая', 'commercial', 'officesale', 'garagesale', 'warehousesale', 'businesssale',
+            'commerciallandsale', 'buildingsale', 'shoppingareasale', 'freeappointmentobjectsale',
+            'officerent', 'garagerent', 'warehouserent', 'businessrent', 'commerciallandrent', 'buildingrent', 'shoppingarearent'
+        ];
+        const commercialObjectTypes = [
+            'офис', 'склад', 'торгов', 'псн', 'производств', 'кладов', 'гараж', 'машиномест',
+            'общепит', 'гостиниц', 'автосервис', 'здание', 'retail', 'warehouse', 'free purpose', 'office'
+        ];
+
+        const isCommercialFeed = commercialCats.some(k => categoryVal.includes(k)) ||
+            commercialObjectTypes.some(k => objectTypeVal.includes(k)) ||
+            xmlPathsMap.has('commercial-type') || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType') ||
+            rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop');
+
         // Check if explicitly a New Developments (Новостройки) feed
-        const isExplicitNewDev = categoryVal.includes('квартир') || marketTypeVal.includes('новостройк') || xmlPathsMap.has('NewDevelopmentId') || xmlPathsMap.has('JKSchema') || xmlPathsMap.has('complex.id') || xmlPathsMap.has('complexes') || xmlPathsMap.has('complex') || xmlPathsMap.has('flats');
+        const isExplicitNewDev = !isCommercialFeed && (
+            categoryVal.includes('квартир') || marketTypeVal.includes('новостройк') ||
+            xmlPathsMap.has('NewDevelopmentId') || xmlPathsMap.has('JKSchema') ||
+            xmlPathsMap.has('complex.id') || xmlPathsMap.has('complexes') || xmlPathsMap.has('complex') || xmlPathsMap.has('flats')
+        );
 
-        let isCommercialFeed = false;
-
-        if (!isExplicitNewDev) {
-            isCommercialFeed = ['garagesale', 'officesale', 'warehousesale', 'businesssale', 'commerciallandsale', 'buildingsale', 'shoppingareasale', 'freeappointmentobjectsale', 'commercial', 'коммерческая'].some(k => categoryVal.includes(k)) ||
-                xmlPathsMap.has('commercial-type') || (xmlPathsMap.has('ObjectType') && !categoryVal.includes('квартир')) || xmlPathsMap.has('Garage.Type') || xmlPathsMap.has('StorageRoomType') ||
-                rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop');
-        }
-
-        if (isCommercialFeed && currentMarket !== 'commercial') {
+        if (isCommercialFeed) {
             currentMarket = 'commercial';
             commercialTypeGroup.classList.remove('hidden');
             segmentBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-market') === 'commercial'));
-        } else if (isExplicitNewDev && currentMarket !== 'new_developments') {
+        } else if (isExplicitNewDev) {
             currentMarket = 'new_developments';
             commercialTypeGroup.classList.add('hidden');
             segmentBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-market') === 'new_developments'));
@@ -786,69 +812,66 @@ function analyzeAndRender() {
             if (currentPlatform !== 'domclick') {
                 currentPlatform = 'domclick';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'domclick'));
-                updateCommercialTypeDropdown();
             }
         } else if (rawXmlText.includes('realty-feed') || xmlPathsMap.has('commercial-type') || xmlPathsMap.has('generation-date') || xmlPathsMap.has('yandex-building-id') || rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || xmlPathsMap.has('shop')) {
             if (currentPlatform !== 'yandex') {
                 currentPlatform = 'yandex';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'yandex'));
-                updateCommercialTypeDropdown();
             }
-        } else if (rawXmlText.includes('target="Avito.ru"') || xmlPathsMap.has('AdStatus') || xmlPathsMap.has('ObjectType')) {
+        } else if (rawXmlText.includes('target="Avito.ru"') || xmlPathsMap.has('AdStatus') || xmlPathsMap.has('ObjectType') || categoryVal.includes('коммерческая')) {
             if (currentPlatform !== 'avito') {
                 currentPlatform = 'avito';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'avito'));
-                updateCommercialTypeDropdown();
             }
         } else if (xmlPathsMap.has('Feed_Version') || xmlPathsMap.has('JKSchema') || categoryVal.includes('sale') || categoryVal.includes('rent')) {
             if (currentPlatform !== 'cian') {
                 currentPlatform = 'cian';
                 platformBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-platform') === 'cian'));
-                updateCommercialTypeDropdown();
             }
         }
 
         // Auto-detect Commercial ObjectType from feed
         if (currentMarket === 'commercial') {
-            const objectTypeVal = (xmlPathsMap.get('ObjectType') || xmlPathsMap.get('commercial-type') || xmlPathsMap.get('Garage.Type') || xmlPathsMap.get('StorageRoomType') || xmlPathsMap.get('category') || xmlPathsMap.get('Category') || '').toLowerCase();
-            const rawCat = objectTypeVal;
+            updateCommercialTypeDropdown();
+
+            const combinedTypeStr = `${categoryVal} ${objectTypeVal} ${(xmlPathsMap.get('Status') || '')}`.toLowerCase();
             let targetType = '';
 
-            if (rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || (xmlPathsMap.get('Status') || '').toLowerCase().includes('апартаменты') || rawCat.includes('apart')) {
+            if (rawXmlText.includes('yml_catalog') || xmlPathsMap.has('yml_catalog') || combinedTypeStr.includes('апартаменты') || combinedTypeStr.includes('apart')) {
                 targetType = 'Апартаменты';
-            } else if (rawCat.includes('garage') || rawCat.includes('parking') || rawCat.includes('гараж') || rawCat.includes('машиноместо')) {
+            } else if (combinedTypeStr.includes('garage') || combinedTypeStr.includes('parking') || combinedTypeStr.includes('гараж') || combinedTypeStr.includes('машиноместо')) {
                 targetType = 'Гараж';
-            } else if (rawCat.includes('office') || rawCat.includes('офис')) {
+            } else if (combinedTypeStr.includes('office') || combinedTypeStr.includes('офис')) {
                 targetType = 'Офис';
-            } else if (rawCat.includes('warehouse') || rawCat.includes('склад')) {
+            } else if (combinedTypeStr.includes('warehouse') || combinedTypeStr.includes('склад')) {
                 targetType = 'Склад';
-            } else if (rawCat.includes('shopping') || rawCat.includes('retail') || rawCat.includes('торгов')) {
+            } else if (combinedTypeStr.includes('shopping') || combinedTypeStr.includes('retail') || combinedTypeStr.includes('торгов')) {
                 targetType = 'Торговая';
-            } else if (rawCat.includes('free purpose') || rawCat.includes('free') || rawCat.includes('psn') || rawCat.includes('псн')) {
+            } else if (combinedTypeStr.includes('free purpose') || combinedTypeStr.includes('free') || combinedTypeStr.includes('psn') || combinedTypeStr.includes('псн')) {
                 targetType = 'ПСН';
-            } else if (rawCat.includes('industry') || rawCat.includes('manufactur') || rawCat.includes('производств')) {
+            } else if (combinedTypeStr.includes('industry') || combinedTypeStr.includes('manufactur') || combinedTypeStr.includes('производств')) {
                 targetType = 'Производство';
-            } else if (rawCat.includes('business') || rawCat.includes('бизнес')) {
+            } else if (combinedTypeStr.includes('business') || combinedTypeStr.includes('бизнес')) {
                 targetType = 'Готовый бизнес';
-            } else if (rawCat.includes('building') || rawCat.includes('здание')) {
+            } else if (combinedTypeStr.includes('building') || combinedTypeStr.includes('здание')) {
                 targetType = 'Здание';
-            } else if (rawCat.includes('land') || rawCat.includes('земля')) {
+            } else if (combinedTypeStr.includes('land') || combinedTypeStr.includes('земля')) {
                 targetType = 'Земля';
-            } else if (rawCat.includes('auto repair') || rawCat.includes('автосервис')) {
+            } else if (combinedTypeStr.includes('auto repair') || combinedTypeStr.includes('автосервис')) {
                 targetType = 'Автосервис';
-            } else if (rawCat.includes('hotel') || rawCat.includes('гостиница')) {
+            } else if (combinedTypeStr.includes('hotel') || combinedTypeStr.includes('гостиница')) {
                 targetType = 'Гостиница';
-            } else if (rawCat.includes('public catering') || rawCat.includes('общепит')) {
+            } else if (combinedTypeStr.includes('public catering') || combinedTypeStr.includes('общепит')) {
                 targetType = 'Общепит';
-            } else if (rawCat.includes('legal address') || rawCat.includes('юридический адрес')) {
+            } else if (combinedTypeStr.includes('legal address') || combinedTypeStr.includes('юридический адрес')) {
                 targetType = 'Юридический адрес';
-            } else if (rawCat.includes('kladov') || rawCat.includes('storage') || rawCat.includes('кладов')) {
+            } else if (combinedTypeStr.includes('kladov') || combinedTypeStr.includes('storage') || combinedTypeStr.includes('кладов')) {
                 targetType = 'Кладовая';
             }
 
             if (targetType && commercialTypeSelect) {
                 const opt = Array.from(commercialTypeSelect.options).find(o => o.value === targetType);
-                if (opt && opt.value !== currentCommercialType) {
+                if (opt) {
                     currentCommercialType = opt.value;
                     commercialTypeSelect.value = opt.value;
                 }
